@@ -6,11 +6,6 @@ $(document).ready(function() {
     $('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
     $('.content-wrapper').addClass('animated slideInLeft');
   });
-  
-    $('a.ss-button').click(function() {
-    var newTab = window.open = "https://ss.remiliascarlet.tk";
-    newTab.location.href="https://ss.remiliascarlet.tk";
-  });
 
   if (window.location.hash && window.location.hash == "#blog") {
     $('.panel-cover').addClass('panel-cover--collapsed');

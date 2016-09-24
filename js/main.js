@@ -12,7 +12,7 @@ $(document).ready(function() {
   }
   
   if (window.location.hash && window.location.hash == "#SS") {
-    $(function(){window.open = "https://ss.remiliascarlet.tk/"});
+    $(function(){console.log("��־��Ϣ");});
   }
 
   if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line

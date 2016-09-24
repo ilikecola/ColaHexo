@@ -7,18 +7,18 @@ title: Cola's Memory
 subtitle: Memorization
 description: Just A Place to Memorize Things Easily Forgot...
 author: ilikecola
-language:
+language: 
 - zh-cn
 - en
 - ja
-timezone:Asia/Tokyo
+timezone: Asia/Tokyo
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://hexo.remiliascarlet.tk
 root: /
 permalink: :year/:month/:day/:title/
-permalink_defaults:
+permalink_defaults: 
 
 # Directory
 source_dir: source
@@ -72,5 +72,5 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/ilikecola/hexo-blog.git
+  repo: https://github.com/ilikecola/ColaHexo.git
   branch: master

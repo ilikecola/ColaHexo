@@ -1,23 +1,24 @@
 $(document).ready(function() {
 
   $('a.blog-button').click(function() {
+  	$('.panel-cover').addClass('animated');
+    $('.content-wrapper').addClass('animated');
+    
     if ($('.panel-cover').hasClass('panel-cover--collapsed')) {
-    	$('.panel-cover').removeClass('animated panel-cover--collapsed slideInLeft');
-    	$('.content-wrapper').removeClass('animated slideInLeft');
+    	$('.panel-cover').removeClass('panel-cover--collapsed slideInLeft');
+    	$('.content-wrapper').removeClass('slideInLeft');
+    	$('.panel-cover').addClass('slideInRight');	
+    	$('.content-wrapper').addClass('slideInRight');	
     }
     else{
-    currentWidth = $('.panel-cover').width();
-    $('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
-    $('.content-wrapper').addClass('animated slideInLeft');
-    }
-    
+    	$('.panel-cover').removeClass('slideInRight');
+    	$('.content-wrapper').removeClass('slideInRight');
+    	$('.panel-cover').addClass('panel-cover--collapsed slideInLeft');
+    	$('.content-wrapper').addClass('slideInLeft');
+    }    
   });
 
-  if (window.location.hash && window.location.hash == "#blog") {
-    $('.panel-cover').addClass('panel-cover--collapsed');
-  }
-
-  if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line
+  if (window.location.pathname != "/" && window.location.pathname != "/#blog") {       // if hexo in subdir of site, should change this line
     $('.panel-cover').addClass('panel-cover--collapsed');
   }
 

@@ -6,13 +6,13 @@ $(document).ready(function() {
     $('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
     $('.content-wrapper').addClass('animated slideInLeft');
   });
+  
+    $('a.ss-button').click(function() {
+    window.open = "https://ss.remiliascarlet.tk/";
+  });
 
   if (window.location.hash && window.location.hash == "#blog") {
     $('.panel-cover').addClass('panel-cover--collapsed');
-  }
-  
-  if (window.location.hash && window.location.hash == "#SS") {
-    $(function(){console.log("��־��Ϣ");});
   }
 
   if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line

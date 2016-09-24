@@ -8,7 +8,7 @@ $(document).ready(function() {
   });
   
     $('a.ss-button').click(function() {
-    window.open = "https://ss.remiliascarlet.tk/";
+    console.log("abc");
   });
 
   if (window.location.hash && window.location.hash == "#blog") {

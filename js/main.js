@@ -15,7 +15,7 @@ $(document).ready(function() {
     }    
   });
 
-  if (window.location.pathname != "/" && window.location.pathname != "/#blog") {       // if hexo in subdir of site, should change this line
+  if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line
     $('.panel-cover').addClass('panel-cover--collapsed');
   }
 

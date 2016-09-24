@@ -1,20 +1,17 @@
 $(document).ready(function() {
 
-  $('a.blog-button').click(function() {
-  	$('.panel-cover').addClass('animated');
-    $('.content-wrapper').addClass('animated');
-    
+  $('a.blog-button').click(function() {    
     if ($('.panel-cover').hasClass('panel-cover--collapsed')) {
-    	$('.panel-cover').removeClass('panel-cover--collapsed slideInLeft');
-    	$('.content-wrapper').removeClass('slideInLeft');
-    	$('.panel-cover').addClass('slideInRight');	
-    	$('.content-wrapper').addClass('slideInRight');	
+    	$('.panel-cover').removeClass('animated panel-cover--collapsed slideInLeft');
+    	$('.content-wrapper').removeClass('animated slideInLeft');
+    	$('.panel-cover').addClass('animated slideInRight');	
+    	$('.content-wrapper').addClass('animated slideInRight');	
     }
     else{
-    	$('.panel-cover').removeClass('slideInRight');
-    	$('.content-wrapper').removeClass('slideInRight');
-    	$('.panel-cover').addClass('panel-cover--collapsed slideInLeft');
-    	$('.content-wrapper').addClass('slideInLeft');
+    	$('.panel-cover').removeClass('animated slideInRight');
+    	$('.content-wrapper').removeClass('animated slideInRight');
+    	$('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
+    	$('.content-wrapper').addClass('animated slideInLeft');
     }    
   });
 

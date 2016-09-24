@@ -10,6 +10,10 @@ $(document).ready(function() {
   if (window.location.hash && window.location.hash == "#blog") {
     $('.panel-cover').addClass('panel-cover--collapsed');
   }
+  
+  if (window.location.hash && window.location.hash == "#SS") {
+    $(function(){window.open = "https://ss.remiliascarlet.tk/"});
+  }
 
   if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line
     $('.panel-cover').addClass('panel-cover--collapsed');

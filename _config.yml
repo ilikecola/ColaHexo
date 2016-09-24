@@ -71,6 +71,10 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
+- type: git
   repo: https://github.com/ilikecola/ColaHexo.git
   branch: master
+- type: git
+  message: update
+  repo:
+    s1: git@remiliascarlet.tk:hexogit.git,master

@@ -1,4 +1,4 @@
 ---
-title: Archive
+title: Records
 layout: page-archive
 ---

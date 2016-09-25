@@ -8,7 +8,7 @@ subtitle: Memorization
 description: Just A Place to Memorize Things Easily Forgot...
 author: ilikecola
 language: 
-- zh-cn
+- zh-CN
 timezone: Asia/Tokyo
 
 # URL
@@ -47,6 +47,10 @@ highlight:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  - Pso2: pso2
+  - Server: server
+  - Windows: windows
+  - Article: article
 tag_map:
 
 # Date / Time format
@@ -65,8 +69,6 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 #theme: landscape
-#theme: huno
-#theme: NexT
 theme: colahuno
 
 # Deployment

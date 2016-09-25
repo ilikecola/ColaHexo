@@ -5,13 +5,20 @@ $(document).ready(function() {
     	$('.panel-cover').removeClass('animated panel-cover--collapsed slideInLeft');
     	$('.content-wrapper').removeClass('animated slideInLeft');
     	$('.panel-cover').addClass('animated slideInRight');	
-    	$('.content-wrapper').addClass('animated slideInRight');	
+    	$('.content-wrapper').addClass('animated slideInRight');
+    	$('.other_navigation__item').addClass('sethidden');
+    	$('.home_navigation__item').addClass('sethidden');   	
+    	$('.navigation__item').css('display','inline-block');
     }
     else{
     	$('.panel-cover').removeClass('animated slideInRight');
     	$('.content-wrapper').removeClass('animated slideInRight');
     	$('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
     	$('.content-wrapper').addClass('animated slideInLeft');
+    	$('.other_navigation__item').removeClass('sethidden');
+    	$('.home_navigation__item').removeClass('sethidden');
+    	$('.home_navigation__item').removeClass('sethidden');
+    	$('.navigation__item').css('display','block');
     }    
   });
   
@@ -21,18 +28,19 @@ $(document).ready(function() {
     $('.content-wrapper').removeClass('animated slideInRight');
     $('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
     $('.content-wrapper').addClass('animated slideInLeft');
+    $('.other_navigation__item').removeClass('sethidden');
+    $('.home_navigation__item').removeClass('sethidden');
+    $('.navigation__item').css('display','block');
   });
-
+  
 	if (window.location.hash && window.location.hash == "#blog") {
     $('.panel-cover').addClass('panel-cover--collapsed');
   }
-
-	if (window.location.hash && window.location.hash == "about") {
-    $('.panel-cover').addClass('panel-cover--collapsed');
-  }
-
-	if (window.location.hash && window.location.hash == "archive") {
-    $('.panel-cover').addClass('panel-cover--collapsed');
+  
+  if(!($('.panel-cover').hasClass('panel-cover--collapsed'))){
+  	$('.other_navigation__item').addClass('sethidden');
+  	$('.home_navigation__item').addClass('sethidden');
+  	$('.navigation__item').css('display','inline-block');
   }
   
   if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line

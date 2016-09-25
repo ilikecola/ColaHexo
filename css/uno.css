@@ -1308,6 +1308,11 @@ hr {
     color: #006699;
     border-color: #006699; }
 
+.sethidden {
+	display:none !important;
+}
+
+
 .btn-secondary {
   border-color: #5ba4e5;
   color: #5ba4e5; }
@@ -1362,7 +1367,7 @@ nav {
   list-style-type: none; }
 
 .navigation__item {
-  display: inline-block;
+  display: block;
   margin: 3px 3px;
   line-height: 1em; }
   .navigation__item a {
@@ -1655,7 +1660,7 @@ input[type="tel"] {
 
   .navigation__item {
     width: 100%;
-    margin: 0 0 .4em 0; } }
+    margin: auto; } }
 @media all and (max-width: 340px) {
   .panel-main__inner {
     padding: 0 5%; }
@@ -1700,4 +1705,8 @@ th, td {
 }
 pre {
   font-family: 
+}
+
+.sethidden {
+	visibility:hidden
 }

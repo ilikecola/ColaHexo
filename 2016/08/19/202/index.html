@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      DD-WRTv3.0 EA6500 Ubuntu14.04 CrossCompile ShadowsocksR-libev | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="编译环境：Ubuntu14.04依赖库musl-1.1.14目标环境:OS:DD-WRT 3.0CPU:BCM 5300MIPS 74Kc
+交叉编译工具包：OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64ShadowsocksR-libev源码：https://github.com/breakwa11/sha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DD-WRTv3.0 EA6500 Ubuntu14.04 CrossCompile ShadowsocksR-libev | Cola's Memory">
+<meta property="og:url" content="http://hexo.remiliascarlet.tk/2016/08/19/202/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="编译环境：Ubuntu14.04依赖库musl-1.1.14目标环境:OS:DD-WRT 3.0CPU:BCM 5300MIPS 74Kc
+交叉编译工具包：OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64ShadowsocksR-libev源码：https://github.com/breakwa11/sha">
+<meta property="og:updated_time" content="2016-09-25T14:03:12.958Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DD-WRTv3.0 EA6500 Ubuntu14.04 CrossCompile ShadowsocksR-libev | Cola's Memory">
+<meta name="twitter:description" content="编译环境：Ubuntu14.04依赖库musl-1.1.14目标环境:OS:DD-WRT 3.0CPU:BCM 5300MIPS 74Kc
+交叉编译工具包：OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64ShadowsocksR-libev源码：https://github.com/breakwa11/sha">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                    <li class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                
+              
+                  
+                    <li class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                
+              
+                  
+                  	<li class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" target="_blank" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">DD-WRTv3.0 EA6500 Ubuntu14.04 CrossCompile ShadowsocksR-libev</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-08-20" class="post-meta__date date">2016-08-20</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Ariticle/">Ariticle</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>编译环境：Ubuntu14.04<br>依赖库<br>musl-1.1.14<br>目标环境:<br>OS:<br>DD-WRT 3.0<br>CPU:<br>BCM 5300<br>MIPS 74Kc</p>
+<p>交叉编译工具包：<a href="https://downloads.openwrt.org/snapshots/trunk/brcm47xx/mips74k/" target="_blank" rel="external">OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64</a><br>ShadowsocksR-libev源码：<a href="https://github.com/breakwa11/shadowsocks-libev" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-libev</a></p>
+<h1 id="主要顺序"><a href="#主要顺序" class="headerlink" title="主要顺序"></a>主要顺序</h1><ul>
+<li>配置编译环境</li>
+<li>编译openssl</li>
+<li>编译zlib</li>
+<li>编译shadowsocksR-libev</li>
+</ul>
+<h1 id="配置编译环境"><a href="#配置编译环境" class="headerlink" title="配置编译环境"></a>配置编译环境</h1><p>必要package</p>
+<blockquote>
+<p>sudo apt-get install build-essential autoconf libtool libssl-dev</p>
+</blockquote>
+<p>配置系统变量</p>
+<blockquote>
+<p>export STAGING_DIR=/path/to/toolchain<br>export PATH=$PATH:/path/to/toolchain/bin<br>export CC=mipsel-openwrt-linux-musl-gcc<br>export CXX=mipsel-openwrt-linux-musl-g++<br>export AR=mipsel-openwrt-linux-musl-ar<br>export RANLIB=mipsel-openwrt-linux-musl-ranli<br>export CHOST=mipsel-openwrt-linux-musl-gcc</p>
+</blockquote>
+<p>其中CHOST用于Zlib</p>
+<h1 id="编译openssl"><a href="#编译openssl" class="headerlink" title="编译openssl"></a>编译openssl</h1><p>因为目标环境是MIPS架构所以要给OpenSSL加上MIPS补丁<br><a href="https://github.com/OpenMandrivaAssociation/openssl" target="_blank" rel="external">https://github.com/OpenMandrivaAssociation/openssl</a><br>执行</p>
+<blockquote>
+<p>patch -Np1 -i openssl-1.0.2a-mips_support-1.patch</p>
+</blockquote>
+<p>接下来解决缺少 uClibc 才需要的 termio.h 头文件的问题。因为我们现在使用的是musl，所以首先在 Configure 文件中将 -DTERMIO 改为 -DTERMIOS<br>然后修改 OpenSSL 源码中 ./crypto/ui/ui_openssl.c 文件，在下面一行（222行）</p>
+<blockquote>
+<p>#ifdef TERMIOS</p>
+</blockquote>
+<p>前加入以下内容</p>
+<blockquote>
+<p>#define TERMIOS<br>#undef TERMIO<br>#undef SGTTY</p>
+</blockquote>
+<p>生成Makefile</p>
+<blockquote>
+<p>./Configure linux-mipsel –prefix=/path/to/install/openssl no-asm no-shared</p>
+</blockquote>
+<p>默认会生成静态库文件 (.a), 如果需要编译成动态库 (.so), 加上 shared 参数<br>修改 Makefile:<br>将 CC = gcc 改为</p>
+<blockquote>
+<p>CC = mipsel-openwrt-linux-musl-gcc</p>
+</blockquote>
+<p>修改 crypto/modes/Makefile<br>将26-27行</p>
+<blockquote>
+<p>LIBOBJ= cbc128.o ctr128.o cts128.o cfb128.o ofb128.o gcm128.o<br>ccm128.o xts128.o $(MODES_ASM_OBJ)</p>
+</blockquote>
+<p>$(MODES_ASM_OBJ)删除<br>执行make &amp;&amp; make install<br>如有错误，尝试make clean后重新编译</p>
+<h1 id="编译zlib"><a href="#编译zlib" class="headerlink" title="编译zlib"></a>编译zlib</h1><p>下载zlib1.2.8</p>
+<blockquote>
+<p>wget <a href="http://downloads.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz" target="_blank" rel="external">http://downloads.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz</a><br>tar -zxvf zlib-1.2.8.tar.gz<br>mkdir zlib<br>cd zlib-1.2.8</p>
+</blockquote>
+<p>配置makefile，静态编译</p>
+<blockquote>
+<p>./configure –prefix=/path/to/install/zlib –static</p>
+</blockquote>
+<p>编译</p>
+<blockquote>
+<p>make &amp;&amp; make install</p>
+</blockquote>
+<h1 id="编译shadowsocksR-libev"><a href="#编译shadowsocksR-libev" class="headerlink" title="编译shadowsocksR-libev"></a>编译shadowsocksR-libev</h1><p>执行</p>
+<blockquote>
+<p>git clone <a href="https://github.com/breakwa11/shadowsocks-libev" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-libev</a><br>cd shadowsocks-libev</p>
+</blockquote>
+<p>配置Makefile,静态编译</p>
+<blockquote>
+<p>./configure –prefix=/path/to/install/ss-libev –with-openssl=/path/to/openssl –with-zlib=/path/to/zlib –with-zlib-include=/path/to/zlib –with-zlib-lib=/path/to/zlib –host=mipsel-openwrt-linux-musl –enable-static</p>
+</blockquote>
+<p>编译</p>
+<blockquote>
+<p>make ; make install</p>
+</blockquote>
+<p>引用参考：</p>
+<blockquote>
+<p><a href="http://www.cnblogs.com/lovelylife/p/3517333.html" target="_blank" rel="external">http://www.cnblogs.com/lovelylife/p/3517333.html</a><br><a href="https://ilmvfx.wordpress.com/2015/12/02/update-crosstool-ng-1-2-2-cross-compile-shadowsocks-libev-2-4-1-netcore-q3-asus-rt-n16-n66u/" target="_blank" rel="external">https://ilmvfx.wordpress.com/2015/12/02/update-crosstool-ng-1-2-2-cross-compile-shadowsocks-libev-2-4-1-netcore-q3-asus-rt-n16-n66u/</a><br><a href="https://ilmvfx.wordpress.com/2015/09/09/tomato-enabled-1-2-8-v131-rounter-netcore-q3-with-shadowsocks-2-3-1-server/" target="_blank" rel="external">https://ilmvfx.wordpress.com/2015/09/09/tomato-enabled-1-2-8-v131-rounter-netcore-q3-with-shadowsocks-2-3-1-server/</a><br><a href="https://ilmvfx.wordpress.com/2016/03/25/crosstool-ng-1-2-2-and-shadowsocks-2-4-5-cross-compile/" target="_blank" rel="external">https://ilmvfx.wordpress.com/2016/03/25/crosstool-ng-1-2-2-and-shadowsocks-2-4-5-cross-compile/</a><br><a href="https://blog.bydell.com/posts/cross_complie_shadowsocks_for_dd-wrt__r6300v2/#comment-3" target="_blank" rel="external">https://blog.bydell.com/posts/cross_complie_shadowsocks_for_dd-wrt__r6300v2/#comment-3</a><br><a href="http://www.jianshu.com/p/b1a8443dbe5f" target="_blank" rel="external">http://www.jianshu.com/p/b1a8443dbe5f</a><br><a href="http://phaibin.tk/2015/05/08/ea6500shua-dd-wrt" target="_blank" rel="external">http://phaibin.tk/2015/05/08/ea6500shua-dd-wrt</a><br><a href="http://sagan.me/post/openwrt-jiao-cha-bian-yi-openssl-ku" target="_blank" rel="external">http://sagan.me/post/openwrt-jiao-cha-bian-yi-openssl-ku</a><br><a href="http://tiebing.blogspot.jp/2010/12/compile-openssl-for-linux-mips.html" target="_blank" rel="external">http://tiebing.blogspot.jp/2010/12/compile-openssl-for-linux-mips.html</a><br><a href="http://www.right.com.cn/forum/thread-158405-1-1.html" target="_blank" rel="external">http://www.right.com.cn/forum/thread-158405-1-1.html</a><br><a href="https://github.com/breakwa11/shadowsocks-libev" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-libev</a><br><a href="https://github.com/OpenMandrivaAssociation/openssl" target="_blank" rel="external">https://github.com/OpenMandrivaAssociation/openssl</a></p>
+</blockquote>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                displayNow: true,
+                windowMinWidth: 1440,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

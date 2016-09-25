@@ -5,7 +5,7 @@
    License: none (public domain)
 */
 @import url(../css/animate.css);
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h0, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -943,8 +943,10 @@ a {
     -o-transition: .5s;
     -ms-transition: .5s;
     -moz-transition: .5s;
+    -webkit-text-stroke-width:0.3px;
     -webkit-transition: .5s; }
 
+h0,
 h1,
 h2,
 h3,
@@ -954,31 +956,40 @@ h5 {
   margin-top: .8em;
   margin-bottom: .4em;
   /*font-family: "Roboto Slab", serif;*/
-  font-family: "Raleway",Verdana,sans-serif,宋体, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
+  font-family: "Raleway",Verdana,sans-serif,"Yu Gothic","微软雅黑", serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
   font-weight: lighter;
   color: #333333;
+  -webkit-text-stroke-width:0.3px;
   -webkit-font-smoothing: antialiased; }
+
+h0 {
+  margin-top: 0;
+  font-size: 2.0em;
+  line-height: 1.2em;
+  letter-spacing: .05em; 
+  font-weight: bold; }
 
 h1 {
   margin-top: 0;
-  font-size: 3.2em;
+  font-size: 1.3em;
   line-height: 1.2em;
-  letter-spacing: .05em; }
+  letter-spacing: .05em;
+  font-weight: bold; }
 
 h2 {
-  font-size: 2.2em; }
+  font-size: 1.1em; }
 
 h3 {
-  font-size: 1.8em; }
+  font-size: 1.0em; }
 
 h4 {
-  font-size: 1.4em; }
+  font-size: 0.8em; }
 
 h4 {
-  font-size: 1.2em; }
+  font-size: 0.5em; }
 
 h5 {
-  font-size: 1em; }
+  font-size: 0.2em; }
 
 p {
   margin-bottom: 1.3em;
@@ -1134,7 +1145,7 @@ hr {
   padding: 60px 0; }
 
 .post-meta {
-  margin: 0 0 1.4em 0;
+  margin: 1.4em 0 1.4em 0;
   color: #c7c7c7; }
 
 .post-meta__date {
@@ -1393,7 +1404,7 @@ nav {
 
 .pagination {
   display: block;
-  margin: 0 0 4em 0; }
+  margin: 2em 0 2em 0; }
 
 .pagination__page-number {
   margin: 0;
@@ -1424,14 +1435,14 @@ i {
   list-style-type: none;
   text-align: left; }
   .post-list li {
-    margin: 0 0 2.2em 0; }
+    margin: 0 0 0 0; }
     .post-list li:last-child hr {
       display: none; }
 
 .post-list__post-title {
   margin-top: 0;
   margin-bottom: .2em;
-  font-size: 1.8em;
+  font-size: 1.5em;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
   line-height: 1.3em; }
@@ -1455,7 +1466,7 @@ i {
 
 .post-list__divider {
   width: 30%;
-  margin: 2.2em 0 2.1em 0;
+  margin: 1.2em 0 1.1em 0;
   border-top: 1px solid #dddddd; }
 
 *:focus {

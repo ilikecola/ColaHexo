@@ -66,6 +66,7 @@ $(document).ready(function() {
     $('.other_navigation__item').removeClass('sethidden');
     $('.home_navigation__item').removeClass('sethidden');
     $('.navigation__item').css('display','block');
+    $('.navigation--social').css('display','table');
   });
   
 	if (window.location.hash && window.location.hash == "#blog") {
@@ -76,6 +77,7 @@ $(document).ready(function() {
   	$('.other_navigation__item').addClass('sethidden');
   	$('.home_navigation__item').addClass('sethidden');
   	$('.navigation__item').css('display','inline-block');
+  	$('.navigation--social').css('display','inline-block');
   }
   
   if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line

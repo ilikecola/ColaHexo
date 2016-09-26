@@ -67,6 +67,10 @@ pagination_dir: page
 #theme: landscape
 theme: colahuno
 
+# Social
+social:
+  github: ilikecola
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:

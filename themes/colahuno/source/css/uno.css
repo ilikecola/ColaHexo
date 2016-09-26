@@ -1429,7 +1429,8 @@ nav {
       opacity: 1; }
 
 .navigation--social {
-  margin-left: 0em; }
+	display: table;
+  margin: 0 auto 0 auto; }
   .navigation--social a {
     padding: 6px 8px 6px 9px; }
     .navigation--social a .label {

@@ -36,6 +36,7 @@ $(document).ready(function() {
     	$('.other_navigation__item').addClass('sethidden');
     	$('.home_navigation__item').addClass('sethidden');   	
     	$('.navigation__item').css('display','inline-block');
+    	$('.navigation--social').css('display','inline-block');
     }
     else{
     	$('.panel-cover').removeClass('animated slideInRight');
@@ -49,6 +50,7 @@ $(document).ready(function() {
     	$('.home_navigation__item').removeClass('sethidden');
     	$('.home_navigation__item').removeClass('sethidden');
     	$('.navigation__item').css('display','block');
+    	$('.navigation--social').css('display','table');
     }    
   });
   

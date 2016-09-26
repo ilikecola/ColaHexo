@@ -1100,11 +1100,11 @@ code {
 .content-wrapper {
   z-index: 800;
   width: 68%;
-  max-width: 960px;
+*  max-width: 960px;
   margin-left: 32%; }
 
 .content-wrapper__inner {
-  margin: 0 10%;
+  margin: 0 5% 0 5%;
   padding: 50px 0; }
 
 .footer {
@@ -1563,9 +1563,12 @@ input[type="tel"] {
   input[type="tel"]:-ms-input-placeholder {
     color: #cccccc; }
 
-@media all and (min-width: 1300px) {
+@media all and (min-width: 1400px) {
   .content-wrapper {
-    margin-left: 430px; } }
+    margin-left: 430px;
+    margin-Right: 300px;
+    width: calc(100% - 730px) } }
+    
 @media all and (max-width: 1100px) {
   .panel-cover__logo {
     width: 70px; }

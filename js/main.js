@@ -1,21 +1,21 @@
 $(document).ready(function() {
-	$(".animsition").animsition({
+	$('.animsition').animsition({
     inClass: 'fade-in',
     outClass: 'fade-out',
     inDuration: 1500,
     outDuration: 800,
     linkElement: '.animsition-link',
-    // e.g. linkElement: 'a:not([target="_blank"]):not([href^="#"])'
+    // e.g. linkElement: 'a:not([target='_blank']):not([href^='#'])'
     loading: true,
     loadingParentElement: 'body', //animsition wrapper element
     loadingClass: 'animsition-loading',
-    loadingInner: '', // e.g '<img src="loading.svg" />'
+    loadingInner: '', // e.g '<img src='loading.svg' />'
     timeout: false,
     timeoutCountdown: 5000,
     onLoadEvent: true,
     browser: [ 'animation-duration', '-webkit-animation-duration'],
-    // "browser" option allows you to disable the "animsition" in case the css property in the array is not supported by your browser.
-    // The default setting is to disable the "animsition" in a browser that does not support "animation-duration".
+    // 'browser' option allows you to disable the 'animsition' in case the css property in the array is not supported by your browser.
+    // The default setting is to disable the 'animsition' in a browser that does not support 'animation-duration'.
     //overlay : false,
     //overlayClass : 'animsition-overlay-slide',
     //overlayParentElement : 'body',
@@ -33,10 +33,12 @@ $(document).ready(function() {
     	$('.panel-cover').addClass('animated slideInRight');	
     	$('.content-wrapper-post').addClass('animated slideInRight');
     	$('.content-wrapper-list').addClass('animated slideInRight');
-    	$('.other_navigation__item').addClass('sethidden');
-    	$('.home_navigation__item').addClass('sethidden');   	
-    	$('.navigation__item').css('display','inline-block');
-    	$('.navigation--social').css('display','inline-block');
+			$('#page-button-home').css('display','none');
+    	$('#page-button-blog').css('display','inline-block');
+    	$('#page-button-ss').css('display','inline-block');
+    	$('#page-button-about').css('display','none');
+    	$('#page-button-records').css('display','none');
+    	$('nav').css('display','inline-block');
     }
     else{
     	$('.panel-cover').removeClass('animated slideInRight');
@@ -46,11 +48,12 @@ $(document).ready(function() {
     	$('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
     	$('.content-wrapper-post').addClass('animated slideInLeft');
     	$('.content-wrapper-list').addClass('animated slideInLeft');
-    	$('.other_navigation__item').removeClass('sethidden');
-    	$('.home_navigation__item').removeClass('sethidden');
-    	$('.home_navigation__item').removeClass('sethidden');
-    	$('.navigation__item').css('display','block');
-    	$('.navigation--social').css('display','table');
+    	$('#page-button-home').css('display','block');
+    	$('#page-button-blog').css('display','block');
+    	$('#page-button-ss').css('display','block');
+    	$('#page-button-about').css('display','block');
+    	$('#page-button-records').css('display','block');
+    	$('nav').css('display','table');
     }    
   });
   
@@ -63,24 +66,28 @@ $(document).ready(function() {
     $('.panel-cover').addClass('animated panel-cover--collapsed slideInLeft');
     $('.content-wrapper-post').addClass('animated slideInLeft');
     $('.content-wrapper-list').addClass('animated slideInLeft');
-    $('.other_navigation__item').removeClass('sethidden');
-    $('.home_navigation__item').removeClass('sethidden');
-    $('.navigation__item').css('display','block');
-    $('.navigation--social').css('display','table');
+    $('#page-button-home').css('display','block');
+    $('#page-button-blog').css('display','block');
+    $('#page-button-ss').css('display','block');
+    $('#page-button-about').css('display','block');
+    $('#page-button-records').css('display','block');
+    $('nav').css('display','table');
   });
   
-	if (window.location.hash && window.location.hash == "#blog") {
+	if (window.location.hash && window.location.hash == '#blog') {
     $('.panel-cover').addClass('panel-cover--collapsed');
   }
   
   if(!($('.panel-cover').hasClass('panel-cover--collapsed'))){
-  	$('.other_navigation__item').addClass('sethidden');
-  	$('.home_navigation__item').addClass('sethidden');
-  	$('.navigation__item').css('display','inline-block');
-  	$('.navigation--social').css('display','inline-block');
+  	$('#page-button-home').css('display','none');
+    $('#page-button-blog').css('display','inline-block');
+    $('#page-button-ss').css('display','inline-block');
+    $('#page-button-about').css('display','none');
+    $('#page-button-records').css('display','none')
+    $('nav').css('display','inline-block');
   }
   
-  if (window.location.pathname != "/") {       // if hexo in subdir of site, should change this line
+  if (window.location.pathname != '/') {       // if hexo in subdir of site, should change this line
     $('.panel-cover').addClass('panel-cover--collapsed');
   }
 

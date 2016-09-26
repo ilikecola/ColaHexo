@@ -1355,10 +1355,6 @@ hr {
     color: #006699;
     border-color: #006699; }
 
-.sethidden {
-	display:none !important;
-}
-
 
 .btn-secondary {
   border-color: #5ba4e5;
@@ -1403,8 +1399,9 @@ hr {
   color: #FFF; }
 
 nav {
-  display: inline-block;
-  position: relative; }
+  display: table;
+  position: relative; 
+  margin: 0 auto 0 auto;}
 
 .navigation {
   display: inline-block;
@@ -1429,8 +1426,7 @@ nav {
       opacity: 1; }
 
 .navigation--social {
-	display: table;
-  margin: 0 auto 0 auto; }
+*  margin-left: 0em; }
   .navigation--social a {
     padding: 6px 8px 6px 9px; }
     .navigation--social a .label {

@@ -16,18 +16,18 @@
     
     
 
-    <meta name="description" content="1.使用Windows8自带的CheckNetIsolationWindows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。windows 8 自带了一个程序：CheckNetIsolation.exe，通过它可以将指定的Metro程序添加到排除列表，让其">
+    <meta name="description" content="Windows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows 8/10 Metro应用挂代理的方法 | Cola's Memory">
 <meta property="og:url" content="http://hexo.remiliascarlet.tk/2016/05/25/170/index.html">
 <meta property="og:site_name" content="Cola's Memory">
-<meta property="og:description" content="1.使用Windows8自带的CheckNetIsolationWindows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。windows 8 自带了一个程序：CheckNetIsolation.exe，通过它可以将指定的Metro程序添加到排除列表，让其">
+<meta property="og:description" content="Windows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。">
 <meta property="og:image" content="http://hexo.remiliascarlet.tk/uploads/img/170/PIC001.png">
 <meta property="og:image" content="http://hexo.remiliascarlet.tk/uploads/img/170/PIC002.png">
-<meta property="og:updated_time" content="2016-09-25T17:57:08.125Z">
+<meta property="og:updated_time" content="2016-09-26T02:36:58.847Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows 8/10 Metro应用挂代理的方法 | Cola's Memory">
-<meta name="twitter:description" content="1.使用Windows8自带的CheckNetIsolationWindows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。windows 8 自带了一个程序：CheckNetIsolation.exe，通过它可以将指定的Metro程序添加到排除列表，让其">
+<meta name="twitter:description" content="Windows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。">
 <meta name="twitter:image" content="http://hexo.remiliascarlet.tk/uploads/img/170/PIC001.png">
     
     
@@ -194,7 +194,8 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h1 id="1-使用Windows8自带的CheckNetIsolation"><a href="#1-使用Windows8自带的CheckNetIsolation" class="headerlink" title="1.使用Windows8自带的CheckNetIsolation"></a>1.使用Windows8自带的CheckNetIsolation</h1><p>Windows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。<br>windows 8 自带了一个程序：<code>CheckNetIsolation.exe</code>，通过它可以将指定的Metro程序添加到排除列表，让其可访问127.0.0.1。</p>
+    <p>Windows 8 默认情况下，Metro程序是不允许访问localhost，也就是127.0.0.1的。因此如果你懂翻墙又想让Metro应用也能够翻出去的话，正常方法是不行的，下面这个方法或许值得一试。<br><a id="more"></a></p>
+<h1 id="1-使用Windows8自带的CheckNetIsolation"><a href="#1-使用Windows8自带的CheckNetIsolation" class="headerlink" title="1.使用Windows8自带的CheckNetIsolation"></a>1.使用Windows8自带的CheckNetIsolation</h1><p>windows 8 自带了一个程序：<code>CheckNetIsolation.exe</code>，通过它可以将指定的Metro程序添加到排除列表，让其可访问127.0.0.1。</p>
 <h2 id="具体方法："><a href="#具体方法：" class="headerlink" title="具体方法："></a>具体方法：</h2><p>（1）找到你要挂代理的SID：Win键+R打开运行窗口，运行Regedit打开注册表管理器，找到以下注册表项：</p>
 <blockquote>
 <p>HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Mappings</p>
@@ -204,9 +205,8 @@ classes that you can use:
 <p>CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-952914762-3925684122-2884453516-746264338-106963559-873903280-1628321774</p>
 </blockquote>
 <p><img src="/uploads/img/170/PIC002.png" alt="PIC001"><br>输入完成后，按回车键运行，提示完成后，即大功告成。打开GoogleSearch试试吧。</p>
-<h2 id="2-使用Fiddler"><a href="#2-使用Fiddler" class="headerlink" title="2.使用Fiddler"></a>2.使用Fiddler</h2><p>首先安装 <a href="http://www.telerik.com/fiddler" target="_blank" rel="external">Fiddler</a>，<code>Tools→Win8/Win10 Lookback Exemption→Exemption All→Save Changes</code> ，接着配合相关软件既可。</p>
-<p>PS：</p>
-<p>(1)上述命令中“=”后面的即是第(1)步中 查到的APP SID，你可以在项名称上右键重命名，然后复制粘贴到终端窗口。<br>(2)上述命令中用到的参考可以使用CheckNetIsolation.exe -?命令查看详细信息，这里的三种参数，具体如下：</p>
+<h1 id="2-使用Fiddler"><a href="#2-使用Fiddler" class="headerlink" title="2.使用Fiddler"></a>2.使用Fiddler</h1><p>首先安装 <a href="http://www.telerik.com/fiddler" target="_blank" rel="external">Fiddler</a>，<code>Tools→Win8/Win10 Lookback Exemption→Exemption All→Save Changes</code> ，接着配合相关软件既可。</p>
+<p>#PS：<br>(1)上述命令中“=”后面的即是第(1)步中 查到的APP SID，你可以在项名称上右键重命名，然后复制粘贴到终端窗口。<br>(2)上述命令中用到的参考可以使用CheckNetIsolation.exe -?命令查看详细信息，这里的三种参数，具体如下：</p>
 <blockquote>
 <p>CheckNetIsolation.exe loopbackexempt -s 显示当前列表<br>CheckNetIsolation.exe loopbackexempt -a -p=SID 添加指定程序到列表<br>CheckNetIsolation.exe loopbackexempt -d -p=SID 从列表中删除指定程序</p>
 </blockquote>

@@ -16,37 +16,16 @@
     
     
 
-    <meta name="description" content="从一台机到另一台机端口转发启用网卡转发功能
-
-echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
-
-举例:从192.168.0.132:21521(新端口)访问192.168.0.211:1521端口
-同一端口转发192.168.0.132上开通1521端口访问
-
-iptables -A RH-Firewall-1-INPUT -m state –state NEW -m">
+    <meta name="description" content="NAT层面对TCP/UDP包直接转发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux下用iptables做本机端口转发方法 | Cola's Memory">
 <meta property="og:url" content="http://hexo.remiliascarlet.tk/2016/03/27/113/index.html">
 <meta property="og:site_name" content="Cola's Memory">
-<meta property="og:description" content="从一台机到另一台机端口转发启用网卡转发功能
-
-echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
-
-举例:从192.168.0.132:21521(新端口)访问192.168.0.211:1521端口
-同一端口转发192.168.0.132上开通1521端口访问
-
-iptables -A RH-Firewall-1-INPUT -m state –state NEW -m">
-<meta property="og:updated_time" content="2016-09-25T16:06:32.003Z">
+<meta property="og:description" content="NAT层面对TCP/UDP包直接转发">
+<meta property="og:updated_time" content="2016-09-26T02:34:39.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux下用iptables做本机端口转发方法 | Cola's Memory">
-<meta name="twitter:description" content="从一台机到另一台机端口转发启用网卡转发功能
-
-echo 1 &amp;gt; /proc/sys/net/ipv4/ip_forward
-
-举例:从192.168.0.132:21521(新端口)访问192.168.0.211:1521端口
-同一端口转发192.168.0.132上开通1521端口访问
-
-iptables -A RH-Firewall-1-INPUT -m state –state NEW -m">
+<meta name="twitter:description" content="NAT层面对TCP/UDP包直接转发">
     
     
     
@@ -212,7 +191,8 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h1 id="从一台机到另一台机端口转发"><a href="#从一台机到另一台机端口转发" class="headerlink" title="从一台机到另一台机端口转发"></a>从一台机到另一台机端口转发</h1><p>启用网卡转发功能</p>
+    <p>NAT层面对TCP/UDP包直接转发<br><a id="more"></a></p>
+<h1 id="从一台机到另一台机端口转发"><a href="#从一台机到另一台机端口转发" class="headerlink" title="从一台机到另一台机端口转发"></a>从一台机到另一台机端口转发</h1><p>启用网卡转发功能</p>
 <blockquote>
 <p>echo 1 > /proc/sys/net/ipv4/ip_forward</p>
 </blockquote>

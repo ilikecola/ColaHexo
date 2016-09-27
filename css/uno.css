@@ -1309,7 +1309,8 @@ hr {
     color: #FFF; }
 
 .cover-navigation {
-  margin-top: 10px; }
+	/* 修改边栏的位置(居中) */
+	margin:10px auto 0 auto;}
 
 .cover-navigation--social {
   margin-left: 30px; }
@@ -1355,10 +1356,6 @@ hr {
     color: #006699;
     border-color: #006699; }
 
-.sethidden {
-	display:none !important;
-}
-
 
 .btn-secondary {
   border-color: #5ba4e5;
@@ -1403,8 +1400,9 @@ hr {
   color: #FFF; }
 
 nav {
-  display: inline-block;
-  position: relative; }
+  display: table;
+  position: relative; 
+  margin: 0 auto 0 auto;}
 
 .navigation {
   display: inline-block;
@@ -1429,8 +1427,7 @@ nav {
       opacity: 1; }
 
 .navigation--social {
-	display: table;
-  margin: 0 auto 0 auto; }
+*  margin-left: 0em; }
   .navigation--social a {
     padding: 6px 8px 6px 9px; }
     .navigation--social a .label {
@@ -1627,8 +1624,8 @@ input[type="tel"] {
     font-size: .9em; }
 
   .navigation--social {
-    margin-top: 5px;
-    margin-left: 0; } }
+  	/* 修改社交图标对于父元素的位置 */
+    margin: 5px auto 0 auto; } }
 @media all and (max-width: 960px) {
   .btn-mobile-menu {
     display: block; }
@@ -1707,17 +1704,21 @@ input[type="tel"] {
         width: 25.8%; }
 
   .content-wrapper-list {
-    width: 80%;
-    max-width: none;
-    margin: 0 auto; }
-  .content-wrapper-post {
+  	/* 使元素充满页面 */
     width: 100%;
     max-width: none;
-    margin: 143px auto 0 auto; }
+    margin: 0 auto; }
+    
+  .content-wrapper-post {
+  	/* 使元素充满页面 */
+    width: 100%;
+    max-width: none;
+    margin: 0 auto; }
 
   .content-wrapper__inner {
-    margin-right: 0;
-    margin-left: 0; }
+  	/* 设置对于父元素的边界距离 */
+    margin-right: 20px;
+    margin-left: 20px; }
 
   .navigation__item {
     width: 100%;

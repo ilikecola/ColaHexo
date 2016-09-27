@@ -1309,7 +1309,8 @@ hr {
     color: #FFF; }
 
 .cover-navigation {
-  margin-top: 10px; }
+	/* 修改边栏的位置(居中) */
+	margin:10px auto 0 auto;}
 
 .cover-navigation--social {
   margin-left: 30px; }
@@ -1623,8 +1624,8 @@ input[type="tel"] {
     font-size: .9em; }
 
   .navigation--social {
-    margin-top: 5px;
-    margin-left: 0; } }
+  	/* 修改社交图标对于父元素的位置 */
+    margin: 5px auto 0 auto; } }
 @media all and (max-width: 960px) {
   .btn-mobile-menu {
     display: block; }
@@ -1703,17 +1704,21 @@ input[type="tel"] {
         width: 25.8%; }
 
   .content-wrapper-list {
-    width: 80%;
-    max-width: none;
-    margin: 0 auto; }
-  .content-wrapper-post {
+  	/* 使元素充满页面 */
     width: 100%;
     max-width: none;
-    margin: 143px auto 0 auto; }
+    margin: 0 auto; }
+    
+  .content-wrapper-post {
+  	/* 使元素充满页面 */
+    width: 100%;
+    max-width: none;
+    margin: 0 auto; }
 
   .content-wrapper__inner {
-    margin-right: 0;
-    margin-left: 0; }
+  	/* 设置对于父元素的边界距离 */
+    margin-right: 20px;
+    margin-left: 20px; }
 
   .navigation__item {
     width: 100%;

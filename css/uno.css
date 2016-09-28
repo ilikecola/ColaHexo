@@ -1066,7 +1066,7 @@ code {
   color: #999999; }
   
 .excerpt img {
-   max-width: 50%;
+   max-width: 20%;
     margin: 0;
     border-radius: 3px;
     text-align: left;
@@ -1234,7 +1234,7 @@ hr {
   box-shadow: none; }
 
 .post img {
-  max-width: 70%;
+  max-width: 50%;
   margin: 0 auto;
   border-radius: 3px;
   text-align: center; }

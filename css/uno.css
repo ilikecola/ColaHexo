@@ -1071,6 +1071,11 @@ code {
   font-weight: lighter;
   color: #999999; }
 
+img {
+   max-width:400px;
+   _width:expression(this.width<400px?"auto":"400px");
+}
+
 .block-heading {
   display: inline;
   float: left;

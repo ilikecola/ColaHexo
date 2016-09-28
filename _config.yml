@@ -75,7 +75,7 @@ social:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
 - type: git
-  repo: https://github.com/ilikecola/ColaHexo.git
+  repo: git@github.com:ilikecola/ColaHexo.git
   branch: master
 - type: git
   message: update

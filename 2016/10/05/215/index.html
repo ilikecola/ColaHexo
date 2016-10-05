@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/10/05/215/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="上一篇介绍了如何在本地建立一个Hexo博客，本篇将介绍如何修改Hexo设置，修改主题等。">
-<meta property="og:updated_time" content="2016-10-05T15:59:53.112Z">
+<meta property="og:updated_time" content="2016-10-05T16:05:43.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Hexo | Cola's Memory">
 <meta name="twitter:description" content="上一篇介绍了如何在本地建立一个Hexo博客，本篇将介绍如何修改Hexo设置，修改主题等。">
@@ -249,16 +249,227 @@ classes that you can use:
   <section id="post-content" class="article-content post">
     <p>上一篇介绍了如何在本地建立一个Hexo博客，本篇将介绍如何修改Hexo设置，修改主题等。<br><a id="more"></a></p>
 <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h1 id="修改全局配置文件"><a href="#修改全局配置文件" class="headerlink" title="修改全局配置文件"></a>修改全局配置文件</h1><p>Hexo采用Yamllint语法，因此请使用<code>yamllint</code>来保证自己的yaml语法正确<br>在Hexo根目录下有一个_config.yml文档，用于记录大部分博客的配置</p>
-<h2 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h2><p>参数    描述<br><code>title</code>    网站标题<br><code>subtitle</code>    网站副标题<br><code>description</code>    网站描述<br><code>author</code>    您的名字<br><code>language</code>    网站使用的语言<br><code>timezone</code>    网站时区。Hexo 默认使用您电脑的时区。时区列表。比如说：America/New_York, Japan和UTC</p>
-<h2 id="网址"><a href="#网址" class="headerlink" title="网址"></a>网址</h2><p>参数        描述        默认值<br><code>url</code>        网址<br><code>root</code>        网站根目录<br><code>permalink</code>        文章的<code>永久链接</code>格式        <code>:year/:month/:day/:title/</code><br><code>permalink_default</code>        永久链接中各部分的默认值</p>
+<h2 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>网站标题</td>
+</tr>
+<tr>
+<td><code>subtitle</code></td>
+<td>网站副标题</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>网站描述</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>您的名字</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>网站使用的语言</td>
+</tr>
+<tr>
+<td><code>timezone</code></td>
+<td>网站时区。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Hexo 默认使用您电脑的时区。时区列表。比如说：America/New_York, Japan和UTC</p>
+</blockquote>
+<h2 id="网址"><a href="#网址" class="headerlink" title="网址"></a>网址</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>网址</td>
+<td></td>
+</tr>
+<tr>
+<td><code>root</code></td>
+<td>网站根目录</td>
+<td></td>
+</tr>
+<tr>
+<td><code>permalink</code></td>
+<td>文章的<code>永久链接</code>格式</td>
+<td><code>:year/:month/:day/:title/</code></td>
+</tr>
+<tr>
+<td><code>permalink_default</code></td>
+<td>永久链接中各部分的默认值</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>如果您的网站存放在子目录中，例如 <a href="http://yoursite.com/blog，则请将您的" target="_blank" rel="external">http://yoursite.com/blog，则请将您的</a> url 设为 <a href="http://yoursite.com/blog" target="_blank" rel="external">http://yoursite.com/blog</a> 并把 root 设为 /blog/。</p>
 </blockquote>
-<h2 id="目录-1"><a href="#目录-1" class="headerlink" title="目录"></a>目录</h2><p>参数        描述        默认值<br><code>new_post_name</code>        新文章的文件名称        :title.md<br><code>default_layout</code>        预设布局        <code>post</code><br><code>auto_spacing</code>        在中文和英文之间加入空格        <code>false</code><br><code>titlecase</code>        把标题转换为 title case        false<br><code>external_link</code>        在新标签中打开链接        <code>true</code><br><code>filename_case</code>        把文件名称转换为 (1) 小写或 (2) 大写        0<br><code>render_drafts</code>        显示草稿        <code>false</code><br><code>post_asset_folder</code>        启动 Asset 文件夹        <code>false</code><br><code>relative_link</code>        把链接改为与根目录的相对位址        <code>false</code><br><code>future</code>        显示未来的文章        <code>true</code><br><code>highlight</code>        代码块的设置        </p>
-<h2 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h2><p>参数        描述        默认值<br><code>default_category</code>        默认分类        <code>uncategorized</code><br><code>category_map</code>        分类别名<br><code>tag_map</code>        标签别名    </p>
-<h2 id="日期和时间格式"><a href="#日期和时间格式" class="headerlink" title="日期和时间格式"></a>日期和时间格式</h2><p>Hexo采用Moment.js来解析和显示时间<br>参数        描述        默认值<br><code>date_format</code>        日期格式        <code>MMM D YYYY</code><br><code>time_format</code>        时间格式        <code>H:mm:ss</code></p>
-<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><p>参数        描述        默认值<br><code>per_page</code>        每页显示的文章量 (0 = 关闭分页功能)        10<br><code>pagination_dir</code>        分页目录        page</p>
-<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>参数        描述<br><code>theme</code>        当前主题名称。值为<code>false</code>时禁用主题<br><code>deploy</code>        部署部分的设置</p>
+<h2 id="目录-1"><a href="#目录-1" class="headerlink" title="目录"></a>目录</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>new_post_name</code></td>
+<td>新文章的文件名称</td>
+<td>:title.md</td>
+</tr>
+<tr>
+<td><code>default_layout</code></td>
+<td>预设布局</td>
+<td><code>post</code></td>
+</tr>
+<tr>
+<td><code>auto_spacing</code></td>
+<td>在中文和英文之间加入空格</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>titlecase</code></td>
+<td>把标题转换为 title case</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>external_link</code></td>
+<td>在新标签中打开链接</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>filename_case</code></td>
+<td>把文件名称转换为 (1) 小写或 (2) 大写</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>render_drafts</code></td>
+<td>显示草稿</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>post_asset_folder</code></td>
+<td>启动 Asset 文件夹</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>relative_link</code></td>
+<td>把链接改为与根目录的相对位址</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>future</code></td>
+<td>显示未来的文章</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>highlight</code></td>
+<td>代码块的设置</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>default_category</code></td>
+<td>默认分类</td>
+<td><code>uncategorized</code></td>
+</tr>
+<tr>
+<td><code>category_map</code></td>
+<td>分类别名    </td>
+</tr>
+<tr>
+<td><code>tag_map</code></td>
+<td>标签别名    </td>
+</tr>
+</tbody>
+</table>
+<h2 id="日期和时间格式"><a href="#日期和时间格式" class="headerlink" title="日期和时间格式"></a>日期和时间格式</h2><p>Hexo采用Moment.js来解析和显示时间</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>date_format</code></td>
+<td>日期格式</td>
+<td><code>MMM D YYYY</code></td>
+</tr>
+<tr>
+<td><code>time_format</code></td>
+<td>时间格式</td>
+<td><code>H:mm:ss</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>per_page</code></td>
+<td>每页显示的文章量 (0 = 关闭分页功能)</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>pagination_dir</code></td>
+<td>分页目录</td>
+<td>page</td>
+</tr>
+</tbody>
+</table>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>theme</code></td>
+<td>当前主题名称。值为<code>false</code>时禁用主题</td>
+</tr>
+<tr>
+<td><code>deploy</code></td>
+<td>部署部分的设置</td>
+</tr>
+</tbody>
+</table>
 
   </section>
 

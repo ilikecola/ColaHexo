@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/10/08/216/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="之前只是在本地对Hexo进行调试和修改，接下来我们需要部署到Github来备份以及部署到VPS来显示。同时我们也需要在Github上对源文件备份。本篇将会介绍如何部署Hexo到Github和VPS。">
-<meta property="og:updated_time" content="2016-10-08T13:56:40.993Z">
+<meta property="og:updated_time" content="2016-10-08T13:57:55.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo配置Deployment及Github相关操作 | Cola's Memory">
 <meta name="twitter:description" content="之前只是在本地对Hexo进行调试和修改，接下来我们需要部署到Github来备份以及部署到VPS来显示。同时我们也需要在Github上对源文件备份。本篇将会介绍如何部署Hexo到Github和VPS。">
@@ -286,7 +286,7 @@ classes that you can use:
 <p>能够远程登录的话，则表示设置成功了。</p>
 <h2 id="配置hexo配置文件"><a href="#配置hexo配置文件" class="headerlink" title="配置hexo配置文件"></a>配置hexo配置文件</h2><p>位于<code>hexo</code>文件夹下，<code>_config.yml</code>,修改<code>deploy</code>选项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  message: update</div><div class="line">  repo:</div><div class="line">    s1: git@VPS的ip地址或域名:git仓库地址,master</div><div class="line">##例如</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  message: update</div><div class="line">  repo:</div><div class="line">    s1: git@192.234.35.236:hexo.git,master</div></pre></td></tr></table></figure></p>
 <p>deploy可以多个参数，即：可以同时<code>push</code>到github和VPS</p>
-<h1 id="更新Hexo"><a href="#更新Hexo" class="headerlink" title="更新Hexo"></a>更新Hexo</h1><p>接着在<code>hexo</code>文件夹内，打开命令行，首先运行<code>inital.bat</code>，再运行<code>hexo -g d</code>，如果一切正常，静态文件已经被成功的<code>push</code>到了<code>blog</code>的仓库里，如果出现<code>appears not to be a git repo</code>的错误，删除<code>hexo</code>目录下的<code>.deploy</code>后再次<code>hexo -g d</code>就可以了。</p>
+<h1 id="更新Hexo"><a href="#更新Hexo" class="headerlink" title="更新Hexo"></a>更新Hexo</h1><p>接着在<code>hexo</code>文件夹内，打开命令行，首先运行<code>inital.bat</code>，再运行<code>hexo g -d</code>，如果一切正常，静态文件已经被成功的<code>push</code>到了<code>blog</code>的仓库里，如果出现<code>appears not to be a git repo</code>的错误，删除<code>hexo</code>目录下的<code>.deploy</code>后再次<code>hexo g -d</code>就可以了。</p>
 <p>Reference：</p>
 <blockquote>
 <p><a href="http://tiktoking.github.io/2016/01/26/hexo/" target="_blank" rel="external">http://tiktoking.github.io/2016/01/26/hexo/</a><br><a href="https://xuanwo.org/2015/03/26/hexo-intor/" target="_blank" rel="external">https://xuanwo.org/2015/03/26/hexo-intor/</a><br><a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" target="_blank" rel="external">http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more</a><br><a href="https://help.github.com/articles/generating-an-ssh-key/" target="_blank" rel="external">https://help.github.com/articles/generating-an-ssh-key/</a></p>

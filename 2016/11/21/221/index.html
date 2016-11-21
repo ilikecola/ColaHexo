@@ -32,7 +32,7 @@ System.Threading.Timer
 System.Timers.Timer特殊目的的单线程计时器：
 System.Windows.Forms.Timer（Windows Forms Timer）
 System.Windows.Threading.DispatcherTimer(WPF timer);多线程计时器比较强大">
-<meta property="og:updated_time" content="2016-11-21T14:50:35.844Z">
+<meta property="og:updated_time" content="2016-11-21T17:15:52.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C#中的4种定时器 | Cola's Memory">
 <meta name="twitter:description" content="在Framework中存在着4种定时器：其中分为两类，多线程计时器
@@ -48,9 +48,10 @@ System.Windows.Threading.DispatcherTimer(WPF timer);多线程计时器比较强�
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -268,10 +269,20 @@ classes that you can use:
 <li>System.Timers.Timer<br>特殊目的的单线程计时器：</li>
 <li>System.Windows.Forms.Timer（Windows Forms Timer）</li>
 <li>System.Windows.Threading.DispatcherTimer(WPF timer);<br>多线程计时器比较强大，精确，而且可扩展性强；<br>单线程计时器比较安全,对于更新 Windows Forms controls或者WPF这种简单任务来说更方便。<a id="more"></a>
-System.Threading.Timer是最简单的多线程计时器。在下面的例子中，定时器在5秒后开始定时1秒的调用Tick方法。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static void Main()</div><div class="line">&#123;</div><div class="line">    //5秒后开始运行，接着每隔1秒的调用Tick方法</div><div class="line">    Timer tmr = new Timer(Tick, &quot;tick...&quot;, 5000, 1000);</div><div class="line">    Console.ReadLine();</div><div class="line">    tmr.Dispose();</div><div class="line">&#125;</div><div class="line">static void Tick(object data)</div><div class="line">&#123;</div><div class="line">    Console.WriteLine(data);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+System.Threading.Timer是最简单的多线程计时器。在下面的例子中，定时器在5秒后开始定时1秒的调用Tick方法。</li>
 </ol>
-<p>.net framework提供的另一个计时器System.Timers.Timer.简单的对System.Threading.Timer进行了包装。增加了下面几个特性。</p>
+<pre><code>public static void Main()
+{
+    //5秒后开始运行，接着每隔1秒的调用Tick方法
+    Timer tmr = new Timer(Tick, &quot;tick...&quot;, 5000, 1000);
+    Console.ReadLine();
+    tmr.Dispose();
+}
+static void Tick(object data)
+{
+    Console.WriteLine(data);
+}
+</code></pre><p>.net framework提供的另一个计时器System.Timers.Timer.简单的对System.Threading.Timer进行了包装。增加了下面几个特性。</p>
 <ol>
 <li>实现了Component,所以可以在设计器显示。</li>
 <li>代替Change方法的一个Interval属性</li>
@@ -279,20 +290,65 @@ System.Threading.Timer是最简单的多线程计时器。在下面的例子中�
 <li>启动和停止timer的Enabled属性，默认是false。</li>
 <li>为了避免Enabled造成混乱，提供了Start和Stop方法。</li>
 <li>是否在每次指定的间隔结束时引发Elapsed时间，还是仅间隔第一次结束后运行的AutoReset属性。</li>
-<li>在WPF或Windows Forms中安全的调用方法的SynchronizingObject对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public static void MainThread()</div><div class="line">&#123;</div><div class="line">    Timer tmr = new Timer();</div><div class="line">    tmr.Interval = 500;</div><div class="line">    tmr.Elapsed += new ElapsedEventHandler(tmr_Elapsed);</div><div class="line">    tmr.Start();</div><div class="line">    Console.ReadLine();</div><div class="line">    tmr.Stop();</div><div class="line">    Console.ReadLine();</div><div class="line">    tmr.Start();</div><div class="line">    Console.ReadLine();</div><div class="line">    tmr.Dispose();</div><div class="line">&#125;</div><div class="line"></div><div class="line">static void tmr_Elapsed(object sender, ElapsedEventArgs e)</div><div class="line">&#123;</div><div class="line">    Console.WriteLine(&quot;Tick...&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+<li>在WPF或Windows Forms中安全的调用方法的SynchronizingObject对象。</li>
 </ol>
-<p>单线程计时器：</p>
+<pre><code>public static void MainThread()
+{
+    Timer tmr = new Timer();
+    tmr.Interval = 500;
+    tmr.Elapsed += new ElapsedEventHandler(tmr_Elapsed);
+    tmr.Start();
+    Console.ReadLine();
+    tmr.Stop();
+    Console.ReadLine();
+    tmr.Start();
+    Console.ReadLine();
+    tmr.Dispose();
+}
+
+static void tmr_Elapsed(object sender, ElapsedEventArgs e)
+{
+    Console.WriteLine(&quot;Tick...&quot;);
+}
+</code></pre><p>单线程计时器：</p>
 <ol>
 <li>System.Windows.Forms.Timer（Windows Forms Timer）</li>
 <li>System.Windows.Threading.DispatcherTimer(WPF timer);<br>单线程计时器是被设计成属于他们执行环境的计时器，如果你在一个Windows服务应用程序中使用Windows Forms的Timer，timer 事件并不会被触发，只有在对应的环境下才会被触发。<br>像System.Timers.Timer一样，他们也提供了相同的成员(Interval,Tick,Start,Stop)，但是他们内部的工作原理不同，<br><code>WPF和Windows Forms的计时器使用消息循环机制来取代线程池产生消息的机制</code><br>这意味着Tick事件总是在创建timer的那个线程上执行，同时也意味着如果上一个Tick消息还未被处理，即使时间超过了间隔时间，在消息循环中也只存在一个Tick消息。<br>下面是它们的优点：</li>
 <li>你可以忘记线程安全。</li>
 <li>一个Tick事件在前一个Tick事件被处理完毕前不会被触发。</li>
-<li>你可以直接在Tick事件处理代码中更新控件，不需要调用Control.Invoke或Dispatcher.Invoke.<br>看下在Winform中使用单线程定时器的效果：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//基于Windows消息循环的单线程计时器</div><div class="line">private System.Windows.Forms.Timer timer = new Timer() &#123; &#125;;</div><div class="line">public Form1()</div><div class="line">&#123;</div><div class="line">    InitializeComponent();</div><div class="line"></div><div class="line">    timer.Tick += new EventHandler(timer_Tick);</div><div class="line">    timer.Enabled = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void timer_Tick(object sender, EventArgs e)</div><div class="line">&#123;</div><div class="line">    //模拟的做一些耗时的操作</div><div class="line">    System.Threading.Thread.Sleep(2000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+<li>你可以直接在Tick事件处理代码中更新控件，不需要调用Control.Invoke或Dispatcher.Invoke.<br>看下在Winform中使用单线程定时器的效果：</li>
 </ol>
-<p>如果运行上面的代码，会发现UI界面响应速度很慢，<br>原理上面已经介绍了：单线程计时器基于Windows消息循环，应用程序会同步的处理计时器的消息。<br>解决这个问题的方法是使用多线程计时器：只要修改代码使用多线程计时器即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private System.Timers.Timer timer = new System.Timers.Timer();</div><div class="line">public Form1()</div><div class="line">&#123;</div><div class="line">    InitializeComponent();</div><div class="line"></div><div class="line">    timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);</div><div class="line">    timer.Enabled = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)</div><div class="line">&#123;</div><div class="line">    //模拟的做一些耗时的操作</div><div class="line">    System.Threading.Thread.Sleep(2000);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上面的例子告诉我们单线程计时器的缺点：<br>除非Tick事件的处理代码执行的非常快，否则UI界面会变得响应很慢。<br>所以 WPF和Windows Forms的计时器都非常适合小任务，尤其是界面更新的任务。例如时钟和计数显示。否则，你需要一个多线程计时器。</p>
+<pre><code>//基于Windows消息循环的单线程计时器
+private System.Windows.Forms.Timer timer = new Timer() { };
+public Form1()
+{
+    InitializeComponent();
+
+    timer.Tick += new EventHandler(timer_Tick);
+    timer.Enabled = true;
+}
+
+void timer_Tick(object sender, EventArgs e)
+{
+    //模拟的做一些耗时的操作
+    System.Threading.Thread.Sleep(2000);
+}
+</code></pre><p>如果运行上面的代码，会发现UI界面响应速度很慢，<br>原理上面已经介绍了：单线程计时器基于Windows消息循环，应用程序会同步的处理计时器的消息。<br>解决这个问题的方法是使用多线程计时器：只要修改代码使用多线程计时器即可：</p>
+<pre><code>private System.Timers.Timer timer = new System.Timers.Timer();
+public Form1()
+{
+    InitializeComponent();
+
+    timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
+    timer.Enabled = true;
+}
+
+void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+{
+    //模拟的做一些耗时的操作
+    System.Threading.Thread.Sleep(2000);
+}
+</code></pre><p>上面的例子告诉我们单线程计时器的缺点：<br>除非Tick事件的处理代码执行的非常快，否则UI界面会变得响应很慢。<br>所以 WPF和Windows Forms的计时器都非常适合小任务，尤其是界面更新的任务。例如时钟和计数显示。否则，你需要一个多线程计时器。</p>
 <p>Reference:</p>
 <blockquote>
 <p><a href="http://www.cnblogs.com/LoveJenny/archive/2011/05/28/2053697.html" target="_blank" rel="external">http://www.cnblogs.com/LoveJenny/archive/2011/05/28/2053697.html</a></p>
@@ -318,6 +374,13 @@ System.Threading.Timer是最简单的多线程计时器。在下面的例子中�
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/11/21/224/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="XML文件是一种常用的文件格式，例如WinForm里面的app.config以及Web程序中的web.config文件，还有许多重要的场所都有它的身影。Xml是Internet环境中跨平台的，依赖于内容的技术，是当前处理结构化文档信息的有力工具。XML是一种简单的数据存储语言，使用一系列简单的标记描述数据，而这些标记可以用方便的方式建立，虽然XML占用的空间比二进制数据要占用更多的空间，但XML极">
-<meta property="og:updated_time" content="2016-11-21T15:07:33.252Z">
+<meta property="og:updated_time" content="2016-11-21T17:04:20.605Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C#使用linq to xml完成对XML文件的创建、增加、删除、修改、查询 | Cola's Memory">
 <meta name="twitter:description" content="XML文件是一种常用的文件格式，例如WinForm里面的app.config以及Web程序中的web.config文件，还有许多重要的场所都有它的身影。Xml是Internet环境中跨平台的，依赖于内容的技术，是当前处理结构化文档信息的有力工具。XML是一种简单的数据存储语言，使用一系列简单的标记描述数据，而这些标记可以用方便的方式建立，虽然XML占用的空间比二进制数据要占用更多的空间，但XML极">
@@ -33,9 +33,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -260,19 +261,301 @@ classes that you can use:
 <ol>
 <li>使用XmlDocument</li>
 <li>使用XmlTextReader</li>
-<li>使用Linq to Xml<br>本文主要讨论使用Linq to Xml的方法实现对XML文档的创建、增加、删除、修改、查询的操作。<h1 id="创建XML文档"><a href="#创建XML文档" class="headerlink" title="创建XML文档"></a>创建XML文档</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Threading.Tasks;</div><div class="line">using System.Xml.Linq;</div><div class="line"></div><div class="line">namespace CreateXML</div><div class="line">&#123;</div><div class="line">    class Program</div><div class="line">    &#123;</div><div class="line">        static void Main(string[] args)</div><div class="line">        &#123;</div><div class="line">            //实例化XDocument对象</div><div class="line">            XDocument xdoc = new XDocument();</div><div class="line">            //创建根节点</div><div class="line">            XElement root = new XElement(&quot;school&quot;);</div><div class="line">            //创建子节点</div><div class="line">            XElement cls = new XElement(&quot;class&quot;);</div><div class="line">            cls.SetAttributeValue(&quot;number&quot;, &quot;0302&quot;); //添加子节点的属性，如3年级2班</div><div class="line">            //创建子节点class的子节点学生stu1</div><div class="line">            XElement stu1 = new XElement(&quot;student&quot;);</div><div class="line">            stu1.SetAttributeValue(&quot;id&quot;, &quot;001&quot;); //添加子节点stu1的属性，如学号001</div><div class="line">            stu1.SetElementValue(&quot;name&quot;, &quot;张三&quot;); //添加子节点stu1的数据，如姓名张三</div><div class="line">            stu1.SetElementValue(&quot;gender&quot;, &quot;男&quot;); //添加子节点stu1的数据，如性别男</div><div class="line">            stu1.SetElementValue(&quot;age&quot;, &quot;19&quot;); //添加子节点stu1的数据，如年龄19</div><div class="line">            //创建子节点class的子节点学生stu2</div><div class="line">            XElement stu2 = new XElement(&quot;student&quot;);</div><div class="line">            stu2.SetAttributeValue(&quot;id&quot;, &quot;002&quot;); //添加子节点stu2的属性，如学号002</div><div class="line">            stu2.SetElementValue(&quot;name&quot;, &quot;李晓梅&quot;); //添加子节点stu2的数据，如姓名李晓梅</div><div class="line">            stu2.SetElementValue(&quot;gender&quot;, &quot;女&quot;); //添加子节点stu2的数据，如性别女</div><div class="line">            stu2.SetElementValue(&quot;age&quot;, &quot;18&quot;); //添加子节点stu2的数据，如年龄18</div><div class="line">            cls.Add(stu1); //添加student到class</div><div class="line">            cls.Add(stu2); //添加student到class</div><div class="line">            root.Add(cls); //添加子节点class到根节点school</div><div class="line">            xdoc.Add(root); //添加根节点到XDoucment对象</div><div class="line">            xdoc.Save(&quot;1.xml&quot;); //使用XML的保存会自动在xml文件开始添加：&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">            Console.WriteLine(&quot;创建XML文件成功！&quot;);</div><div class="line">            Console.ReadKey();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
+<li>使用Linq to Xml<br>本文主要讨论使用Linq to Xml的方法实现对XML文档的创建、增加、删除、修改、查询的操作。</li>
 </ol>
-<p>生成的xml文档如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;school&gt;</div><div class="line">  &lt;class number=&quot;0302&quot;&gt;</div><div class="line">    &lt;student id=&quot;001&quot;&gt;</div><div class="line">      &lt;name&gt;张三&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;19&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;002&quot;&gt;</div><div class="line">      &lt;name&gt;李晓梅&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;18&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">&lt;/school&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="读取XML文档"><a href="#读取XML文档" class="headerlink" title="读取XML文档"></a>读取XML文档</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Threading.Tasks;</div><div class="line">using System.Xml.Linq;</div><div class="line"></div><div class="line">namespace ReadXML</div><div class="line">&#123;</div><div class="line">    class Program</div><div class="line">    &#123;</div><div class="line">        static void Main(string[] args)</div><div class="line">        &#123;</div><div class="line">            string path = &quot;1.xml&quot;;</div><div class="line">            XDocument xdoc = XDocument.Load(path); //加载xml文件</div><div class="line">            XElement rootSchool = xdoc.Root; //获取根元素</div><div class="line">            //Console.WriteLine(rootSchool.Name); //根元素的名字</div><div class="line">            IEnumerable&lt;XElement&gt; xeles = rootSchool.Elements(); //获取根元素下所有的直接子元素</div><div class="line">            foreach (XElement xeleClass in xeles)</div><div class="line">            &#123;</div><div class="line">                foreach (XElement xeleStudent in xeleClass.Elements())</div><div class="line">                &#123;</div><div class="line">                    Console.WriteLine(xeleStudent.Name); //获取节点名</div><div class="line">                    Console.WriteLine(xeleStudent.Attribute(&quot;id&quot;).Value); //获取属性值</div><div class="line">                    Console.WriteLine(xeleStudent.Element(&quot;name&quot;).Value); //下面3行是获取数据</div><div class="line">                    Console.WriteLine(xeleStudent.Element(&quot;gender&quot;).Value);</div><div class="line">                    Console.WriteLine(xeleStudent.Element(&quot;age&quot;).Value);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            Console.ReadKey();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="增加XML文档内容"><a href="#增加XML文档内容" class="headerlink" title="增加XML文档内容"></a>增加XML文档内容</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Threading.Tasks;</div><div class="line">using System.Xml.Linq;</div><div class="line"></div><div class="line">namespace AddXML</div><div class="line">&#123;</div><div class="line">    class Program</div><div class="line">    &#123;</div><div class="line">        static void Main(string[] args)</div><div class="line">        &#123;</div><div class="line">            string path = &quot;1.xml&quot;;</div><div class="line">            XDocument xdoc = XDocument.Load(path);</div><div class="line">            XElement xeleRoot = xdoc.Root;</div><div class="line"></div><div class="line">            //在已存在的节点上添加属性和数据</div><div class="line">            XElement xeleClass = xeleRoot.Element(&quot;class&quot;);</div><div class="line">            XElement xeleStu3 = new XElement(&quot;student&quot;);</div><div class="line">            xeleStu3.SetAttributeValue(&quot;id&quot;, &quot;005&quot;);</div><div class="line">            xeleStu3.SetElementValue(&quot;name&quot;, &quot;王五&quot;);</div><div class="line">            xeleStu3.SetElementValue(&quot;gender&quot;, &quot;男&quot;);</div><div class="line">            xeleStu3.SetElementValue(&quot;age&quot;, &quot;40&quot;);</div><div class="line">            xeleClass.Add(xeleStu3);</div><div class="line"></div><div class="line">            //在根节点下添加新的直接子节点及次级节点的属性和数据</div><div class="line">            //XElement xeleClass = new XElement(&quot;class&quot;);</div><div class="line">            //xeleClass.SetAttributeValue(&quot;number&quot;, &quot;0501&quot;);</div><div class="line">            //XElement xeleStu1 = new XElement(&quot;student&quot;);</div><div class="line">            //xeleStu1.SetAttributeValue(&quot;id&quot;, &quot;003&quot;);</div><div class="line">            //xeleStu1.SetElementValue(&quot;name&quot;,&quot;刘芳&quot;);</div><div class="line">            //xeleStu1.SetElementValue(&quot;gender&quot;,&quot;女&quot;);</div><div class="line">            //xeleStu1.SetElementValue(&quot;age&quot;,&quot;26&quot;);</div><div class="line">            //XElement xeleStu2 = new XElement(&quot;student&quot;);</div><div class="line">            //xeleStu2.SetAttributeValue(&quot;id&quot;, &quot;004&quot;);</div><div class="line">            //xeleStu2.SetElementValue(&quot;name&quot;, &quot;王亮&quot;);</div><div class="line">            //xeleStu2.SetElementValue(&quot;gender&quot;, &quot;男&quot;);</div><div class="line">            //xeleStu2.SetElementValue(&quot;age&quot;, &quot;36&quot;);</div><div class="line">            //xeleClass.Add(xeleStu1);</div><div class="line">            //xeleClass.Add(xeleStu2);</div><div class="line">            //xeleRoot.Add(xeleClass);</div><div class="line"></div><div class="line">            xdoc.Save(&quot;1.xml&quot;);</div><div class="line">            Console.WriteLine(&quot;添加xml成功&quot;);</div><div class="line">            Console.ReadKey();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在已存在的节点上添加属性和数据，xml文件如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;school&gt;</div><div class="line">  &lt;class number=&quot;0302&quot;&gt;</div><div class="line">    &lt;student id=&quot;001&quot;&gt;</div><div class="line">      &lt;name&gt;张三&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;19&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;002&quot;&gt;</div><div class="line">      &lt;name&gt;李晓梅&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;18&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;005&quot;&gt;</div><div class="line">      &lt;name&gt;王五&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;40&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">&lt;/school&gt;</div></pre></td></tr></table></figure></p>
-<p>上面被消隐的代码放开之后，在根节点下添加新的直接子节点及次级节点的属性和数据，xml文件如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;school&gt;</div><div class="line">  &lt;class number=&quot;0302&quot;&gt;</div><div class="line">    &lt;student id=&quot;001&quot;&gt;</div><div class="line">      &lt;name&gt;张三&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;19&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;002&quot;&gt;</div><div class="line">      &lt;name&gt;李晓梅&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;18&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">  &lt;class number=&quot;0501&quot;&gt;</div><div class="line">    &lt;student id=&quot;003&quot;&gt;</div><div class="line">      &lt;name&gt;刘芳&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;26&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;004&quot;&gt;</div><div class="line">      &lt;name&gt;王亮&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;36&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">&lt;/school&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="删除XML文档内容"><a href="#删除XML文档内容" class="headerlink" title="删除XML文档内容"></a>删除XML文档内容</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Threading.Tasks;</div><div class="line">using System.Xml.Linq;</div><div class="line"></div><div class="line">namespace DeleteXML</div><div class="line">&#123;</div><div class="line">    class Program</div><div class="line">    &#123;</div><div class="line">        static void Main(string[] args)</div><div class="line">        &#123;</div><div class="line">            XDocument xdoc = XDocument.Load(&quot;1.xml&quot;);</div><div class="line">            XElement xeleRoot = xdoc.Root;</div><div class="line"></div><div class="line">            //删除根节点的直接子节点</div><div class="line">            XElement xeleClass = xeleRoot.Elements(&quot;class&quot;).Where(x =&gt; x.Attribute(&quot;number&quot;).Value == &quot;0302&quot;).Single(); //拉姆达表达式</div><div class="line">            xeleClass.Remove();</div><div class="line"></div><div class="line">            //删除根节点的直接子节点的下一级节点</div><div class="line">            //XElement xeleClass = xeleRoot.Elements(&quot;class&quot;).Where(x =&gt; x.Attribute(&quot;number&quot;).Value == &quot;0302&quot;).Single(); //获取班级号为0302的直接子节点</div><div class="line">            //XElement xeleStudent = xeleClass.Elements(&quot;student&quot;).Where(x =&gt; x.Attribute(&quot;id&quot;).Value == &quot;001&quot;).Single(); //获取学号为001的直接子节点的下一级节点</div><div class="line">            //xeleStudent.Remove();</div><div class="line"></div><div class="line">            xdoc.Save(&quot;1.xml&quot;);</div><div class="line">            Console.WriteLine(&quot;删除节点成功！&quot;);</div><div class="line">            Console.ReadKey();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>删除根节点的直接子节点，xml文件如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;school&gt;</div><div class="line">  &lt;class number=&quot;0501&quot;&gt;</div><div class="line">    &lt;student id=&quot;003&quot;&gt;</div><div class="line">      &lt;name&gt;刘芳&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;26&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;004&quot;&gt;</div><div class="line">      &lt;name&gt;王亮&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;36&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">&lt;/school&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="修改XML文档内容"><a href="#修改XML文档内容" class="headerlink" title="修改XML文档内容"></a>修改XML文档内容</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Threading.Tasks;</div><div class="line">using System.Xml.Linq;</div><div class="line"></div><div class="line">namespace UpdateXML</div><div class="line">&#123;</div><div class="line">    class Program</div><div class="line">    &#123;</div><div class="line">        static void Main(string[] args)</div><div class="line">        &#123;</div><div class="line">            XDocument xdoc = XDocument.Load(&quot;1.xml&quot;);</div><div class="line">            XElement xeleRoot = xdoc.Root;</div><div class="line">            XElement xeleClass = xeleRoot.Elements(&quot;class&quot;).Where(x =&gt; x.Attribute(&quot;number&quot;).Value == &quot;0302&quot;).Single(); //获取班级号为0302的直接子节点</div><div class="line">            XElement xeleStudent = xeleClass.Elements(&quot;student&quot;).Where(x =&gt; x.Attribute(&quot;id&quot;).Value == &quot;001&quot;).Single(); //获取学号为001的直接子节点的下一级节点</div><div class="line">            xeleStudent.SetAttributeValue(&quot;id&quot;, &quot;008&quot;);</div><div class="line">            xeleStudent.SetElementValue(&quot;name&quot;,&quot;邦德&quot;);</div><div class="line">            xeleStudent.SetElementValue(&quot;gender&quot;,&quot;爷们&quot;);</div><div class="line">            xeleStudent.SetElementValue(&quot;age&quot;,&quot;39&quot;);</div><div class="line">            xdoc.Save(&quot;1.xml&quot;);</div><div class="line">            Console.WriteLine(&quot;修改成功！&quot;);</div><div class="line">            Console.ReadKey();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行后xml文件如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;school&gt;</div><div class="line">  &lt;class number=&quot;0302&quot;&gt;</div><div class="line">    &lt;student id=&quot;008&quot;&gt;</div><div class="line">      &lt;name&gt;邦德&lt;/name&gt;</div><div class="line">      &lt;gender&gt;爷们&lt;/gender&gt;</div><div class="line">      &lt;age&gt;39&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;002&quot;&gt;</div><div class="line">      &lt;name&gt;李晓梅&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;18&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">  &lt;class number=&quot;0501&quot;&gt;</div><div class="line">    &lt;student id=&quot;003&quot;&gt;</div><div class="line">      &lt;name&gt;刘芳&lt;/name&gt;</div><div class="line">      &lt;gender&gt;女&lt;/gender&gt;</div><div class="line">      &lt;age&gt;26&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">    &lt;student id=&quot;004&quot;&gt;</div><div class="line">      &lt;name&gt;王亮&lt;/name&gt;</div><div class="line">      &lt;gender&gt;男&lt;/gender&gt;</div><div class="line">      &lt;age&gt;36&lt;/age&gt;</div><div class="line">    &lt;/student&gt;</div><div class="line">  &lt;/class&gt;</div><div class="line">&lt;/school&gt;</div></pre></td></tr></table></figure></p>
-<p>Reference:</p>
+<h1 id="创建XML文档"><a href="#创建XML文档" class="headerlink" title="创建XML文档"></a>创建XML文档</h1><pre><code class="C#">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace CreateXML
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //实例化XDocument对象
+            XDocument xdoc = new XDocument();
+            //创建根节点
+            XElement root = new XElement(&quot;school&quot;);
+            //创建子节点
+            XElement cls = new XElement(&quot;class&quot;);
+            cls.SetAttributeValue(&quot;number&quot;, &quot;0302&quot;); //添加子节点的属性，如3年级2班
+            //创建子节点class的子节点学生stu1
+            XElement stu1 = new XElement(&quot;student&quot;);
+            stu1.SetAttributeValue(&quot;id&quot;, &quot;001&quot;); //添加子节点stu1的属性，如学号001
+            stu1.SetElementValue(&quot;name&quot;, &quot;张三&quot;); //添加子节点stu1的数据，如姓名张三
+            stu1.SetElementValue(&quot;gender&quot;, &quot;男&quot;); //添加子节点stu1的数据，如性别男
+            stu1.SetElementValue(&quot;age&quot;, &quot;19&quot;); //添加子节点stu1的数据，如年龄19
+            //创建子节点class的子节点学生stu2
+            XElement stu2 = new XElement(&quot;student&quot;);
+            stu2.SetAttributeValue(&quot;id&quot;, &quot;002&quot;); //添加子节点stu2的属性，如学号002
+            stu2.SetElementValue(&quot;name&quot;, &quot;李晓梅&quot;); //添加子节点stu2的数据，如姓名李晓梅
+            stu2.SetElementValue(&quot;gender&quot;, &quot;女&quot;); //添加子节点stu2的数据，如性别女
+            stu2.SetElementValue(&quot;age&quot;, &quot;18&quot;); //添加子节点stu2的数据，如年龄18
+            cls.Add(stu1); //添加student到class
+            cls.Add(stu2); //添加student到class
+            root.Add(cls); //添加子节点class到根节点school
+            xdoc.Add(root); //添加根节点到XDoucment对象
+            xdoc.Save(&quot;1.xml&quot;); //使用XML的保存会自动在xml文件开始添加：&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+            Console.WriteLine(&quot;创建XML文件成功！&quot;);
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre>
+<p>生成的xml文档如下:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;school&gt;
+  &lt;class number=&quot;0302&quot;&gt;
+    &lt;student id=&quot;001&quot;&gt;
+      &lt;name&gt;张三&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;19&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;002&quot;&gt;
+      &lt;name&gt;李晓梅&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;18&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+&lt;/school&gt;
+</code></pre><h1 id="读取XML文档"><a href="#读取XML文档" class="headerlink" title="读取XML文档"></a>读取XML文档</h1><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace ReadXML
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string path = &quot;1.xml&quot;;
+            XDocument xdoc = XDocument.Load(path); //加载xml文件
+            XElement rootSchool = xdoc.Root; //获取根元素
+            //Console.WriteLine(rootSchool.Name); //根元素的名字
+            IEnumerable&lt;XElement&gt; xeles = rootSchool.Elements(); //获取根元素下所有的直接子元素
+            foreach (XElement xeleClass in xeles)
+            {
+                foreach (XElement xeleStudent in xeleClass.Elements())
+                {
+                    Console.WriteLine(xeleStudent.Name); //获取节点名
+                    Console.WriteLine(xeleStudent.Attribute(&quot;id&quot;).Value); //获取属性值
+                    Console.WriteLine(xeleStudent.Element(&quot;name&quot;).Value); //下面3行是获取数据
+                    Console.WriteLine(xeleStudent.Element(&quot;gender&quot;).Value);
+                    Console.WriteLine(xeleStudent.Element(&quot;age&quot;).Value);
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre><h1 id="增加XML文档内容"><a href="#增加XML文档内容" class="headerlink" title="增加XML文档内容"></a>增加XML文档内容</h1><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace AddXML
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string path = &quot;1.xml&quot;;
+            XDocument xdoc = XDocument.Load(path);
+            XElement xeleRoot = xdoc.Root;
+
+            //在已存在的节点上添加属性和数据
+            XElement xeleClass = xeleRoot.Element(&quot;class&quot;);
+            XElement xeleStu3 = new XElement(&quot;student&quot;);
+            xeleStu3.SetAttributeValue(&quot;id&quot;, &quot;005&quot;);
+            xeleStu3.SetElementValue(&quot;name&quot;, &quot;王五&quot;);
+            xeleStu3.SetElementValue(&quot;gender&quot;, &quot;男&quot;);
+            xeleStu3.SetElementValue(&quot;age&quot;, &quot;40&quot;);
+            xeleClass.Add(xeleStu3);
+
+            //在根节点下添加新的直接子节点及次级节点的属性和数据
+            //XElement xeleClass = new XElement(&quot;class&quot;);
+            //xeleClass.SetAttributeValue(&quot;number&quot;, &quot;0501&quot;);
+            //XElement xeleStu1 = new XElement(&quot;student&quot;);
+            //xeleStu1.SetAttributeValue(&quot;id&quot;, &quot;003&quot;);
+            //xeleStu1.SetElementValue(&quot;name&quot;,&quot;刘芳&quot;);
+            //xeleStu1.SetElementValue(&quot;gender&quot;,&quot;女&quot;);
+            //xeleStu1.SetElementValue(&quot;age&quot;,&quot;26&quot;);
+            //XElement xeleStu2 = new XElement(&quot;student&quot;);
+            //xeleStu2.SetAttributeValue(&quot;id&quot;, &quot;004&quot;);
+            //xeleStu2.SetElementValue(&quot;name&quot;, &quot;王亮&quot;);
+            //xeleStu2.SetElementValue(&quot;gender&quot;, &quot;男&quot;);
+            //xeleStu2.SetElementValue(&quot;age&quot;, &quot;36&quot;);
+            //xeleClass.Add(xeleStu1);
+            //xeleClass.Add(xeleStu2);
+            //xeleRoot.Add(xeleClass);
+
+            xdoc.Save(&quot;1.xml&quot;);
+            Console.WriteLine(&quot;添加xml成功&quot;);
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre><p>在已存在的节点上添加属性和数据，xml文件如下:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;school&gt;
+  &lt;class number=&quot;0302&quot;&gt;
+    &lt;student id=&quot;001&quot;&gt;
+      &lt;name&gt;张三&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;19&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;002&quot;&gt;
+      &lt;name&gt;李晓梅&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;18&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;005&quot;&gt;
+      &lt;name&gt;王五&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;40&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+&lt;/school&gt;
+</code></pre><p>上面被消隐的代码放开之后，在根节点下添加新的直接子节点及次级节点的属性和数据，xml文件如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;school&gt;
+  &lt;class number=&quot;0302&quot;&gt;
+    &lt;student id=&quot;001&quot;&gt;
+      &lt;name&gt;张三&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;19&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;002&quot;&gt;
+      &lt;name&gt;李晓梅&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;18&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+  &lt;class number=&quot;0501&quot;&gt;
+    &lt;student id=&quot;003&quot;&gt;
+      &lt;name&gt;刘芳&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;26&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;004&quot;&gt;
+      &lt;name&gt;王亮&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;36&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+&lt;/school&gt;
+</code></pre><h1 id="删除XML文档内容"><a href="#删除XML文档内容" class="headerlink" title="删除XML文档内容"></a>删除XML文档内容</h1><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace DeleteXML
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            XDocument xdoc = XDocument.Load(&quot;1.xml&quot;);
+            XElement xeleRoot = xdoc.Root;
+
+            //删除根节点的直接子节点
+            XElement xeleClass = xeleRoot.Elements(&quot;class&quot;).Where(x =&gt; x.Attribute(&quot;number&quot;).Value == &quot;0302&quot;).Single(); //拉姆达表达式
+            xeleClass.Remove();
+
+            //删除根节点的直接子节点的下一级节点
+            //XElement xeleClass = xeleRoot.Elements(&quot;class&quot;).Where(x =&gt; x.Attribute(&quot;number&quot;).Value == &quot;0302&quot;).Single(); //获取班级号为0302的直接子节点
+            //XElement xeleStudent = xeleClass.Elements(&quot;student&quot;).Where(x =&gt; x.Attribute(&quot;id&quot;).Value == &quot;001&quot;).Single(); //获取学号为001的直接子节点的下一级节点
+            //xeleStudent.Remove();
+
+            xdoc.Save(&quot;1.xml&quot;);
+            Console.WriteLine(&quot;删除节点成功！&quot;);
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre><p>删除根节点的直接子节点，xml文件如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;school&gt;
+  &lt;class number=&quot;0501&quot;&gt;
+    &lt;student id=&quot;003&quot;&gt;
+      &lt;name&gt;刘芳&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;26&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;004&quot;&gt;
+      &lt;name&gt;王亮&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;36&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+&lt;/school&gt;
+</code></pre><h1 id="修改XML文档内容"><a href="#修改XML文档内容" class="headerlink" title="修改XML文档内容"></a>修改XML文档内容</h1><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace UpdateXML
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            XDocument xdoc = XDocument.Load(&quot;1.xml&quot;);
+            XElement xeleRoot = xdoc.Root;
+            XElement xeleClass = xeleRoot.Elements(&quot;class&quot;).Where(x =&gt; x.Attribute(&quot;number&quot;).Value == &quot;0302&quot;).Single(); //获取班级号为0302的直接子节点
+            XElement xeleStudent = xeleClass.Elements(&quot;student&quot;).Where(x =&gt; x.Attribute(&quot;id&quot;).Value == &quot;001&quot;).Single(); //获取学号为001的直接子节点的下一级节点
+            xeleStudent.SetAttributeValue(&quot;id&quot;, &quot;008&quot;);
+            xeleStudent.SetElementValue(&quot;name&quot;,&quot;邦德&quot;);
+            xeleStudent.SetElementValue(&quot;gender&quot;,&quot;爷们&quot;);
+            xeleStudent.SetElementValue(&quot;age&quot;,&quot;39&quot;);
+            xdoc.Save(&quot;1.xml&quot;);
+            Console.WriteLine(&quot;修改成功！&quot;);
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre><p>执行后xml文件如下:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;school&gt;
+  &lt;class number=&quot;0302&quot;&gt;
+    &lt;student id=&quot;008&quot;&gt;
+      &lt;name&gt;邦德&lt;/name&gt;
+      &lt;gender&gt;爷们&lt;/gender&gt;
+      &lt;age&gt;39&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;002&quot;&gt;
+      &lt;name&gt;李晓梅&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;18&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+  &lt;class number=&quot;0501&quot;&gt;
+    &lt;student id=&quot;003&quot;&gt;
+      &lt;name&gt;刘芳&lt;/name&gt;
+      &lt;gender&gt;女&lt;/gender&gt;
+      &lt;age&gt;26&lt;/age&gt;
+    &lt;/student&gt;
+    &lt;student id=&quot;004&quot;&gt;
+      &lt;name&gt;王亮&lt;/name&gt;
+      &lt;gender&gt;男&lt;/gender&gt;
+      &lt;age&gt;36&lt;/age&gt;
+    &lt;/student&gt;
+  &lt;/class&gt;
+&lt;/school&gt;
+</code></pre><p>Reference:</p>
 <blockquote>
 <p><a href="http://blog.csdn.net/songyi160/article/details/50824274" target="_blank" rel="external">http://blog.csdn.net/songyi160/article/details/50824274</a></p>
 </blockquote>
@@ -297,6 +580,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

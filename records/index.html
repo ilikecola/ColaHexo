@@ -33,9 +33,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -235,8 +236,6 @@ classes that you can use:
     <div class="categorieslist">
         
           
-        
-          
             <span><a href="/categories/Article/" title="Article">Article<sup>6</sup></a></span>
           
         
@@ -284,6 +283,10 @@ classes that you can use:
             
         
             
+                <span><a href="/tags/Shadowsocks/" title="Shadowsocks">Shadowsocks<sup>1</sup></a></span>
+            
+        
+            
                 <span><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></span>
             
         
@@ -293,10 +296,6 @@ classes that you can use:
         
             
                 <span><a href="/tags/Ubuntu/" title="Ubuntu">Ubuntu<sup>1</sup></a></span>
-            
-        
-            
-                <span><a href="/tags/Shadowsocks/" title="Shadowsocks">Shadowsocks<sup>1</sup></a></span>
             
         
             
@@ -335,6 +334,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

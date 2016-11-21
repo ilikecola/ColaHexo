@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/11/21/219/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="因为最近的干扰力度变大，考虑到 AnyConnect 是思科的安全远程接入解决方案，隐蔽性要好一些，所以决定在服务器上搭建 AnyConnect 以提供给 iOS 设备使用，原来的 Cisco IPSec VPN 废弃，Shadowsocks 保留用于安卓和PC的连接。">
-<meta property="og:updated_time" content="2016-11-21T13:58:05.661Z">
+<meta property="og:updated_time" content="2016-11-21T17:18:23.341Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 CentOS 7 上搭建 Cisco AnyConnect VPN | Cola's Memory">
 <meta name="twitter:description" content="因为最近的干扰力度变大，考虑到 AnyConnect 是思科的安全远程接入解决方案，隐蔽性要好一些，所以决定在服务器上搭建 AnyConnect 以提供给 iOS 设备使用，原来的 Cisco IPSec VPN 废弃，Shadowsocks 保留用于安卓和PC的连接。">
@@ -33,9 +33,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -247,24 +248,108 @@ classes that you can use:
 <li>下发路由</li>
 </ul>
 <h1 id="安装-ocserv-OpenConnect-server"><a href="#安装-ocserv-OpenConnect-server" class="headerlink" title="安装 ocserv (OpenConnect server)"></a>安装 ocserv (OpenConnect server)</h1><p>ocserv 是一个 OpenConnect SSL VPN 协议服务端，0.3.0 版后兼容使用 AnyConnect SSL VPN 协议的终端。<br>官方主页：<a href="http://www.infradead.org/ocserv/" target="_blank" rel="external">http://www.infradead.org/ocserv/</a></p>
-<p>ocserv 已经在 epel 仓库中提供了，所以可以直接通过 yum 安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo yum install epel-release</div><div class="line">$ sudo yum install ocserv</div></pre></td></tr></table></figure></p>
-<h1 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h1><p>这里你需要先仔细阅读<a href="http://www.infradead.org/ocserv/manual.html#heading5" target="_blank" rel="external">官方文档</a>，简单的来说，如下几步</p>
-<h2 id="创建工作文件夹"><a href="#创建工作文件夹" class="headerlink" title="创建工作文件夹"></a>创建工作文件夹</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mkdir anyconnect</div><div class="line">$ cd anyconnect</div></pre></td></tr></table></figure>
-<h2 id="生成-CA-证书"><a href="#生成-CA-证书" class="headerlink" title="生成 CA 证书"></a>生成 CA 证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ certtool --generate-privkey --outfile ca-key.pem</div><div class="line">$ cat &gt;ca.tmpl &lt;&lt;EOF</div><div class="line">cn = &quot;VPN CA&quot;</div><div class="line">organization = &quot;Big Corp&quot;</div><div class="line">serial = 1</div><div class="line">expiration_days = 3650</div><div class="line">ca</div><div class="line">signing_key</div><div class="line">cert_signing_key</div><div class="line">crl_signing_key</div><div class="line">EOF</div><div class="line">$ certtool --generate-self-signed --load-privkey ca-key.pem \</div><div class="line">--template ca.tmpl --outfile ca-cert.pem</div></pre></td></tr></table></figure>
-<p>把生成的 ca-cert.pem 放到 /etc/ocserv/ 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mv ca-cert.pem /etc/ocserv/</div></pre></td></tr></table></figure></p>
-<h2 id="生成本地服务器证书"><a href="#生成本地服务器证书" class="headerlink" title="生成本地服务器证书"></a>生成本地服务器证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ certtool --generate-privkey --outfile server-key.pem</div><div class="line">$ cat &gt;server.tmpl &lt;&lt;EOF</div><div class="line">cn = &quot;www.example.com&quot;</div><div class="line">organization = &quot;MyCompany&quot;</div><div class="line">serial = 2</div><div class="line">expiration_days = 3650</div><div class="line">encryption_key</div><div class="line">signing_key</div><div class="line">tls_www_server</div><div class="line">EOF</div><div class="line">$ certtool --generate-certificate --load-privkey server-key.pem \</div><div class="line">--load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem \</div><div class="line">--template server.tmpl --outfile server-cert.pem</div></pre></td></tr></table></figure>
-<p>这里的cn项必须对应你最终提供服务的hostname或IP，否则AnyConnect客户端将无法正确导入证书。<br>把生成的 server-cert.pem 和 server-key.pem 放到 /etc/ocserv/ 中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo mv server-cert.pem /etc/ocserv/</div><div class="line">sudo mv server-key.pem /etc/ocserv/</div></pre></td></tr></table></figure></p>
-<h2 id="生成客户端证书"><a href="#生成客户端证书" class="headerlink" title="生成客户端证书"></a>生成客户端证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ certtool --generate-privkey --outfile client-key.pem</div><div class="line">$ cat &gt;client.tmpl &lt;&lt;EOF</div><div class="line">cn = &quot;some random name&quot;</div><div class="line">unit = &quot;some random unit&quot;</div><div class="line">expiration_days = 3650</div><div class="line">signing_key</div><div class="line">tls_www_client</div><div class="line">EOF</div><div class="line">$ certtool --generate-certificate --load-privkey user-key.pem \</div><div class="line">--load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem \</div><div class="line">--template user.tmpl --outfile user-cert.pem</div></pre></td></tr></table></figure>
-<p>然后要将证书和密钥转为PKCS12的格式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">certtool --to-p12 --load-privkey user-key.pem \</div><div class="line">--pkcs-cipher 3des-pkcs12 --load-certificate user-cert.pem --outfile user.p12 --outder</div></pre></td></tr></table></figure></p>
-<p>最后，通过 http 服务器或其他方式将 user.p12 传输给客户端导入即可</p>
-<h1 id="配置-ocserv"><a href="#配置-ocserv" class="headerlink" title="配置 ocserv"></a>配置 ocserv</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo vim /etc/ocserv/ocserv.conf</div></pre></td></tr></table></figure>
-<p>主要修改以下部分<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">#ocserv支持多种认证方式，这是自带的密码认证，使用ocpasswd创建密码文件</div><div class="line">#ocserv还支持证书认证，可以通过Pluggable Authentication Modules (PAM)使用radius等认证方式</div><div class="line">auth = &quot;plain[passwd=/etc/ocserv/ocpasswd]&quot;</div><div class="line">#指定替代的登录方式，这里使用证书登录作为第二种登录方式</div><div class="line">enable-auth = &quot;certificate&quot;</div><div class="line">#证书路径</div><div class="line">server-cert = /etc/ocserv/server-cert.pem</div><div class="line">server-key = /etc/ocserv/server-key.pem</div><div class="line">#ca路径</div><div class="line">ca-cert = /etc/ocserv/ca-cert.pem</div><div class="line">#从证书中提取用户名的方式，这里提取的是证书中的 CN 字段作为用户名</div><div class="line">cert-user-oid = 2.5.4.3</div><div class="line">#最大用户数量</div><div class="line">max-clients = 16</div><div class="line">#同一个用户最多同时登陆数</div><div class="line">max-same-clients = 10</div><div class="line">#tcp和udp端口</div><div class="line">tcp-port = 4433</div><div class="line">udp-port = 4433</div><div class="line">#运行用户和组</div><div class="line">run-as-user = ocserv</div><div class="line">run-as-group = ocserv</div><div class="line">#虚拟设备名称</div><div class="line">device = vpns</div><div class="line">#分配给VPN客户端的IP段</div><div class="line">ipv4-network = 10.12.0.0</div><div class="line">ipv4-netmask = 255.255.255.0</div><div class="line">#DNS</div><div class="line">dns = 8.8.8.8</div><div class="line">dns = 8.8.4.4</div><div class="line">#注释掉route的字段，这样表示所有流量都通过 VPN 发送</div><div class="line">#route = 192.168.1.0/255.255.255.0</div><div class="line">#route = 192.168.5.0/255.255.255.0</div></pre></td></tr></table></figure></p>
-<h1 id="配置系统设置"><a href="#配置系统设置" class="headerlink" title="配置系统设置"></a>配置系统设置</h1><h2 id="开启内核转发"><a href="#开启内核转发" class="headerlink" title="开启内核转发"></a>开启内核转发</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo sed -i &apos;s/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/g&apos; /etc/sysctl.conf</div><div class="line">$ sudo sysctl -p</div></pre></td></tr></table></figure>
-<h2 id="配置-iptables-规则"><a href="#配置-iptables-规则" class="headerlink" title="配置 iptables 规则"></a>配置 iptables 规则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#IP段和eth0接口和vpns类接口要根据自己的情况修改</div><div class="line">$ sudo iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o eth0 -j MASQUERADE</div><div class="line">$ sudo iptables -A FORWARD -i vpns+ -j ACCEPT</div><div class="line">$ sudo iptables -A FORWARD -o vpns+ -j ACCEPT</div><div class="line">$ sudo iptables-save &gt; /etc/sysconfig/iptables</div></pre></td></tr></table></figure>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>现在我们可以开启服务器试试了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo ocserv -c /etc/ocserv/ocserv.conf -f -d 1</div></pre></td></tr></table></figure></p>
-<p>拿起你的 iOS 设备，下载思科的 AnyConnect 客户端，连接你的服务器。<br>出现问题可以看debug的返回信息，如果信息不详细，可以把 1 改成 10。<br>如果没有问题，那么就可以配置成开机运行了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo systemctl enable ocserv</div><div class="line">$ sudo systemctl start ocserv</div></pre></td></tr></table></figure></p>
-<h1 id="下发路由"><a href="#下发路由" class="headerlink" title="下发路由"></a>下发路由</h1><p>我想这个功能是最激动人心的，因为我们手机如果长期连接，那么肯定是某些服务走 VPN，而国内的网站可以走手机自己的网络体验最好。<br>但是这里的一个问题是，AnyConnect 有下发路由表的 64 条数限制。<br>所以我们只能保证下某几个常用的服务是可用的，比如 Google Facebook 以及 Twitter<br>编辑配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo vim /etc/ocserv/ocserv.conf</div></pre></td></tr></table></figure></p>
-<p>添加<code>route =</code>的字段即可</p>
+<p>ocserv 已经在 epel 仓库中提供了，所以可以直接通过 yum 安装</p>
+<pre><code> $ sudo yum install epel-release
+ $ sudo yum install ocserv
+</code></pre><h1 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h1><p>这里你需要先仔细阅读<a href="http://www.infradead.org/ocserv/manual.html#heading5" target="_blank" rel="external">官方文档</a>，简单的来说，如下几步</p>
+<h2 id="创建工作文件夹"><a href="#创建工作文件夹" class="headerlink" title="创建工作文件夹"></a>创建工作文件夹</h2><pre><code>$ mkdir anyconnect
+$ cd anyconnect
+</code></pre><h2 id="生成-CA-证书"><a href="#生成-CA-证书" class="headerlink" title="生成 CA 证书"></a>生成 CA 证书</h2><pre><code>$ certtool --generate-privkey --outfile ca-key.pem
+$ cat &gt;ca.tmpl &lt;&lt;EOF
+cn = &quot;VPN CA&quot;
+organization = &quot;Big Corp&quot;
+serial = 1
+expiration_days = 3650
+ca
+signing_key
+cert_signing_key
+crl_signing_key
+EOF
+$ certtool --generate-self-signed --load-privkey ca-key.pem \
+--template ca.tmpl --outfile ca-cert.pem
+</code></pre><p>把生成的 ca-cert.pem 放到 /etc/ocserv/ 中</p>
+<pre><code>sudo mv ca-cert.pem /etc/ocserv/
+</code></pre><h2 id="生成本地服务器证书"><a href="#生成本地服务器证书" class="headerlink" title="生成本地服务器证书"></a>生成本地服务器证书</h2><pre><code>$ certtool --generate-privkey --outfile server-key.pem
+$ cat &gt;server.tmpl &lt;&lt;EOF
+cn = &quot;www.example.com&quot;
+organization = &quot;MyCompany&quot;
+serial = 2
+expiration_days = 3650
+encryption_key
+signing_key
+tls_www_server
+EOF
+$ certtool --generate-certificate --load-privkey server-key.pem \
+--load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem \
+--template server.tmpl --outfile server-cert.pem
+</code></pre><p>这里的cn项必须对应你最终提供服务的hostname或IP，否则AnyConnect客户端将无法正确导入证书。<br>把生成的 server-cert.pem 和 server-key.pem 放到 /etc/ocserv/ 中</p>
+<pre><code>sudo mv server-cert.pem /etc/ocserv/
+sudo mv server-key.pem /etc/ocserv/
+</code></pre><h2 id="生成客户端证书"><a href="#生成客户端证书" class="headerlink" title="生成客户端证书"></a>生成客户端证书</h2><pre><code>$ certtool --generate-privkey --outfile client-key.pem
+$ cat &gt;client.tmpl &lt;&lt;EOF
+cn = &quot;some random name&quot;
+unit = &quot;some random unit&quot;
+expiration_days = 3650
+signing_key
+tls_www_client
+EOF
+$ certtool --generate-certificate --load-privkey user-key.pem \
+--load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem \
+--template user.tmpl --outfile user-cert.pem
+</code></pre><p>然后要将证书和密钥转为PKCS12的格式。</p>
+<pre><code>certtool --to-p12 --load-privkey user-key.pem \
+--pkcs-cipher 3des-pkcs12 --load-certificate user-cert.pem --outfile user.p12 --outder
+</code></pre><p>最后，通过 http 服务器或其他方式将 user.p12 传输给客户端导入即可</p>
+<h1 id="配置-ocserv"><a href="#配置-ocserv" class="headerlink" title="配置 ocserv"></a>配置 ocserv</h1><pre><code>$ sudo vim /etc/ocserv/ocserv.conf
+</code></pre><p>主要修改以下部分</p>
+<pre><code>#ocserv支持多种认证方式，这是自带的密码认证，使用ocpasswd创建密码文件
+#ocserv还支持证书认证，可以通过Pluggable Authentication Modules (PAM)使用radius等认证方式
+auth = &quot;plain[passwd=/etc/ocserv/ocpasswd]&quot;
+#指定替代的登录方式，这里使用证书登录作为第二种登录方式
+enable-auth = &quot;certificate&quot;
+#证书路径
+server-cert = /etc/ocserv/server-cert.pem
+server-key = /etc/ocserv/server-key.pem
+#ca路径
+ca-cert = /etc/ocserv/ca-cert.pem
+#从证书中提取用户名的方式，这里提取的是证书中的 CN 字段作为用户名
+cert-user-oid = 2.5.4.3
+#最大用户数量
+max-clients = 16
+#同一个用户最多同时登陆数
+max-same-clients = 10
+#tcp和udp端口
+tcp-port = 4433
+udp-port = 4433
+#运行用户和组
+run-as-user = ocserv
+run-as-group = ocserv
+#虚拟设备名称
+device = vpns
+#分配给VPN客户端的IP段
+ipv4-network = 10.12.0.0
+ipv4-netmask = 255.255.255.0
+#DNS
+dns = 8.8.8.8
+dns = 8.8.4.4
+#注释掉route的字段，这样表示所有流量都通过 VPN 发送
+#route = 192.168.1.0/255.255.255.0
+#route = 192.168.5.0/255.255.255.0
+</code></pre><h1 id="配置系统设置"><a href="#配置系统设置" class="headerlink" title="配置系统设置"></a>配置系统设置</h1><h2 id="开启内核转发"><a href="#开启内核转发" class="headerlink" title="开启内核转发"></a>开启内核转发</h2><pre><code>$ sudo sed -i &#39;s/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/g&#39; /etc/sysctl.conf
+$ sudo sysctl -p
+</code></pre><h2 id="配置-iptables-规则"><a href="#配置-iptables-规则" class="headerlink" title="配置 iptables 规则"></a>配置 iptables 规则</h2><pre><code>#IP段和eth0接口和vpns类接口要根据自己的情况修改
+$ sudo iptables -t nat -A POSTROUTING -s 10.12.0.0/24 -o eth0 -j MASQUERADE
+$ sudo iptables -A FORWARD -i vpns+ -j ACCEPT
+$ sudo iptables -A FORWARD -o vpns+ -j ACCEPT
+$ sudo iptables-save &gt; /etc/sysconfig/iptables
+</code></pre><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>现在我们可以开启服务器试试了</p>
+<pre><code>$ sudo ocserv -c /etc/ocserv/ocserv.conf -f -d 1
+</code></pre><p>拿起你的 iOS 设备，下载思科的 AnyConnect 客户端，连接你的服务器。<br>出现问题可以看debug的返回信息，如果信息不详细，可以把 1 改成 10。<br>如果没有问题，那么就可以配置成开机运行了。</p>
+<pre><code>$ sudo systemctl enable ocserv
+$ sudo systemctl start ocserv
+</code></pre><h1 id="下发路由"><a href="#下发路由" class="headerlink" title="下发路由"></a>下发路由</h1><p>我想这个功能是最激动人心的，因为我们手机如果长期连接，那么肯定是某些服务走 VPN，而国内的网站可以走手机自己的网络体验最好。<br>但是这里的一个问题是，AnyConnect 有下发路由表的 64 条数限制。<br>所以我们只能保证下某几个常用的服务是可用的，比如 Google Facebook 以及 Twitter<br>编辑配置文件</p>
+<pre><code>$ sudo vim /etc/ocserv/ocserv.conf
+</code></pre><p>添加<code>route =</code>的字段即可</p>
 <p>Reference:</p>
 <blockquote>
 <p><a href="http://ifreedomlife.com/2015/04/20/Setup-Cisco-AnyConnect-VPN-on-CentOS7/" target="_blank" rel="external">http://ifreedomlife.com/2015/04/20/Setup-Cisco-AnyConnect-VPN-on-CentOS7/</a><br><a href="https://bitinn.net/11084/" target="_blank" rel="external">https://bitinn.net/11084/</a></p>
@@ -290,6 +375,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

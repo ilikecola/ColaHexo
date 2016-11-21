@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/10/08/217/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，就不现实了。因此我们需要对源文件进行备份，尤其是md文件。">
-<meta property="og:updated_time" content="2016-10-08T14:14:29.289Z">
+<meta property="og:updated_time" content="2016-11-21T17:21:51.112Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对Hexo源文件在Github备份 | Cola's Memory">
 <meta name="twitter:description" content="Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，就不现实了。因此我们需要对源文件进行备份，尤其是md文件。">
@@ -33,9 +33,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -246,16 +247,30 @@ classes that you can use:
 <h1 id="创建Github分支"><a href="#创建Github分支" class="headerlink" title="创建Github分支"></a>创建Github分支</h1><p>创建分支即可以在创建仓库时建立，也可以在已经上传静态文件后上传。<br>本例子中假设2个分支为<code>master</code>与<code>hexo</code>。<br>其中<code>master</code>为静态文件分支，<code>hexo</code>为网站源文件分支<br>设置hexo为默认分支,因为我们只需要手动管理这个分支上的Hexo网站源文件</p>
 <h1 id="上传源文件"><a href="#上传源文件" class="headerlink" title="上传源文件"></a>上传源文件</h1><ul>
 <li>如果是在上传静态文件后备份<br>使用<code>git clone -b hexo git@github.com:xxxxxxxx</code>拷贝仓库到本地</li>
-<li>如果还未上传静态文件<br>在本地 hexo 根目录下，打开命令行<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git init #初始化 git 仓库</div><div class="line">git checkout -b hexo #创建并切换到名为“hexo” 的分支</div></pre></td></tr></table></figure>
-</li>
+<li><p>如果还未上传静态文件<br>在本地 hexo 根目录下，打开命令行</p>
+<pre><code>git init #初始化 git 仓库
+git checkout -b hexo #创建并切换到名为“hexo” 的分支
+</code></pre><p>创建忽略文件 .gitignore<br>并按需添加如下内容：</p>
+<pre><code>.DS_Store 
+Thumbs.db
+db.json  
+\*.log
+.deploy*/
+node_modules/
+.npmignore
+public/
+</code></pre><p>添加内容到仓库并提交到远程仓库</p>
+<pre><code>git add .   # git add -A
+git commit -m &quot;first commit&quot;
+git remote add origin git@github.com:xxxxxxxx     # 后面仓库目录改成自己新建的。
+git push -u origin hexo
+</code></pre></li>
 </ul>
-<p>创建忽略文件 .gitignore<br>并按需添加如下内容：</p>
-<blockquote>
-<p>.DS_Store<br>Thumbs.db<br>db.json<br>*.log<br>.deploy*/<br>node_modules/<br>.npmignore<br>public/</p>
-</blockquote>
-<p>添加内容到仓库并提交到远程仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git add .   # git add -A</div><div class="line">git commit -m &quot;first commit&quot;</div><div class="line">git remote add origin git@github.com:xxxxxxxx	 # 后面仓库目录改成自己新建的。</div><div class="line">git push -u origin hexo</div></pre></td></tr></table></figure></p>
-<h1 id="常规备份"><a href="#常规备份" class="headerlink" title="常规备份"></a>常规备份</h1><p>依序执行以下命令即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git add .</div><div class="line">git commit -m &quot;...&quot;	 # 双引号内填写更新内容</div><div class="line">git push origin hexo	# 或者 git push</div></pre></td></tr></table></figure></p>
-<p>Reference:</p>
+<h1 id="常规备份"><a href="#常规备份" class="headerlink" title="常规备份"></a>常规备份</h1><p>依序执行以下命令即可</p>
+<pre><code>git add .
+git commit -m &quot;...&quot;     # 双引号内填写更新内容
+git push origin hexo    # 或者 git push
+</code></pre><p>Reference:</p>
 <blockquote>
 <p><a href="http://www.leyar.me/backup-your-blog-to-github/" target="_blank" rel="external">http://www.leyar.me/backup-your-blog-to-github/</a><br><a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" target="_blank" rel="external">http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more</a></p>
 </blockquote>
@@ -280,6 +295,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

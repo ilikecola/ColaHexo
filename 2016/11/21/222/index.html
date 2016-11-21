@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/11/21/222/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="利用一个计时器Timer类，实时更新界面上的控件内容，但是一直遇到抛出异常：System.InvalidOperationException {“调用线程无法访问此对象，因为另一个线程拥有该对象。”} 。">
-<meta property="og:updated_time" content="2016-11-21T14:54:25.228Z">
+<meta property="og:updated_time" content="2016-11-21T17:14:51.524Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WPF中Timer与DispatcherTimer类的区别 | Cola's Memory">
 <meta name="twitter:description" content="利用一个计时器Timer类，实时更新界面上的控件内容，但是一直遇到抛出异常：System.InvalidOperationException {“调用线程无法访问此对象，因为另一个线程拥有该对象。”} 。">
@@ -33,9 +33,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -247,14 +248,133 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <p>利用一个计时器Timer类，实时更新界面上的控件内容，但是一直遇到抛出异常：System.InvalidOperationException {“调用线程无法访问此对象，因为另一个线程拥有该对象。”} 。<br><a id="more"></a><br>经过下列代码测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Windows;</div><div class="line">using System.Windows.Controls;</div><div class="line">using System.Windows.Data;</div><div class="line">using System.Windows.Documents;</div><div class="line">using System.Windows.Input;</div><div class="line">using System.Windows.Media;</div><div class="line">using System.Windows.Media.Imaging;</div><div class="line">using System.Windows.Navigation;</div><div class="line">using System.Windows.Shapes;</div><div class="line">using System.Timers;</div><div class="line"></div><div class="line">namespace TimerTest</div><div class="line">&#123;</div><div class="line">    /// &lt;summary&gt;</div><div class="line">/// Interaction logic for MainWindow.xaml</div><div class="line">/// &lt;/summary&gt;</div><div class="line">    public partial class MainWindow : Window</div><div class="line">    &#123;</div><div class="line">        private Timer aTimer = null;</div><div class="line">        public MainWindow()</div><div class="line">        &#123;</div><div class="line">            InitializeComponent();</div><div class="line"></div><div class="line">            aTimer = new Timer();</div><div class="line">            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);</div><div class="line">            // Set the Interval to 5 seconds.</div><div class="line">            aTimer.Interval = 1000;</div><div class="line">            aTimer.Enabled = true;</div><div class="line">            aTimer.Start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        private void OnTimedEvent(object source, ElapsedEventArgs e)</div><div class="line">        &#123;</div><div class="line">            timeLabel.Content = DateTime.Now.ToUniversalTime();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Debug的时候，发现在第38行的时候，timeLabel.Content 赋值的时候抛出了该异常<br>Google搜索了一下发现：”访问 Windows 窗体控件本质上不是线程安全的。如果有两个或多个线程操作某一控件的状态，则可能会迫使该控件进入一种不一致的状态。还可能出现其他与线程相关的 bug，包括争用情况和死锁。确保以线程安全方式访问控件非常重要。“–来自<a href="http://msdn.microsoft.com/zh-cn/library/ms171728(en-us,VS.80" target="_blank" rel="external">MSDN</a>.aspx)<br>使用下列代码,使用DispatcherTimer来实现更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Collections.Generic;</div><div class="line">using System.Linq;</div><div class="line">using System.Text;</div><div class="line">using System.Windows;</div><div class="line">using System.Windows.Controls;</div><div class="line">using System.Windows.Data;</div><div class="line">using System.Windows.Documents;</div><div class="line">using System.Windows.Input;</div><div class="line">using System.Windows.Media;</div><div class="line">using System.Windows.Media.Imaging;</div><div class="line">using System.Windows.Navigation;</div><div class="line">using System.Windows.Shapes;</div><div class="line">using System.Timers;</div><div class="line">using System.Windows.Threading;</div><div class="line"></div><div class="line">namespace TimerTest</div><div class="line">&#123;</div><div class="line">    /// &lt;summary&gt;</div><div class="line">/// Interaction logic for MainWindow.xaml</div><div class="line">/// &lt;/summary&gt;</div><div class="line">    public partial class MainWindow : Window</div><div class="line">    &#123;</div><div class="line">        private DispatcherTimer dispatcherTimer = null;</div><div class="line">        public MainWindow()</div><div class="line">        &#123;</div><div class="line">            InitializeComponent();</div><div class="line"></div><div class="line">            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();</div><div class="line">            dispatcherTimer.Tick += new EventHandler(OnTimedEvent);</div><div class="line">            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);</div><div class="line">            dispatcherTimer.Start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        private void OnTimedEvent(object sender, EventArgs e)</div><div class="line">        &#123;</div><div class="line">            timeLabel.Content = DateTime.Now.ToUniversalTime();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>仔细阅读MSDN上的文档后，可以得知：DispatcherTimer在界面线程中实现的，当然可以安全地访问，修改界面内容。</p>
+    <p>利用一个计时器Timer类，实时更新界面上的控件内容，但是一直遇到抛出异常：System.InvalidOperationException {“调用线程无法访问此对象，因为另一个线程拥有该对象。”} 。<br><a id="more"></a><br>经过下列代码测试：</p>
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Timers;
+
+namespace TimerTest
+{
+    /// &lt;summary&gt;
+/// Interaction logic for MainWindow.xaml
+/// &lt;/summary&gt;
+    public partial class MainWindow : Window
+    {
+        private Timer aTimer = null;
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            aTimer = new Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            // Set the Interval to 5 seconds.
+            aTimer.Interval = 1000;
+            aTimer.Enabled = true;
+            aTimer.Start();
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            timeLabel.Content = DateTime.Now.ToUniversalTime();
+        }
+    }
+}
+</code></pre><p>Debug的时候，发现在第38行的时候，timeLabel.Content 赋值的时候抛出了该异常<br>Google搜索了一下发现：”访问 Windows 窗体控件本质上不是线程安全的。如果有两个或多个线程操作某一控件的状态，则可能会迫使该控件进入一种不一致的状态。还可能出现其他与线程相关的 bug，包括争用情况和死锁。确保以线程安全方式访问控件非常重要。“–来自<a href="http://msdn.microsoft.com/zh-cn/library/ms171728(en-us,VS.80" target="_blank" rel="external">MSDN</a>.aspx)<br>使用下列代码,使用DispatcherTimer来实现更新</p>
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Timers;
+using System.Windows.Threading;
+
+namespace TimerTest
+{
+    /// &lt;summary&gt;
+/// Interaction logic for MainWindow.xaml
+/// &lt;/summary&gt;
+    public partial class MainWindow : Window
+    {
+        private DispatcherTimer dispatcherTimer = null;
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(OnTimedEvent);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+        }
+
+        private void OnTimedEvent(object sender, EventArgs e)
+        {
+            timeLabel.Content = DateTime.Now.ToUniversalTime();
+        }
+    }
+}
+</code></pre><p>仔细阅读MSDN上的文档后，可以得知：DispatcherTimer在界面线程中实现的，当然可以安全地访问，修改界面内容。</p>
 <blockquote>
 <p>If a System.Timers.Timer is used in a WPF application, it is worth noting that the System.Timers.Timer runs on a different thread then the user interface (UI) thread. In order to access objects on the user interface (UI) thread, it is necessary to post the operation onto the Dispatcher of the user interface (UI) thread using Invoke or BeginInvoke. Reasons for using a DispatcherTimer opposed to a System.Timers.Timer are that theDispatcherTimer runs on the same thread as the Dispatcher and a DispatcherPriority can be set on the DispatcherTimer.</p>
 </blockquote>
-<p>采用Timer，使用Invoke或者BeginInvoke的方式进行UI的更新的方式（好处在于：在DispatcherTimer里面执行等待动作或者时间过长，可能会导致UI假死）:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">using System;</div><div class="line">using System.Windows;</div><div class="line">using System.Timers;</div><div class="line">using System.Windows.Threading;</div><div class="line"></div><div class="line">namespace TimerTest</div><div class="line">&#123;</div><div class="line">    /// &lt;summary&gt;</div><div class="line">/// Interaction logic for MainWindow.xaml</div><div class="line">/// &lt;/summary&gt;</div><div class="line">    public partial class MainWindow : Window</div><div class="line">    &#123;</div><div class="line">        private Timer aTimer = null;</div><div class="line"></div><div class="line">        private delegate void TimerDispatcherDelegate();</div><div class="line"></div><div class="line">        public MainWindow()</div><div class="line">        &#123;</div><div class="line">            InitializeComponent();</div><div class="line"></div><div class="line">            aTimer = new Timer(1000);</div><div class="line">            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);</div><div class="line">            aTimer.Interval = 1000;</div><div class="line">            aTimer.Enabled = true;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        private void OnTimedEvent(object sender, EventArgs e)</div><div class="line">        &#123;</div><div class="line">            this.Dispatcher.Invoke(DispatcherPriority.Normal,</div><div class="line">                new TimerDispatcherDelegate(updateUI));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        private void updateUI()</div><div class="line">        &#123;</div><div class="line">            timeLabel.Content = DateTime.Now.ToUniversalTime();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Reference:</p>
+<p>采用Timer，使用Invoke或者BeginInvoke的方式进行UI的更新的方式（好处在于：在DispatcherTimer里面执行等待动作或者时间过长，可能会导致UI假死）:</p>
+<pre><code>using System;
+using System.Windows;
+using System.Timers;
+using System.Windows.Threading;
+
+namespace TimerTest
+{
+    /// &lt;summary&gt;
+/// Interaction logic for MainWindow.xaml
+/// &lt;/summary&gt;
+    public partial class MainWindow : Window
+    {
+        private Timer aTimer = null;
+
+        private delegate void TimerDispatcherDelegate();
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            aTimer = new Timer(1000);
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            aTimer.Interval = 1000;
+            aTimer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object sender, EventArgs e)
+        {
+            this.Dispatcher.Invoke(DispatcherPriority.Normal,
+                new TimerDispatcherDelegate(updateUI));
+        }
+
+        private void updateUI()
+        {
+            timeLabel.Content = DateTime.Now.ToUniversalTime();
+        }
+    }
+}
+</code></pre><p>Reference:</p>
 <blockquote>
 <p><a href="http://www.cnblogs.com/zhchbin/archive/2012/03/06/2381693.html" target="_blank" rel="external">http://www.cnblogs.com/zhchbin/archive/2012/03/06/2381693.html</a></p>
 </blockquote>
@@ -279,6 +399,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

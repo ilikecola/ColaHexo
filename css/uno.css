@@ -1036,7 +1036,7 @@ ul {
 
 code {
   padding: 2px 4px;
-  background-color: #f8f8f8;
+/* background-color: #f8f8f8;*/
   color: #d14;
   border: none;
   word-wrap: break-word;
@@ -1132,7 +1132,8 @@ code {
   z-index: 800;
   width: 68%;
 /*  max-width: 960px; */
-  margin-left: 32%; }
+  margin-left: 32%; 
+  min-height: 100%}
   
 .content-wrapper-post:before {
 	content: '';
@@ -1145,6 +1146,7 @@ code {
   z-index: -1;
   opacity: 0.2;
   background: url(../images/post-cover.png) no-repeat #666666;
+  background-size: contain;
   background-position:80% 0;
   background-attachment:fixed; }
 
@@ -1801,7 +1803,10 @@ th, td {
   border: none;
 }
 pre {
-  font-family: 
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  font-size: .85em;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 .sethidden {

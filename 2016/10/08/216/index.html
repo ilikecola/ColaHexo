@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/2016/10/08/216/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="之前只是在本地对Hexo进行调试和修改，接下来我们需要部署到Github来备份以及部署到VPS来显示。同时我们也需要在Github上对源文件备份。本篇将会介绍如何部署Hexo到Github和VPS。">
-<meta property="og:updated_time" content="2016-11-20T16:10:24.205Z">
+<meta property="og:updated_time" content="2016-11-21T17:22:11.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo配置Deployment及Github相关操作 | Cola's Memory">
 <meta name="twitter:description" content="之前只是在本地对Hexo进行调试和修改，接下来我们需要部署到Github来备份以及部署到VPS来显示。同时我们也需要在Github上对源文件备份。本篇将会介绍如何部署Hexo到Github和VPS。">
@@ -33,9 +33,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -255,12 +256,15 @@ classes that you can use:
 <li>更新Hexo</li>
 </ul>
 <h1 id="VPS和Nginx设置"><a href="#VPS和Nginx设置" class="headerlink" title="VPS和Nginx设置"></a>VPS和Nginx设置</h1><p>此处为<code>centos</code>在<code>root</code>下的操作，关于连接<code>VPS</code>，<code>Windows</code> 用户请使用Xshell。<br>关于<code>vi</code>操作，按下<code>ins</code>键进入编辑模式，编辑结束后按<code>esc</code>键退出，这时按<code>:</code>并输入<code>wq</code>，即可。</p>
-<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum update &amp;&amp; apt-get upgrade -y #更新内核</div><div class="line">yum install git-core</div></pre></td></tr></table></figure>
-<h2 id="设置SSH密钥"><a href="#设置SSH密钥" class="headerlink" title="设置SSH密钥"></a>设置SSH密钥</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C &quot;email@example.com&quot;#一路回车生成公钥和密钥，一会要用到公钥id_rsa.pub</div></pre></td></tr></table></figure>
-<p>并拷贝<code>id_rsa</code>文件到本地。</p>
-<h2 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install nginx -y</div></pre></td></tr></table></figure>
-<h2 id="新建git用户添加sudo权限"><a href="#新建git用户添加sudo权限" class="headerlink" title="新建git用户添加sudo权限"></a>新建git用户添加sudo权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">adduser git</div><div class="line">chmod 740 /etc/sudoers</div><div class="line">vi /etc/sudoers</div></pre></td></tr></table></figure>
-<p>在vi编辑中找到如下内容：</p>
+<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><pre><code>yum update &amp;&amp; apt-get upgrade -y #更新内核
+yum install git-core
+</code></pre><h2 id="设置SSH密钥"><a href="#设置SSH密钥" class="headerlink" title="设置SSH密钥"></a>设置SSH密钥</h2><pre><code>ssh-keygen -t rsa -C &quot;email@example.com&quot;#一路回车生成公钥和密钥，一会要用到公钥id_rsa.pub
+</code></pre><p>并拷贝<code>id_rsa</code>文件到本地。</p>
+<h2 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h2><pre><code>yum install nginx -y
+</code></pre><h2 id="新建git用户添加sudo权限"><a href="#新建git用户添加sudo权限" class="headerlink" title="新建git用户添加sudo权限"></a>新建git用户添加sudo权限</h2><pre><code>adduser git
+chmod 740 /etc/sudoers
+vi /etc/sudoers
+</code></pre><p>在vi编辑中找到如下内容：</p>
 <blockquote>
 <p>##Allow root to run any commands anywhere<br>root    ALL=(ALL)     ALL</p>
 </blockquote>
@@ -268,24 +272,100 @@ classes that you can use:
 <blockquote>
 <p>git   ALL=(ALL)     ALL</p>
 </blockquote>
-<p>保存并退出后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 440 /etc/sudoers</div></pre></td></tr></table></figure></p>
-<h2 id="创建git仓库，并配置ssh登录"><a href="#创建git仓库，并配置ssh登录" class="headerlink" title="创建git仓库，并配置ssh登录"></a>创建git仓库，并配置ssh登录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">su git</div><div class="line">cd ~</div><div class="line">mkdir .ssh &amp;&amp; cd .ssh</div><div class="line">touch authorized_keys</div><div class="line">vi authorized_keys//在这个文件中粘贴进刚刚申请的key（在id_rsa.pub文件中）</div><div class="line">cd ~ </div><div class="line">mkdir hexo.git &amp;&amp; cd hexo.git</div><div class="line">git init --bare</div></pre></td></tr></table></figure>
-<h2 id="创建网站目录并赋予git对网站目录的所有权"><a href="#创建网站目录并赋予git对网站目录的所有权" class="headerlink" title="创建网站目录并赋予git对网站目录的所有权"></a>创建网站目录并赋予git对网站目录的所有权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /var/www</div><div class="line">mkdir hexo</div><div class="line">chown git:git -R /var/www/hexo</div></pre></td></tr></table></figure>
-<h2 id="配置git-hooks"><a href="#配置git-hooks" class="headerlink" title="配置git hooks"></a>配置git hooks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">su git</div><div class="line">cd /home/git/hexo.git/hooks</div><div class="line">vim post-receive</div></pre></td></tr></table></figure>
-<p>输入如下内容后保存退出，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">GIT_REPO=/home/git/hexo.git #git仓库</div><div class="line">TMP_GIT_CLONE=/tmp/hexo</div><div class="line">PUBLIC_WWW=/var/www/hexo #网站目录</div><div class="line">rm -rf $&#123;TMP_GIT_CLONE&#125;</div><div class="line">git clone $GIT_REPO $TMP_GIT_CLONE</div><div class="line">rm -rf $&#123;PUBLIC_WWW&#125;/*</div><div class="line">cp -rf $&#123;TMP_GIT_CLONE&#125;/* $&#123;PUBLIC_WWW&#125;</div></pre></td></tr></table></figure></p>
-<p>然后赋予脚本的执行权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod +x post-receive</div></pre></td></tr></table></figure></p>
-<h2 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">vi /etc/nginx/conf.d/hexo.conf</div><div class="line"></div><div class="line">插入如下代码：</div><div class="line">server &#123;</div><div class="line">    listen         80 ;</div><div class="line">    root /var/www/hexo;//这里可以改成你的网站目录地址，我将网站放在/var/www/hexo</div><div class="line">    server_name example.com www.example.com;//这里输入你的域名或IP地址</div><div class="line">    access_log  /var/log/nginx/hexo_access.log;</div><div class="line">    error_log   /var/log/nginx/hexo_error.log;</div><div class="line">    location ~* ^.+\.(ico|gif|jpg|jpeg|png)$ &#123;</div><div class="line">            root /var/www/hexo;</div><div class="line">            access_log   off;</div><div class="line">            expires      1d;</div><div class="line">    &#125;</div><div class="line">    location ~* ^.+\.(css|js|txt|xml|swf|wav)$ &#123;</div><div class="line">        root /var/www/hexo;</div><div class="line">        access_log   off;</div><div class="line">        expires      10m;</div><div class="line">    &#125;</div><div class="line">    location / &#123;</div><div class="line">        root /var/www/hexo;//这里可以改成你的网站目录地址，我将网站放在/var/www/hexo</div><div class="line">        if (-f $request_filename) &#123;</div><div class="line">            rewrite ^/(.*)$  /$1 break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>重启Nginx<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service nginx restart</div></pre></td></tr></table></figure></p>
-<h1 id="Github设置"><a href="#Github设置" class="headerlink" title="Github设置"></a>Github设置</h1><h2 id="设置SSH密钥-1"><a href="#设置SSH密钥-1" class="headerlink" title="设置SSH密钥"></a>设置SSH密钥</h2><p>首先同部署到VPS，需要在Github中设置SSH密钥。<br>使用<code>ssh-keygen</code>生成密钥并把<code>id_rsa.pub</code>中的公钥加入到github账户中<br>保留<code>id_rsa</code>文件到本地。<br>并且已经依照之前的文章创建了仓库。</p>
+<p>保存并退出后执行</p>
+<pre><code>chmod 440 /etc/sudoers
+</code></pre><h2 id="创建git仓库，并配置ssh登录"><a href="#创建git仓库，并配置ssh登录" class="headerlink" title="创建git仓库，并配置ssh登录"></a>创建git仓库，并配置ssh登录</h2><pre><code>su git
+cd ~
+mkdir .ssh &amp;&amp; cd .ssh
+touch authorized_keys
+vi authorized_keys//在这个文件中粘贴进刚刚申请的key（在id_rsa.pub文件中）
+cd ~ 
+mkdir hexo.git &amp;&amp; cd hexo.git
+git init --bare
+</code></pre><h2 id="创建网站目录并赋予git对网站目录的所有权"><a href="#创建网站目录并赋予git对网站目录的所有权" class="headerlink" title="创建网站目录并赋予git对网站目录的所有权"></a>创建网站目录并赋予git对网站目录的所有权</h2><pre><code>cd /var/www
+mkdir hexo
+chown git:git -R /var/www/hexo
+</code></pre><h2 id="配置git-hooks"><a href="#配置git-hooks" class="headerlink" title="配置git hooks"></a>配置git hooks</h2><pre><code>su git
+cd /home/git/hexo.git/hooks
+vim post-receive
+</code></pre><p>输入如下内容后保存退出，</p>
+<pre><code>#!/bin/bash
+GIT_REPO=/home/git/hexo.git #git仓库
+TMP_GIT_CLONE=/tmp/hexo
+PUBLIC_WWW=/var/www/hexo #网站目录
+rm -rf ${TMP_GIT_CLONE}
+git clone $GIT_REPO $TMP_GIT_CLONE
+rm -rf ${PUBLIC_WWW}/*
+cp -rf ${TMP_GIT_CLONE}/* ${PUBLIC_WWW}
+</code></pre><p>然后赋予脚本的执行权限</p>
+<pre><code>chmod +x post-receive
+</code></pre><h2 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h2><pre><code>vi /etc/nginx/conf.d/hexo.conf
+
+插入如下代码：
+server {
+    listen         80 ;
+    root /var/www/hexo;//这里可以改成你的网站目录地址，我将网站放在/var/www/hexo
+    server_name example.com www.example.com;//这里输入你的域名或IP地址
+    access_log  /var/log/nginx/hexo_access.log;
+    error_log   /var/log/nginx/hexo_error.log;
+    location ~* ^.+\.(ico|gif|jpg|jpeg|png)$ {
+            root /var/www/hexo;
+            access_log   off;
+            expires      1d;
+    }
+    location ~* ^.+\.(css|js|txt|xml|swf|wav)$ {
+        root /var/www/hexo;
+        access_log   off;
+        expires      10m;
+    }
+    location / {
+        root /var/www/hexo;//这里可以改成你的网站目录地址，我将网站放在/var/www/hexo
+        if (-f $request_filename) {
+            rewrite ^/(.*)$  /$1 break;
+        }
+    }
+}
+</code></pre><p>重启Nginx</p>
+<pre><code>service nginx restart
+</code></pre><h1 id="Github设置"><a href="#Github设置" class="headerlink" title="Github设置"></a>Github设置</h1><h2 id="设置SSH密钥-1"><a href="#设置SSH密钥-1" class="headerlink" title="设置SSH密钥"></a>设置SSH密钥</h2><p>首先同部署到VPS，需要在Github中设置SSH密钥。<br>使用<code>ssh-keygen</code>生成密钥并把<code>id_rsa.pub</code>中的公钥加入到github账户中<br>保留<code>id_rsa</code>文件到本地。<br>并且已经依照之前的文章创建了仓库。</p>
 <h1 id="本机设置"><a href="#本机设置" class="headerlink" title="本机设置"></a>本机设置</h1><blockquote>
 <p>如果使用<code>git</code>方式进行部署，执行<code>npm install hexo-deployer-git --save</code>来安装所需的插件</p>
 </blockquote>
-<h2 id="配置身份信息"><a href="#配置身份信息" class="headerlink" title="配置身份信息"></a>配置身份信息</h2><p>首先，你需要为自己配置身份信息，打开命令行，然后输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &quot;yourname&quot;</div><div class="line">git config --global user.email &quot;youremail&quot;</div></pre></td></tr></table></figure></p>
-<h2 id="配置本地SSH密钥"><a href="#配置本地SSH密钥" class="headerlink" title="配置本地SSH密钥"></a>配置本地SSH密钥</h2><p>将从VPS下载的<code>id_rsa</code>文件以及github的<code>id_rsa</code>放置于<code>C:\Users\userename\.ssh\</code>,<br>在Git安装目录下的<code>cmd</code>文件夹中新建<code>inital.bat</code>文件内容为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@echo off</div><div class="line">if not &quot;%SSH_AGENT_PID%&quot; == &quot;&quot; goto end</div><div class="line">for /f &quot;eol=; tokens=1,2 delims==;&quot; %%1 in (&apos;ssh-agent.exe&apos;) do (</div><div class="line"> if &quot;%%1&quot; == &quot;SSH_AUTH_SOCK&quot; set SSH_AUTH_SOCK=%%2</div><div class="line"> if &quot;%%1&quot; == &quot;SSH_AGENT_PID&quot; set SSH_AGENT_PID=%%2</div><div class="line">)</div><div class="line">ssh-add /C/Users/usrename/.ssh/id_rsa #放置id_rsa的位置，注意路径写法</div><div class="line">ssh-add /C/Users/usrename/.ssh/id_rsa_github #github</div><div class="line">ssh-add -l</div><div class="line">:end</div></pre></td></tr></table></figure></p>
-<p>如果在<code>git bash</code>中依次输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">eval $(ssh-agent -s)</div><div class="line">ssh-add ~/.ssh/id_rsa #放置id_rsa的位置，注意路径写法</div><div class="line">ssh-add ~/.ssh/id_rsa_github #github</div><div class="line">ssh git@VPS的IP地址</div><div class="line">## or</div><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
-<p>能够远程登录的话，则表示设置成功了。</p>
-<h2 id="配置hexo配置文件"><a href="#配置hexo配置文件" class="headerlink" title="配置hexo配置文件"></a>配置hexo配置文件</h2><p>位于<code>hexo</code>文件夹下，<code>_config.yml</code>,修改<code>deploy</code>选项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  message: update</div><div class="line">  repo:</div><div class="line">    s1: git@VPS的ip地址或域名:git仓库地址,master</div><div class="line">##例如</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  message: update</div><div class="line">  repo:</div><div class="line">    s1: git@192.234.35.236:hexo.git,master</div></pre></td></tr></table></figure></p>
-<p>deploy可以多个参数，即：可以同时<code>push</code>到github和VPS</p>
+<h2 id="配置身份信息"><a href="#配置身份信息" class="headerlink" title="配置身份信息"></a>配置身份信息</h2><p>首先，你需要为自己配置身份信息，打开命令行，然后输入：</p>
+<pre><code>git config --global user.name &quot;yourname&quot;
+git config --global user.email &quot;youremail&quot;
+</code></pre><h2 id="配置本地SSH密钥"><a href="#配置本地SSH密钥" class="headerlink" title="配置本地SSH密钥"></a>配置本地SSH密钥</h2><p>将从VPS下载的<code>id_rsa</code>文件以及github的<code>id_rsa</code>放置于<code>C:\Users\userename\.ssh\</code>,<br>在Git安装目录下的<code>cmd</code>文件夹中新建<code>inital.bat</code>文件内容为</p>
+<pre><code>@echo off
+if not &quot;%SSH_AGENT_PID%&quot; == &quot;&quot; goto end
+for /f &quot;eol=; tokens=1,2 delims==;&quot; %%1 in (&#39;ssh-agent.exe&#39;) do (
+ if &quot;%%1&quot; == &quot;SSH_AUTH_SOCK&quot; set SSH_AUTH_SOCK=%%2
+ if &quot;%%1&quot; == &quot;SSH_AGENT_PID&quot; set SSH_AGENT_PID=%%2
+)
+ssh-add /C/Users/usrename/.ssh/id_rsa #放置id_rsa的位置，注意路径写法
+ssh-add /C/Users/usrename/.ssh/id_rsa_github #github
+ssh-add -l
+:end
+</code></pre><p>如果在<code>git bash</code>中依次输入</p>
+<pre><code>eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa #放置id_rsa的位置，注意路径写法
+ssh-add ~/.ssh/id_rsa_github #github
+ssh git@VPS的IP地址
+## or
+ssh -T git@github.com
+</code></pre><p>能够远程登录的话，则表示设置成功了。</p>
+<h2 id="配置hexo配置文件"><a href="#配置hexo配置文件" class="headerlink" title="配置hexo配置文件"></a>配置hexo配置文件</h2><p>位于<code>hexo</code>文件夹下，<code>_config.yml</code>,修改<code>deploy</code>选项</p>
+<pre><code> deploy:
+   type: git
+   message: update
+   repo:
+     s1: git@VPS的ip地址或域名:git仓库地址,master
+ ##例如
+ deploy:
+   type: git
+   message: update
+   repo:
+     s1: git@192.234.35.236:hexo.git,master
+</code></pre><p>deploy可以多个参数，即：可以同时<code>push</code>到github和VPS</p>
 <h1 id="更新Hexo"><a href="#更新Hexo" class="headerlink" title="更新Hexo"></a>更新Hexo</h1><p>接着在<code>hexo</code>文件夹内，打开命令行，首先运行<code>inital.bat</code>，再运行<code>hexo g -d</code>，如果一切正常，静态文件已经被成功的<code>push</code>到了<code>blog</code>的仓库里，如果出现<code>appears not to be a git repo</code>的错误，删除<code>hexo</code>目录下的<code>.deploy</code>后再次<code>hexo g -d</code>就可以了。</p>
 <p>Reference：</p>
 <blockquote>
@@ -312,6 +392,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

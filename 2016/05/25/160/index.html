@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://colascarlet.moe/uploads/img/160/linux01.png">
 <meta property="og:image" content="http://colascarlet.moe/uploads/img/160/linux02.png">
 <meta property="og:image" content="http://colascarlet.moe/uploads/img/160/win01.gif">
-<meta property="og:updated_time" content="2016-09-29T10:03:45.506Z">
+<meta property="og:updated_time" content="2016-11-21T17:32:31.183Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Setup Windows10/Office 2016 Vol KMS Server | Cola's Memory">
 <meta name="twitter:description" content="VLMCSD - KMS Emulator in C (currently runs on Linux including Android, FreeBSD, Solaris, Minix, Mac OS, iOS, Windows with or without Cygwin)">
@@ -38,9 +38,10 @@
     
     <link rel="stylesheet" href="/css/animsition.min.css">
     <link rel="stylesheet" href="/css/uno.css">
-    <link rel="stylesheet" href="/css/highlight.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
 
 </head>
 <body>
@@ -250,53 +251,43 @@ classes that you can use:
     <p>VLMCSD - KMS Emulator in C (currently runs on Linux including Android, FreeBSD, Solaris, Minix, Mac OS, iOS, Windows with or without Cygwin)<br><a id="more"></a></p>
 <h1 id="下载最新执行包"><a href="#下载最新执行包" class="headerlink" title="下载最新执行包"></a>下载最新执行包</h1><p><a href="http://rgho.st/85dkZR2l6" target="_blank" rel="external">KMS Server</a></p>
 <h1 id="搭建激活服务器"><a href="#搭建激活服务器" class="headerlink" title="搭建激活服务器"></a>搭建激活服务器</h1><h2 id="搭建苹果MacOSX的服务器"><a href="#搭建苹果MacOSX的服务器" class="headerlink" title="搭建苹果MacOSX的服务器"></a>搭建苹果MacOSX的服务器</h2><p>为简化命令<br>先将 <code>vlmcsd-svn796-2015-07-18-Hotbird64/binaries/MacOSX/intel/vlmcsd-MacOSX-x64</code>文件改名为<code>kms-server</code><br>将<code>kms-server</code>复制放到<code>/usr/bin/kms-server</code></p>
-<blockquote>
-<p>sudo cp vlmcsd-svn796-2015-07-18-Hotbird64/binaries/MacOSX/intel/vlmcsd-MacOSX-x64 /usr/bin/kms-server</p>
-</blockquote>
-<p>修改<code>/usr/bin/kms-server</code>权限为 755</p>
-<blockquote>
-<p>sudo chmod 755 /usr/bin/kms-server</p>
-</blockquote>
-<p>a.手动启动 KMS 服务器<br>直接执行<code>/usr/bin/kms-server</code><br><img src="/uploads/img/160/macos01.png" alt="Mac01.png"><br>b.开机自动启动 KMS 服务器</p>
-<blockquote>
-<p>sudo cp com.kms.server.plist /Library/LaunchDaemons/com.kms.server.plist<br>sudo chmod 755 /Library/LaunchDaemons/com.kms.server.plist</p>
-</blockquote>
-<p>即可 设置 开机自动启动 KMS server<br>确认 IP 位址<code>ifconfig</code>，如 192.168.0.3</p>
+<pre><code>sudo cp vlmcsd-svn796-2015-07-18-Hotbird64/binaries/MacOSX/intel/vlmcsd-MacOSX-x64 /usr/bin/kms-server
+</code></pre><p>修改<code>/usr/bin/kms-server</code>权限为 755</p>
+<pre><code>sudo chmod 755 /usr/bin/kms-server
+</code></pre><p>a.手动启动 KMS 服务器<br>直接执行<code>/usr/bin/kms-server</code><br><img src="/uploads/img/160/macos01.png" alt="Mac01.png"><br>b.开机自动启动 KMS 服务器</p>
+<pre><code>sudo cp com.kms.server.plist /Library/LaunchDaemons/com.kms.server.plist
+sudo chmod 755 /Library/LaunchDaemons/com.kms.server.plist
+</code></pre><p>即可 设置 开机自动启动 KMS server<br>确认 IP 位址<code>ifconfig</code>，如 192.168.0.3</p>
 <h2 id="搭建Linux的服务器"><a href="#搭建Linux的服务器" class="headerlink" title="搭建Linux的服务器"></a>搭建Linux的服务器</h2><p>为简化命令(假设为 x64 版本)<br>先将 <code>vlmcsd-svn796-2015-07-18-Hotbird64/binaries/Linux/intel/static/vlmcsd-x64-musl-static</code>文件改名为<code>kms-server</code><br>将<code>kms-server</code>复制放到<code>/usr/bin/kms-server</code></p>
-<blockquote>
-<p>sudo vlmcsd-svn796-2015-07-18-Hotbird64/binaries/Linux/intel/static/vlmcsd-x64-musl-static /usr/bin/kms-server</p>
-</blockquote>
-<p>修改<code>/usr/bin/kms-server</code>权限为755</p>
-<blockquote>
-<p>sudo chmod 755 /usr/bin/kms-server</p>
-</blockquote>
-<p>a.手动启动 KMS 服务器<br>直接执行’/usr/bin/kms-server’<br><img src="/uploads/img/160/linux01.png" alt="Linux01.png"><br>b.开机自动启动 KMS 服务器<br>将<code>/usr/bin/kms-server</code>加入<code>/etc/rc.local</code>的最后一段</p>
-<blockquote>
-<p>sudo cp rc.local /etc/rc.local<br>sudo chmod 755 /etc/rc.local</p>
-</blockquote>
-<p>即可 设置 开机自动启动 KMS server<br><img src="/uploads/img/160/linux02.png" alt="Linux01.png"><br>确认 IP 位址<code>ifconfig</code>，如 192.168.0.3</p>
+<pre><code>sudo vlmcsd-svn796-2015-07-18-Hotbird64/binaries/Linux/intel/static/vlmcsd-x64-musl-static /usr/bin/kms-server
+</code></pre><p>修改<code>/usr/bin/kms-server</code>权限为755</p>
+<pre><code>sudo chmod 755 /usr/bin/kms-server
+</code></pre><p>a.手动启动 KMS 服务器<br>直接执行’/usr/bin/kms-server’<br><img src="/uploads/img/160/linux01.png" alt="Linux01.png"><br>b.开机自动启动 KMS 服务器<br>将<code>/usr/bin/kms-server</code>加入<code>/etc/rc.local</code>的最后一段</p>
+<pre><code>sudo cp rc.local /etc/rc.local
+sudo chmod 755 /etc/rc.local
+</code></pre><p>即可 设置 开机自动启动 KMS server<br><img src="/uploads/img/160/linux02.png" alt="Linux01.png"><br>确认 IP 位址<code>ifconfig</code>，如 192.168.0.3</p>
 <h2 id="搭建Windows的服务器"><a href="#搭建Windows的服务器" class="headerlink" title="搭建Windows的服务器"></a>搭建Windows的服务器</h2><p>Windows版本 支持 XP, Win7, Win8, Win8.1, 但是不支持Win10。<br>x64=64位版本，x86=32位版本。<br>为简化命令(假设为 x64 版本)<br>先将<code>vlmcsd-svn796-2015-07-18-Hotbird64/binaries/Windows/intel/vlmcsd-Windows-x64.exe</code>文件改名为<code>kms-server.exe</code><br>将<code>kms-server.exe</code>复制放到<code>C:\Windows\System32\kms-server.exe</code><br>用管理员权限开启CMD(CMD-X;A)</p>
-<blockquote>
-<p>copy Windows/intel/vlmcsd-Windows-x64.exe C:\ Windows\System32\kms-server.exe</p>
-</blockquote>
-<p>开机自动启动 KMS 服务器<br>(小写 -s 为安装服务器，大写 -S 为移除服务器)</p>
-<blockquote>
-<p>C:\Windows\System32\kms-server.exe -s</p>
-</blockquote>
-<p>重新启动电脑，开机 即可 自动启动 KMS server<br><img src="/uploads/img/160/win01.gif" alt="win01.png"><br>确认 IP 位址<code>ipconfig</code>，如 192.168.0.3<br>Windows必须关闭防火墙，或是自行爬文学习加入<code>C:\ Windows\System32\kms-server.exe</code>的TCP的1688端口到防火墙，才能提供其他计算机连接到KMS服务器。</p>
-<h1 id="激活Windows或Office"><a href="#激活Windows或Office" class="headerlink" title="激活Windows或Office"></a>激活Windows或Office</h1><h2 id="激活Windows"><a href="#激活Windows" class="headerlink" title="激活Windows"></a>激活Windows</h2><blockquote>
-<p>slmgr.vbs -upk<br>slmgr.vbs -ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX<br>slmgr.vbs -skms 192.168.0.3<br>slmgr.vbs -ato<br>slmgr.vbs -dlv</p>
-</blockquote>
-<p>其他 win8, win8.1 一样都可以使用 KMS 激活。<br>不过，激活的 key 就要自己找了。</p>
+<pre><code>copy Windows/intel/vlmcsd-Windows-x64.exe C:\ Windows\System32\kms-server.exe
+</code></pre><p>开机自动启动 KMS 服务器<br>(小写 -s 为安装服务器，大写 -S 为移除服务器)</p>
+<pre><code>C:\Windows\System32\kms-server.exe -s
+</code></pre><p>重新启动电脑，开机 即可 自动启动 KMS server<br><img src="/uploads/img/160/win01.gif" alt="win01.png"><br>确认 IP 位址<code>ipconfig</code>，如 192.168.0.3<br>Windows必须关闭防火墙，或是自行爬文学习加入<code>C:\ Windows\System32\kms-server.exe</code>的TCP的1688端口到防火墙，才能提供其他计算机连接到KMS服务器。</p>
+<h1 id="激活Windows或Office"><a href="#激活Windows或Office" class="headerlink" title="激活Windows或Office"></a>激活Windows或Office</h1><h2 id="激活Windows"><a href="#激活Windows" class="headerlink" title="激活Windows"></a>激活Windows</h2><pre><code>slmgr.vbs -upk
+slmgr.vbs -ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+slmgr.vbs -skms 192.168.0.3
+slmgr.vbs -ato
+slmgr.vbs -dlv
+</code></pre><p>其他 win8, win8.1 一样都可以使用 KMS 激活。<br>不过，激活的 key 就要自己找了。</p>
 <h2 id="激活Office-2013-Vol版"><a href="#激活Office-2013-Vol版" class="headerlink" title="激活Office 2013 Vol版"></a>激活Office 2013 Vol版</h2><p>Office 2010 Vol + Office 2013 Vol + Office 2016 Vol通用激活方式<br>用管理员权限 开启CMD</p>
-<blockquote>
-<p>C:<br>cd “C:\Program Files\Microsoft Office\Office15\”<br>cscript ospp.vbs /sethst:192.168.0.3<br>cscript ospp.vbs /act</p>
-</blockquote>
-<p>按照安装的Office 2010, 2013, x86, x64 版本，自行修改成 正确的路径</p>
-<blockquote>
-<p>C:\Program Files\Microsoft Office\Office14\<br>C:\Program Files (x86)\Microsoft Office\Office14\<br>C:\Program Files\Microsoft Office\Office15\<br>C:\Program Files (x86)\Microsoft Office\Office15\</p>
-</blockquote>
-<h1 id="Windows-Clients-KMS-Client-Key-GVLK"><a href="#Windows-Clients-KMS-Client-Key-GVLK" class="headerlink" title="Windows Clients KMS Client Key (GVLK)"></a>Windows Clients KMS Client Key (GVLK)</h1><p>自行选用Windows 10/8.1/8/7 Office2016版本的GVLK</p>
+<pre><code>C:
+cd &quot;C:\Program Files\Microsoft Office\Office15\&quot;
+cscript ospp.vbs /sethst:192.168.0.3
+cscript ospp.vbs /act
+</code></pre><p>按照安装的Office 2010, 2013, x86, x64 版本，自行修改成 正确的路径</p>
+<pre><code>C:\Program Files\Microsoft Office\Office14\
+C:\Program Files (x86)\Microsoft Office\Office14\
+C:\Program Files\Microsoft Office\Office15\
+C:\Program Files (x86)\Microsoft Office\Office15\
+</code></pre><h1 id="Windows-Clients-KMS-Client-Key-GVLK"><a href="#Windows-Clients-KMS-Client-Key-GVLK" class="headerlink" title="Windows Clients KMS Client Key (GVLK)"></a>Windows Clients KMS Client Key (GVLK)</h1><p>自行选用Windows 10/8.1/8/7 Office2016版本的GVLK</p>
 <table>
 <thead>
 <tr>
@@ -486,6 +477,13 @@ classes that you can use:
     <script src="/js/main.js"></script>
     <script src="/js/scale.fix.js"></script>
     <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     

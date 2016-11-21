@@ -55,9 +55,10 @@
     <% } %>
     <%- css('css/animsition.min.css') %>
     <%- css('css/uno.css') %>
-    <%- css('css/highlight') %>
+<!---    <%- css('css/highlight') %> --->
     <%- css('css/archive.css') %>
     <%- css('css/china-social-icon.css') %>
+    <%- css('css/prettify.css') %>
 
 </head>
 <body>
@@ -84,6 +85,13 @@
     <script src="<%- config.root %>js/main.js"></script>
     <script src="<%- config.root %>js/scale.fix.js"></script>
     <script src="<%- config.root %>js/animsition.min.js"></script>
+    <script src="<%- config.root %>js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
     
 
     <%- partial('_scripts/mathjax') %>

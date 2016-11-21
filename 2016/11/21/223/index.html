@@ -7,7 +7,7 @@
     
 
     <title>
-      223 | Cola&#39;s Memory 
+      如何优雅的控制线程状态 | Cola&#39;s Memory 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -18,13 +18,13 @@
 
     <meta name="description" content="先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.再问读者">
 <meta property="og:type" content="article">
-<meta property="og:title" content="223 | Cola's Memory">
+<meta property="og:title" content="如何优雅的控制线程状态 | Cola's Memory">
 <meta property="og:url" content="http://colascarlet.moe/2016/11/21/223/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.再问读者">
-<meta property="og:updated_time" content="2016-11-21T14:56:41.650Z">
+<meta property="og:updated_time" content="2016-11-21T15:08:34.195Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="223 | Cola's Memory">
+<meta name="twitter:title" content="如何优雅的控制线程状态 | Cola's Memory">
 <meta name="twitter:description" content="先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.再问读者">
     
     
@@ -216,7 +216,7 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h0 class="post-title">223</h0>
+    <h0 class="post-title">如何优雅的控制线程状态</h0>
 
     
 

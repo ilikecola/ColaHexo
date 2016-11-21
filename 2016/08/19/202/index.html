@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="编译环境：Ubuntu14.04依赖库musl-1.1.14目标环境:OS:DD-WRT 3.0CPU:BCM 5300MIPS 74Kc
 交叉编译工具包：OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64ShadowsocksR-libev源码：https://github.com/breakwa11/sha">
-<meta property="og:updated_time" content="2016-09-26T02:38:11.759Z">
+<meta property="og:updated_time" content="2016-11-21T16:16:35.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DD-WRTv3.0 EA6500 Ubuntu14.04 CrossCompile ShadowsocksR-libev | Cola's Memory">
 <meta name="twitter:description" content="编译环境：Ubuntu14.04依赖库musl-1.1.14目标环境:OS:DD-WRT 3.0CPU:BCM 5300MIPS 74Kc
@@ -231,7 +231,7 @@ classes that you can use:
           
             <font class="categories">
             &#8226; 分类:
-            <a class="categories-link" href="/categories/Ariticle/">Ariticle</a>
+            <a class="categories-link" href="/categories/Article/">Article</a>
             </font>
           
 
@@ -253,64 +253,22 @@ classes that you can use:
 <li>编译zlib</li>
 <li>编译shadowsocksR-libev</li>
 </ul>
-<h1 id="配置编译环境"><a href="#配置编译环境" class="headerlink" title="配置编译环境"></a>配置编译环境</h1><p>必要package</p>
-<blockquote>
-<p>sudo apt-get install build-essential autoconf libtool libssl-dev</p>
-</blockquote>
-<p>配置系统变量</p>
-<blockquote>
-<p>export STAGING_DIR=/path/to/toolchain<br>export PATH=$PATH:/path/to/toolchain/bin<br>export CC=mipsel-openwrt-linux-musl-gcc<br>export CXX=mipsel-openwrt-linux-musl-g++<br>export AR=mipsel-openwrt-linux-musl-ar<br>export RANLIB=mipsel-openwrt-linux-musl-ranli<br>export CHOST=mipsel-openwrt-linux-musl-gcc</p>
-</blockquote>
+<h1 id="配置编译环境"><a href="#配置编译环境" class="headerlink" title="配置编译环境"></a>配置编译环境</h1><p>必要package<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">sudo</span> apt-<span class="meta">get</span> install <span class="keyword">build-essential </span>autoconf libtool libssl-dev</div></pre></td></tr></table></figure></p>
+<p>配置系统变量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> STAGING_DIR=<span class="regexp">/path/</span>to/toolchain</div><div class="line"><span class="keyword">export</span> PATH=$PATH:<span class="regexp">/path/</span>to/toolchain/bin</div><div class="line"><span class="keyword">export</span> CC=mipsel-openwrt-linux-musl-gcc</div><div class="line"><span class="keyword">export</span> CXX=mipsel-openwrt-linux-musl-g++</div><div class="line"><span class="keyword">export</span> AR=mipsel-openwrt-linux-musl-ar</div><div class="line"><span class="keyword">export</span> RANLIB=mipsel-openwrt-linux-musl-ranli </div><div class="line"><span class="keyword">export</span> CHOST=mipsel-openwrt-linux-musl-gcc</div></pre></td></tr></table></figure></p>
 <p>其中CHOST用于Zlib</p>
-<h1 id="编译openssl"><a href="#编译openssl" class="headerlink" title="编译openssl"></a>编译openssl</h1><p>因为目标环境是MIPS架构所以要给OpenSSL加上MIPS补丁<br><a href="https://github.com/OpenMandrivaAssociation/openssl" target="_blank" rel="external">https://github.com/OpenMandrivaAssociation/openssl</a><br>执行</p>
-<blockquote>
-<p>patch -Np1 -i openssl-1.0.2a-mips_support-1.patch</p>
-</blockquote>
-<p>接下来解决缺少 uClibc 才需要的 termio.h 头文件的问题。因为我们现在使用的是musl，所以首先在 Configure 文件中将 -DTERMIO 改为 -DTERMIOS<br>然后修改 OpenSSL 源码中 ./crypto/ui/ui_openssl.c 文件，在下面一行（222行）</p>
-<blockquote>
-<p>#ifdef TERMIOS</p>
-</blockquote>
-<p>前加入以下内容</p>
-<blockquote>
-<p>#define TERMIOS<br>#undef TERMIO<br>#undef SGTTY</p>
-</blockquote>
-<p>生成Makefile</p>
-<blockquote>
-<p>./Configure linux-mipsel –prefix=/path/to/install/openssl no-asm no-shared</p>
-</blockquote>
-<p>默认会生成静态库文件 (.a), 如果需要编译成动态库 (.so), 加上 shared 参数<br>修改 Makefile:<br>将 CC = gcc 改为</p>
-<blockquote>
-<p>CC = mipsel-openwrt-linux-musl-gcc</p>
-</blockquote>
-<p>修改 crypto/modes/Makefile<br>将26-27行</p>
-<blockquote>
-<p>LIBOBJ= cbc128.o ctr128.o cts128.o cfb128.o ofb128.o gcm128.o<br>ccm128.o xts128.o $(MODES_ASM_OBJ)</p>
-</blockquote>
+<h1 id="编译openssl"><a href="#编译openssl" class="headerlink" title="编译openssl"></a>编译openssl</h1><p>因为目标环境是MIPS架构所以要给OpenSSL加上MIPS补丁<br><a href="https://github.com/OpenMandrivaAssociation/openssl" target="_blank" rel="external">https://github.com/OpenMandrivaAssociation/openssl</a><br>执行<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">patch</span> <span class="selector-tag">-Np1</span> <span class="selector-tag">-i</span> <span class="selector-tag">openssl-1</span><span class="selector-class">.0</span><span class="selector-class">.2a-mips_support-1</span><span class="selector-class">.patch</span></div></pre></td></tr></table></figure></p>
+<p>接下来解决缺少 uClibc 才需要的 termio.h 头文件的问题。因为我们现在使用的是musl，所以首先在 Configure 文件中将 -DTERMIO 改为 -DTERMIOS<br>然后修改 OpenSSL 源码中 ./crypto/ui/ui_openssl.c 文件，在下面一行（222行）<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ifdef</span> TERMIOS</div></pre></td></tr></table></figure></p>
+<p>前加入以下内容<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">define</span> <span class="section">TERMIOS</span></div><div class="line">undef TERMIO</div><div class="line">undef SGTTY</div></pre></td></tr></table></figure></p>
+<p>生成Makefile<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./Configure linux-mipsel --prefix=<span class="regexp">/path/to</span><span class="regexp">/install/openssl</span> no-<span class="keyword">asm</span> no-shared</div></pre></td></tr></table></figure></p>
+<p>默认会生成静态库文件 (.a), 如果需要编译成动态库 (.so), 加上 shared 参数<br>修改 Makefile:<br>将 CC = gcc 改为<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">CC</span> = mipsel-openwrt-linux-musl-gcc</div></pre></td></tr></table></figure></p>
+<p>修改 crypto/modes/Makefile<br>将26-27行<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LIBOBJ= cbc128<span class="selector-class">.o</span> ctr128<span class="selector-class">.o</span> cts128<span class="selector-class">.o</span> cfb128<span class="selector-class">.o</span> ofb128<span class="selector-class">.o</span> gcm128<span class="selector-class">.o</span></div><div class="line">ccm128<span class="selector-class">.o</span> xts128<span class="selector-class">.o</span> $(MODES_ASM_OBJ)</div></pre></td></tr></table></figure></p>
 <p>$(MODES_ASM_OBJ)删除<br>执行make &amp;&amp; make install<br>如有错误，尝试make clean后重新编译</p>
-<h1 id="编译zlib"><a href="#编译zlib" class="headerlink" title="编译zlib"></a>编译zlib</h1><p>下载zlib1.2.8</p>
-<blockquote>
-<p>wget <a href="http://downloads.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz" target="_blank" rel="external">http://downloads.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz</a><br>tar -zxvf zlib-1.2.8.tar.gz<br>mkdir zlib<br>cd zlib-1.2.8</p>
-</blockquote>
-<p>配置makefile，静态编译</p>
-<blockquote>
-<p>./configure –prefix=/path/to/install/zlib –static</p>
-</blockquote>
-<p>编译</p>
-<blockquote>
-<p>make &amp;&amp; make install</p>
-</blockquote>
-<h1 id="编译shadowsocksR-libev"><a href="#编译shadowsocksR-libev" class="headerlink" title="编译shadowsocksR-libev"></a>编译shadowsocksR-libev</h1><p>执行</p>
-<blockquote>
-<p>git clone <a href="https://github.com/breakwa11/shadowsocks-libev" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-libev</a><br>cd shadowsocks-libev</p>
-</blockquote>
-<p>配置Makefile,静态编译</p>
-<blockquote>
-<p>./configure –prefix=/path/to/install/ss-libev –with-openssl=/path/to/openssl –with-zlib=/path/to/zlib –with-zlib-include=/path/to/zlib –with-zlib-lib=/path/to/zlib –host=mipsel-openwrt-linux-musl –enable-static</p>
-</blockquote>
-<p>编译</p>
-<blockquote>
-<p>make ; make install</p>
-</blockquote>
+<h1 id="编译zlib"><a href="#编译zlib" class="headerlink" title="编译zlib"></a>编译zlib</h1><p>下载zlib1.2.8<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http:<span class="comment">//downloads.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz</span></div><div class="line">tar -zxvf zlib-<span class="number">1.2</span>.<span class="number">8</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div><div class="line">mkdir zlib</div><div class="line">cd zlib-<span class="number">1.2</span>.<span class="number">8</span></div></pre></td></tr></table></figure></p>
+<p>配置makefile，静态编译<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/configure --prefix=/</span>path<span class="regexp">/to/</span>install/zlib --<span class="keyword">static</span></div></pre></td></tr></table></figure></p>
+<p>编译<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make <span class="variable">&amp;amp</span>;<span class="variable">&amp;amp</span>; make install</div></pre></td></tr></table></figure></p>
+<h1 id="编译shadowsocksR-libev"><a href="#编译shadowsocksR-libev" class="headerlink" title="编译shadowsocksR-libev"></a>编译shadowsocksR-libev</h1><p>执行<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/breakwa11/shadowsocks-libev</div><div class="line">cd shadowsocks-libev</div></pre></td></tr></table></figure></p>
+<p>配置Makefile,静态编译<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=<span class="regexp">/path/to</span><span class="regexp">/install/ss</span>-libev --<span class="keyword">with</span>-openssl=<span class="regexp">/path/to</span><span class="regexp">/openssl --with-zlib=/path</span><span class="regexp">/to/zlib</span> --<span class="keyword">with</span>-zlib-<span class="keyword">include</span>=<span class="regexp">/path/to</span><span class="regexp">/zlib --with-zlib-lib=/path</span><span class="regexp">/to/zlib</span> --host=mipsel-openwrt-linux-musl --enable-static</div></pre></td></tr></table></figure></p>
+<p>编译<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">make</span> ; <span class="built_in">make</span> install</div></pre></td></tr></table></figure></p>
 <p>引用参考：</p>
 <blockquote>
 <p><a href="http://www.cnblogs.com/lovelylife/p/3517333.html" target="_blank" rel="external">http://www.cnblogs.com/lovelylife/p/3517333.html</a><br><a href="https://ilmvfx.wordpress.com/2015/12/02/update-crosstool-ng-1-2-2-cross-compile-shadowsocks-libev-2-4-1-netcore-q3-asus-rt-n16-n66u/" target="_blank" rel="external">https://ilmvfx.wordpress.com/2015/12/02/update-crosstool-ng-1-2-2-cross-compile-shadowsocks-libev-2-4-1-netcore-q3-asus-rt-n16-n66u/</a><br><a href="https://ilmvfx.wordpress.com/2015/09/09/tomato-enabled-1-2-8-v131-rounter-netcore-q3-with-shadowsocks-2-3-1-server/" target="_blank" rel="external">https://ilmvfx.wordpress.com/2015/09/09/tomato-enabled-1-2-8-v131-rounter-netcore-q3-with-shadowsocks-2-3-1-server/</a><br><a href="https://ilmvfx.wordpress.com/2016/03/25/crosstool-ng-1-2-2-and-shadowsocks-2-4-5-cross-compile/" target="_blank" rel="external">https://ilmvfx.wordpress.com/2016/03/25/crosstool-ng-1-2-2-and-shadowsocks-2-4-5-cross-compile/</a><br><a href="https://blog.bydell.com/posts/cross_complie_shadowsocks_for_dd-wrt__r6300v2/#comment-3" target="_blank" rel="external">https://blog.bydell.com/posts/cross_complie_shadowsocks_for_dd-wrt__r6300v2/#comment-3</a><br><a href="http://www.jianshu.com/p/b1a8443dbe5f" target="_blank" rel="external">http://www.jianshu.com/p/b1a8443dbe5f</a><br><a href="http://phaibin.tk/2015/05/08/ea6500shua-dd-wrt" target="_blank" rel="external">http://phaibin.tk/2015/05/08/ea6500shua-dd-wrt</a><br><a href="http://sagan.me/post/openwrt-jiao-cha-bian-yi-openssl-ku" target="_blank" rel="external">http://sagan.me/post/openwrt-jiao-cha-bian-yi-openssl-ku</a><br><a href="http://tiebing.blogspot.jp/2010/12/compile-openssl-for-linux-mips.html" target="_blank" rel="external">http://tiebing.blogspot.jp/2010/12/compile-openssl-for-linux-mips.html</a><br><a href="http://www.right.com.cn/forum/thread-158405-1-1.html" target="_blank" rel="external">http://www.right.com.cn/forum/thread-158405-1-1.html</a><br><a href="https://github.com/breakwa11/shadowsocks-libev" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-libev</a><br><a href="https://github.com/OpenMandrivaAssociation/openssl" target="_blank" rel="external">https://github.com/OpenMandrivaAssociation/openssl</a></p>

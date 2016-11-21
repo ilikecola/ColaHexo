@@ -38,7 +38,7 @@
 编译加载TPROXY.ko模块
 更新iptables
 转发UDP">
-<meta property="og:updated_time" content="2016-09-26T02:38:22.928Z">
+<meta property="og:updated_time" content="2016-11-21T16:23:32.578Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shadowsocks-libev 进阶使用（基于Jffs） | Cola's Memory">
 <meta name="twitter:description" content="主要顺序
@@ -252,7 +252,7 @@ classes that you can use:
           
             <font class="categories">
             &#8226; 分类:
-            <a class="categories-link" href="/categories/Ariticle/">Ariticle</a>
+            <a class="categories-link" href="/categories/Article/">Article</a>
             </font>
           
 
@@ -279,140 +279,40 @@ classes that you can use:
 </ul>
 </li>
 </ul>
-<h1 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h1><p>在路由器web管理页面打开jffs加载模式<br>使用WinSCP或Xshell将SS-local，ss-redir，ss-tunnel上传至jffs目录,并赋予可执行权限</p>
-<blockquote>
-<p>chmod a+x ss-*</p>
-</blockquote>
-<h1 id="配置json文件"><a href="#配置json文件" class="headerlink" title="配置json文件"></a>配置json文件</h1><p>使用shadowsocks-libev有2种方式<br>1.直接指令参数</p>
-<blockquote>
-<p>-o [obfs混淆协议] -O [protocol协议] -g [obfsparam混淆参数] -s [服务器地址] -p [服务器端口] -l [本地监听端口] -b [本地监听地址] -k [SS密码] -m [加密方式]</p>
-</blockquote>
-<p>2.采用json文件参数<br>输入</p>
-<blockquote>
-<p>nano ./ss-config.json</p>
-</blockquote>
-<p>写入以下参数</p>
-<blockquote>
-<p>{<br>“server”:”xxx.xxx.xxx.xxx”,<br>“server_port”:xxxx,<br>“local_address”:”xxx.xxx.xxx.xxx”,<br>“local_port”:xxxx,<br>“password”:”xxx”,<br>“timeout”:60,<br>“method”:”xxxx”,<br>“encrypt_method”:”xxxx”,<br>“protocol”:”xxxx”,<br>“obfs”:”xxxx”<br>}</p>
-</blockquote>
-<h1 id="使用socks5协议"><a href="#使用socks5协议" class="headerlink" title="使用socks5协议"></a>使用socks5协议</h1><p>直接在路由上搭建socks5协议接口<br>在SHELL上输入:</p>
-<blockquote>
-<p>./ss-local -o [obfs混淆协议] -O [protocol协议] -g [obfsparam混淆参数] -s [服务器地址] -p [服务器端口] -l [本地监听端口] -b [本地监听地址] -k [SS密码] -m [加密方式]</p>
-</blockquote>
-<h1 id="直接转发TCP"><a href="#直接转发TCP" class="headerlink" title="直接转发TCP"></a>直接转发TCP</h1><p>在SHELL上输入:</p>
-<blockquote>
-<p>./ss-redir -c ./ss-config.json -f /var/run/ss-redir.pid</p>
-</blockquote>
-<p>并在iptables上增加如下规则</p>
-<blockquote>
-<p>iptables -t nat -N shadowsocks<br>iptables -t nat -A shadowsocks -p tcp -d xx.xx.xx.xx/xx -j REDIRECT –to-ports xxxx<br>iptables -t nat -A shadowsocks -p tcp -j RETURN<br>iptables -t nat -A PREROUTING -p tcp -j shadowsocks</p>
-</blockquote>
+<h1 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h1><p>在路由器web管理页面打开jffs加载模式<br>使用WinSCP或Xshell将SS-local，ss-redir，ss-tunnel上传至jffs目录,并赋予可执行权限<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod <span class="keyword">a</span>+x ss-*</div></pre></td></tr></table></figure></p>
+<h1 id="配置json文件"><a href="#配置json文件" class="headerlink" title="配置json文件"></a>配置json文件</h1><p>使用shadowsocks-libev有2种方式<br>1.直接指令参数<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-o <span class="string">[obfs混淆协议]</span> -O <span class="string">[protocol协议]</span> -g <span class="string">[obfsparam混淆参数]</span> -s <span class="string">[服务器地址]</span> -p <span class="string">[服务器端口]</span> -l <span class="string">[本地监听端口]</span> -b <span class="string">[本地监听地址]</span> -k <span class="string">[SS密码]</span> -m <span class="string">[加密方式]</span></div></pre></td></tr></table></figure></p>
+<p>2.采用json文件参数<br>输入<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nano ./ss-<span class="built_in">config</span>.json</div></pre></td></tr></table></figure></p>
+<p>写入以下参数<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">"server"</span>:<span class="string">"xxx.xxx.xxx.xxx"</span>,</div><div class="line"><span class="attr">"server_port"</span>:xxxx,</div><div class="line"><span class="attr">"local_address"</span>:<span class="string">"xxx.xxx.xxx.xxx"</span>,</div><div class="line"><span class="attr">"local_port"</span>:xxxx,</div><div class="line"><span class="attr">"password"</span>:<span class="string">"xxx"</span>,</div><div class="line"><span class="attr">"timeout"</span>:<span class="number">60</span>,</div><div class="line"><span class="attr">"method"</span>:<span class="string">"xxxx"</span>,</div><div class="line"><span class="attr">"encrypt_method"</span>:<span class="string">"xxxx"</span>,</div><div class="line"><span class="attr">"protocol"</span>:<span class="string">"xxxx"</span>,</div><div class="line"><span class="attr">"obfs"</span>:<span class="string">"xxxx"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="使用socks5协议"><a href="#使用socks5协议" class="headerlink" title="使用socks5协议"></a>使用socks5协议</h1><p>直接在路由上搭建socks5协议接口<br>在SHELL上输入:<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./ss-local -o <span class="string">[obfs混淆协议]</span> -O <span class="string">[protocol协议]</span> -g <span class="string">[obfsparam混淆参数]</span> -s <span class="string">[服务器地址]</span> -p <span class="string">[服务器端口]</span> -l <span class="string">[本地监听端口]</span> -b <span class="string">[本地监听地址]</span> -k <span class="string">[SS密码]</span> -m <span class="string">[加密方式]</span></div></pre></td></tr></table></figure></p>
+<h1 id="直接转发TCP"><a href="#直接转发TCP" class="headerlink" title="直接转发TCP"></a>直接转发TCP</h1><p>在SHELL上输入:<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./<span class="built_in">ss</span>-redir -c ./<span class="built_in">ss</span>-config.json -f /var/run/<span class="built_in">ss</span>-redir.pid</div></pre></td></tr></table></figure></p>
+<p>并在iptables上增加如下规则<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -N shadowsocks</div><div class="line">iptables -t nat -A shadowsocks -<span class="selector-tag">p</span> tcp -d xx<span class="selector-class">.xx</span><span class="selector-class">.xx</span><span class="selector-class">.xx</span>/xx -j REDIRECT --to-ports xxxx</div><div class="line">iptables -t nat -A shadowsocks -<span class="selector-tag">p</span> tcp -j RETURN</div><div class="line">iptables -t nat -A PREROUTING -<span class="selector-tag">p</span> tcp -j shadowsocks</div></pre></td></tr></table></figure></p>
 <p>其中–to-ports后写入本地监听端口</p>
 <h1 id="启用UDP模式"><a href="#启用UDP模式" class="headerlink" title="启用UDP模式"></a>启用UDP模式</h1><p>启用UDP转发模式需要在内核中开启TPROXY模块（依赖模块:nf_defrag_ipv6,ipv6,nf_tproxy_core,因此需要开启路由器中IPv6支持）<br>其中TPROXY.ko和nf_tproxy_core.ko需要从源码编译</p>
-<h2 id="编译加载TPROXY-ko模块"><a href="#编译加载TPROXY-ko模块" class="headerlink" title="编译加载TPROXY.ko模块"></a>编译加载TPROXY.ko模块</h2><p>配置编译环境</p>
-<blockquote>
-<p>sudo apt-get install gcc g++ binutils patch bzip2 flex bison make gettext unzip zlib1g-dev libc6 subversion</p>
-</blockquote>
-<p>下载交叉编译所需工具链</p>
-<blockquote>
-<p>cd /wor/place/<br>wget <a href="https://downloads.openwrt.org/snapshots/trunk/brcm47xx/mips74k/OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64.tar.bz2" target="_blank" rel="external">https://downloads.openwrt.org/snapshots/trunk/brcm47xx/mips74k/OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64.tar.bz2</a><br>tar jxvf OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64.tar.bz2</p>
-</blockquote>
-<p>下载对应内核源码</p>
-<blockquote>
-<p>svn checkout svn://svn.dd-wrt.com/DD-WRT/src/linux/universal/linux-3.xx<br>cd linux-3.xx</p>
-</blockquote>
-<p>改名初始配置文件</p>
-<blockquote>
-<p>cp .config_bcmmips .config</p>
-</blockquote>
-<p>进入图形配置界面</p>
-<blockquote>
-<p>make menuconfig</p>
-</blockquote>
-<p>将不需要的模块，驱动等取消选择，将IPv6,TPROXY模块选择m<br>修改Kconfig</p>
-<blockquote>
-<p>nano drivers/net/wireless/Kconfig</p>
-</blockquote>
-<p>注释以下代码</p>
-<blockquote>
-<p>#if RALINK_DEVICE</p>
-<p>#source “drivers/net/wireless/rt3352/rt2860v2_ap/Kconfig”</p>
-<p>#source “drivers/net/wireless/rt3352/rt2860v2_sta/Kconfig”</p>
-<p>#endif</p>
-<p>#if SOC_MT7620_OPENWRT || SOC_MT7621_OPENWRT</p>
-<p>#source “drivers/net/wireless/rt7620/rt2860v2_ap/Kconfig”</p>
-<p>#source “drivers/net/wireless/rt7620/rt2860v2_sta/Kconfig”</p>
-<p>#source “drivers/net/wireless/rt5592/Kconfig”</p>
-<p>#source “drivers/net/wireless/rt7612/rlt_wifi/Kconfig”</p>
-<p>#source “drivers/net/wireless/rt7610/Kconfig”</p>
-<p>#endif</p>
-</blockquote>
-<p>修改xt_TPROXY.c文件<br>在</p>
-<blockquote>
-<p>static int __init tproxy_tg_init(void)<br>{<br>nf_defrag_ipv4_enable();<br>…</p>
-</blockquote>
-<p>之前加入如下代码</p>
-<blockquote>
-<p>void nf_defrag_ipv4_enable(void)<br>{<br>}<br>EXPORT_SYMBOL_GPL(nf_defrag_ipv4_enable);</p>
-</blockquote>
-<p>设置环境变量</p>
-<blockquote>
-<p>export STAGING_DIR=/root/temp/DD-WRT/toolchain-link<br>export PATH=$PATH:/root/temp/DD-WRT/bin<br>export CROSS_COMPILE=mipsel-openwrt-linux-musl-<br>export ARCH=mips</p>
-</blockquote>
-<p>执行编译</p>
-<blockquote>
-<p>make modules ARCH=mips CROSS_COMPILE=mipsel-openwrt-linux-musl-</p>
-</blockquote>
+<h2 id="编译加载TPROXY-ko模块"><a href="#编译加载TPROXY-ko模块" class="headerlink" title="编译加载TPROXY.ko模块"></a>编译加载TPROXY.ko模块</h2><p>配置编译环境<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">sudo</span> apt-<span class="meta">get</span> install gcc g++ <span class="keyword">binutils </span>patch <span class="keyword">bzip2 </span>flex <span class="keyword">bison </span>make gettext unzip zlib1g-dev libc6 <span class="keyword">subversion</span></div></pre></td></tr></table></figure></p>
+<p>下载交叉编译所需工具链<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /wor/place/</div><div class="line">wget https:<span class="comment">//downloads.openwrt.org/snapshots/trunk/brcm47xx/mips74k/OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64.tar.bz2</span></div><div class="line">tar jxvf OpenWrt-Toolchain-brcm47xx-mips74k_gcc-<span class="number">5.3</span>.<span class="number">0</span>_musl-<span class="number">1.1</span>.<span class="number">14</span><span class="selector-class">.Linux-x86_64</span><span class="selector-class">.tar</span><span class="selector-class">.bz2</span></div></pre></td></tr></table></figure></p>
+<p>下载对应内核源码<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">svn checkout svn://svn.dd-<span class="built_in">wrt</span>.com/<span class="built_in">DD</span>-<span class="built_in">WRT</span>/src/linux/universal/linux-<span class="number">3.</span>xx</div><div class="line">cd linux-<span class="number">3.</span>xx</div></pre></td></tr></table></figure></p>
+<p>改名初始配置文件<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">cp</span> <span class="selector-class">.config_bcmmips</span> <span class="selector-class">.config</span></div></pre></td></tr></table></figure></p>
+<p>进入图形配置界面<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">make menuconfig</span></div></pre></td></tr></table></figure></p>
+<p>将不需要的模块，驱动等取消选择，将IPv6,TPROXY模块选择m<br>修改Kconfig<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nano drivers<span class="regexp">/net/</span>wireless<span class="regexp">/Kconfig</span></div></pre></td></tr></table></figure></p>
+<p>注释以下代码<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">if</span> RALINK_DEVICE</span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt3352/rt2860v2_ap/Kconfig"</span></span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt3352/rt2860v2_sta/Kconfig"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> SOC_MT7620_OPENWRT || SOC_MT7621_OPENWRT</span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt7620/rt2860v2_ap/Kconfig"</span></span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt7620/rt2860v2_sta/Kconfig"</span></span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt5592/Kconfig"</span></span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt7612/rlt_wifi/Kconfig"</span></span></div><div class="line"><span class="meta">#source <span class="meta-string">"drivers/net/wireless/rt7610/Kconfig"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure></p>
+<p>修改xt_TPROXY.c文件<br>在<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">tproxy_tg_init</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">nf_defrag_ipv4_enable();</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>之前加入如下代码<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nf_defrag_ipv4_enable</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">&#125;</div><div class="line">EXPORT_SYMBOL_GPL(nf_defrag_ipv4_enable);</div></pre></td></tr></table></figure></p>
+<p>设置环境变量<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export STAGING_DIR=<span class="regexp">/root/temp</span><span class="regexp">/DD-WRT/toolchain</span>-link</div><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/root/temp/DD-WRT/bin</span></div><div class="line">export CROSS_COMPILE=mipsel-openwrt-linux-musl-</div><div class="line">export ARCH=mips</div></pre></td></tr></table></figure></p>
+<p>执行编译<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make modules <span class="attr">ARCH=mips</span> <span class="attr">CROSS_COMPILE=mipsel-openwrt-linux-musl-</span></div></pre></td></tr></table></figure></p>
 <p>编译完成后通过find找到ko文件所在</p>
-<h2 id="更新iptables"><a href="#更新iptables" class="headerlink" title="更新iptables"></a>更新iptables</h2><p>下载iptables源码</p>
-<blockquote>
-<p>wget <a href="http://www.netfilter.org/projects/iptables/files/iptables-1.4.14.tar.bz2" target="_blank" rel="external">http://www.netfilter.org/projects/iptables/files/iptables-1.4.14.tar.bz2</a><br>tar xjf iptables-1.4.14.tar.bz2<br>cd iptables-1.4.14</p>
-</blockquote>
-<p>下载执行musl补丁</p>
-<blockquote>
-<p>wget <a href="https://raw.githubusercontent.com/sabotage-linux/sabotage/master/KEEP/iptables-1.4.14-musl-fixes.patch" target="_blank" rel="external">https://raw.githubusercontent.com/sabotage-linux/sabotage/master/KEEP/iptables-1.4.14-musl-fixes.patch</a><br>patch -p1 &lt; iptables-1.4.14-musl-fixes.patch</p>
-</blockquote>
-<p>设置环境变量</p>
-<blockquote>
-<p>export STAGING_DIR=/home/ilikecola/ss-ssr/Rss-Libev/toolchain<br>export PATH=$PATH:/home/ilikecola/ss-ssr/Rss-Libev/bin<br>export CC=mipsel-openwrt-linux-musl-gcc<br>export CXX=mipsel-openwrt-linux-musl-g++<br>export AR=mipsel-openwrt-linux-musl-ar<br>export RANLIB=mipsel-openwrt-linux-musl-ranlib<br>export CHOST=mipsel-openwrt-linux-musl-gcc</p>
-</blockquote>
-<p>执行配置文件</p>
-<blockquote>
-<p>./configure –prefix=/opt –host=mips</p>
-</blockquote>
-<p>此处安装目录最好是/opt方便转移到DDWRT<br>编译</p>
-<blockquote>
-<p>make</p>
-</blockquote>
-<p>安装</p>
-<blockquote>
-<p>sudo mkdir /opt<br>sudo chown usr2install /opt<br>make install</p>
-</blockquote>
-<p>打包文件</p>
-<blockquote>
-<p>sudo chown -R 0:0 /opt<br>sudo tar cpvzf opt-iptables.tar.gz /opt</p>
-</blockquote>
-<p>上传至路由器jffs目录下，挂载opt到jffs使得opt可以写入</p>
-<blockquote>
-<p>mkdir /jffs/jffs_opt<br>mount –bind /jffs/jffs_opt /opt</p>
-</blockquote>
-<p>解压文件</p>
-<blockquote>
-<p>tar -xzvf /mnt/sda1/opt-iptables.tar.gz -C /</p>
-</blockquote>
-<p>查看iptables版本</p>
-<blockquote>
-<p>/opt/sbin/iptables -v<br>iptables v1.4.14: no command specified<br>Try `iptables -h’ or ‘iptables –help’ for more information.</p>
-</blockquote>
-<h2 id="转发UDP"><a href="#转发UDP" class="headerlink" title="转发UDP"></a>转发UDP</h2><p>在ss-local/ss-redir后增加 -u 参数<br>修改路由参数</p>
-<blockquote>
-<p>ip rule add fwmark 0x01/0x01 table 100<br>ip route add local 0.0.0.0/0 dev lo table 100</p>
-</blockquote>
-<p>并在iptables上增加如下规则</p>
-<blockquote>
-<p>/opt/sbin/iptables -t mangle -N shadowsocks<br>/opt/sbin/iptables -t mangle -A shadowsocks -p udp -d xx.xx.xx.xx/xx -j TPROXY –on-port xxxx –tproxy-mark 0x01/0x01<br>/opt/sbin/iptables -t mangle -A shadowsocks -p udp -j RETURN<br>/opt/sbin/iptables -t mangle -A PREROUTING -p udp -j shadowsocks</p>
-</blockquote>
-<p>其中–to-ports后写入本地监听端口</p>
+<h2 id="更新iptables"><a href="#更新iptables" class="headerlink" title="更新iptables"></a>更新iptables</h2><p>下载iptables源码<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget http:<span class="comment">//www.netfilter.org/projects/iptables/files/iptables-1.4.14.tar.bz2</span></div><div class="line">tar xjf iptables-<span class="number">1.4</span>.<span class="number">14</span><span class="selector-class">.tar</span><span class="selector-class">.bz2</span></div><div class="line">cd iptables-<span class="number">1.4</span>.<span class="number">14</span></div></pre></td></tr></table></figure></p>
+<p>下载执行musl补丁<br><figure class="highlight glsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https:<span class="comment">//raw.githubusercontent.com/sabotage-linux/sabotage/master/KEEP/iptables-1.4.14-musl-fixes.patch</span></div><div class="line"><span class="keyword">patch</span> -p1 &amp;lt; iptables<span class="number">-1.4</span><span class="number">.14</span>-musl-fixes.<span class="keyword">patch</span></div></pre></td></tr></table></figure></p>
+<p>设置环境变量<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export STAGING_DIR=<span class="regexp">/home/ilikecola</span><span class="regexp">/ss-ssr/</span>Rss-Libev/toolchain</div><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/home/ilikecola/ss-ssr/Rss-Libev/bin</span></div><div class="line">export CC=mipsel-openwrt-linux-musl-gcc</div><div class="line">export CXX=mipsel-openwrt-linux-musl-g++</div><div class="line">export AR=mipsel-openwrt-linux-musl-ar</div><div class="line">export RANLIB=mipsel-openwrt-linux-musl-ranlib</div><div class="line">export CHOST=mipsel-openwrt-linux-musl-gcc</div></pre></td></tr></table></figure></p>
+<p>执行配置文件<br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">.</span><span class="comment">/configure</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">prefix=/opt</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">host=mips</span></div></pre></td></tr></table></figure></p>
+<p>此处安装目录最好是/opt方便转移到DDWRT<br>编译<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">make</span></div></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo <span class="built_in">mkdir</span> /<span class="keyword">opt</span></div><div class="line">sudo chown usr2install /<span class="keyword">opt</span></div><div class="line"><span class="keyword">make</span> install</div></pre></td></tr></table></figure></p>
+<p>打包文件<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; sudo chown -R <span class="number">0</span>:<span class="number">0</span> /<span class="meta">opt</span></div><div class="line">&gt; sudo tar cpvzf <span class="meta">opt</span>-iptables.tar.gz /<span class="meta">opt</span></div></pre></td></tr></table></figure></p>
+<p>上传至路由器jffs目录下，挂载opt到jffs使得opt可以写入<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">mkdir</span> /jffs/jffs_opt</div><div class="line"><span class="symbol">mount</span> --<span class="keyword">bind </span>/jffs/jffs_opt /<span class="meta">opt</span></div></pre></td></tr></table></figure></p>
+<p>解压文件<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xzvf /mnt/sda1/opt-iptables<span class="selector-class">.tar</span><span class="selector-class">.gz</span> -C /</div></pre></td></tr></table></figure></p>
+<p>查看iptables版本<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/<span class="keyword">opt</span>/sbin/iptables -v</div><div class="line">iptables v1.<span class="number">4.14</span>: <span class="keyword">no</span> <span class="keyword">command</span> specified</div><div class="line">Try <span class="string">'iptables -h'</span> <span class="built_in">or</span> <span class="string">'iptables --help'</span> <span class="keyword">for</span> more information.</div></pre></td></tr></table></figure></p>
+<h2 id="转发UDP"><a href="#转发UDP" class="headerlink" title="转发UDP"></a>转发UDP</h2><p>在ss-local/ss-redir后增加 -u 参数<br>修改路由参数<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ip rule add fwmark <span class="number">0x01</span>/<span class="number">0x01</span> table <span class="number">100</span></div><div class="line">ip route add local <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span> dev lo table <span class="number">100</span></div></pre></td></tr></table></figure></p>
+<p>并在iptables上增加如下规则<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/opt/sbin/iptables -t mangle -N shadowsocks</div><div class="line">/opt/sbin/iptables -t mangle -A shadowsocks -<span class="selector-tag">p</span> udp -d xx<span class="selector-class">.xx</span><span class="selector-class">.xx</span><span class="selector-class">.xx</span>/xx -j TPROXY --on-port xxxx --tproxy-<span class="selector-tag">mark</span> <span class="number">0</span>x01/<span class="number">0</span>x01</div><div class="line">/opt/sbin/iptables -t mangle -A shadowsocks -<span class="selector-tag">p</span> udp -j RETURN</div><div class="line">/opt/sbin/iptables -t mangle -A PREROUTING -<span class="selector-tag">p</span> udp -j shadowsocks</div></pre></td></tr></table></figure></p>
+<p>其中<code>--to-ports</code>后写入本地监听端口</p>
 <p>IP获取方法：<br>使用APNIC 的 IP WHOIS 工具</p>
 <blockquote>
 <p><a href="http://wq.apnic.net/apnic-bin/whois.pl" target="_blank" rel="external">http://wq.apnic.net/apnic-bin/whois.pl</a></p>

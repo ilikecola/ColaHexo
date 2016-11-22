@@ -14,6 +14,7 @@ ol.linenums {
   margin-top: 0;
   margin-bottom: 0;
   color: #999999;
+  font: italic 1em Georgia, Times, serif;
 }
 
 li.L0,
@@ -27,8 +28,18 @@ li.L7,
 li.L8,
 li.L9 {
   padding-left: 1em;
-  background-color: #FFFFFF;
+/*  background-color: #FFFFFF; */
+  line-height: 1.5;
   list-style-type: decimal;
+  font: 1em Georgia, Times, serif;
+}
+
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 {
+  background: #F8F8F8;
 }
 
 @media screen {

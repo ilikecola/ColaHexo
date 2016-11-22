@@ -1805,8 +1805,7 @@ th, td {
 pre {
   font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
   font-size: .85em;
-  word-break: break-all;
-  word-wrap: break-word;
+  white-space: normal;
 }
 
 .sethidden {

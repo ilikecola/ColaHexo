@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      RDF概述 | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="语义网的核心是对语义的揭示与表达，而语义又隐藏于一定的网络资源（数据）之中，因此要想实现语义网构想就必须解决资源描述与语义揭示两大问题。XML是Web上数据表示的标准，具有清晰的结构以及强大、灵活的标签定义和数据描述机制，但与语义网的要求相比，还存在着明显的不足。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RDF概述 | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/2016/11/22/225/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="语义网的核心是对语义的揭示与表达，而语义又隐藏于一定的网络资源（数据）之中，因此要想实现语义网构想就必须解决资源描述与语义揭示两大问题。XML是Web上数据表示的标准，具有清晰的结构以及强大、灵活的标签定义和数据描述机制，但与语义网的要求相比，还存在着明显的不足。">
+<meta property="og:updated_time" content="2016-11-22T10:58:46.705Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RDF概述 | Cola's Memory">
+<meta name="twitter:description" content="语义网的核心是对语义的揭示与表达，而语义又隐藏于一定的网络资源（数据）之中，因此要想实现语义网构想就必须解决资源描述与语义揭示两大问题。XML是Web上数据表示的标准，具有清晰的结构以及强大、灵活的标签定义和数据描述机制，但与语义网的要求相比，还存在着明显的不足。">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">RDF概述</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-11-22" class="post-meta__date date">2016-11-22</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Model/">Model</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/RDF/">RDF</a>, <a class="tags-link" href="/tags/XML/">XML</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>语义网的核心是对语义的揭示与表达，而语义又隐藏于一定的网络资源（数据）之中，因此要想实现语义网构想就必须解决资源描述与语义揭示两大问题。XML是Web上数据表示的标准，具有清晰的结构以及强大、灵活的标签定义和数据描述机制，但与语义网的要求相比，还存在着明显的不足。<br><a id="more"></a><br>在语义揭示上，XML的数据语义隐藏于其结构与标签之中，通过标签之间的并列和嵌套表达数据以及数据和数据之间的语义关系。例如：</p>
+<pre><code>&lt;搜索引擎&gt;
+&lt;名称&gt;百度&lt;/名称&gt;
+&lt;网址&gt;www.baidu.com&lt;/网址&gt;
+&lt;/搜索引擎&gt;
+</code></pre><p>现在假设一个XML处理程序对上述代码进行语义分析，通过标签对&lt;名称&gt;，该程序“理解”了文本“百度”的含义为“名称”，对于文本“百度”和“搜索引擎”之间的关系，则必须通过标签&lt;名称&gt;和&lt;搜索引擎&gt;之间的嵌套来获得。但文本“百度”和“www.baidu.com”之间的关系该如何获得呢？虽然这种隐藏的语义关系对我们而言再简单不过，但对自动处理的程序而言就没那么容易了。</p>
+<p>这种隐藏的语义关系不仅不利于机器的“理解和处理”，而且也不能表达确切的语义。例如代码清单3-2，三个不同的XML片段都表达了同一个事实，即“搜索引擎百度的网址为www.baidu.com”。因此标签以及它们的层层嵌套所表达出来的语义是不确定的，在进行处理时容易产生歧义。因此从语义揭示的角度讲，XML只能描述数据的语法，而不能显式地表达数据的语义。</p>
+<p>在资源描述上，XML的数据表达方式实际上是一种树形结构。一方面，这种树形结构在描述数据元时缺乏一定的灵活性；另一方面，Web是网状结构，使用树形结构的数据描述方式揭示和反映具有网状结构的网络信息资源，必然会带来语义上的缺失。</p>
+<p>因此在资源描述上，语义网必须提供一种更为简单、有效的资源描述的框架或模型。该模型应具有以下几个特点：</p>
+<ol>
+<li>基于XML；</li>
+<li>它只是一个模型或框架，而不是具体的资源描述；</li>
+<li>在该模型或框架下可以方便地描述各类资源，并可显式地揭示它们之间的语义关系；4）结构简单且容易扩展，适用于网状的Web应用。</li>
+</ol>
+<p>为此，W3C推出了RDF，并将其作为语义网的核心技术之一。</p>
+<h1 id="什么是RDF"><a href="#什么是RDF" class="headerlink" title="什么是RDF?"></a>什么是RDF?</h1><pre><code>DF是资源描述框架（Resource Description Framework）的简称，用于表达资源的元数据信息，如页面标题、作者、摘要、修改时间等。资源描述框架，顾名思义，它只是提供了一个通用的框架或模型，在该框架下，所有的资源都可以得到充分有效的描述。其基本思想是：
+</code></pre><ol>
+<li>用URI来标识事物</li>
+<li>将一切可以在Web上标识的事物（具体的或抽象的，存在的或不存的）统称为“资源”</li>
+<li>用属性（Property）和属性值描述资源</li>
+</ol>
+<p>基于这一理念，RDF可以将一个或多个关于资源的简单陈述（Statement）表示为一个由结点和边构成的有向图（Graph），其中结点代表资源或属性值，边代表属性。下图就是一个典型的RDF有向图，它描述了关于资源<code>http://www.example.com/staffid#0311</code>（下面简单HM）的这样一组陈述：</p>
+<ul>
+<li>HM指的是一个人</li>
+<li>HM的姓名是Hakuna Matata</li>
+<li>HM的邮箱是mailto:hm@example.com</li>
+<li>HM的职位是Sales Manager</li>
+</ul>
+<p>在该有向图中，</p>
+<ul>
+<li><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code></li>
+<li><code>http://www.example.com/schemas/person#fullName</code></li>
+<li><code>http://www.example.com/schemas/person#mailbox</code></li>
+<li><code>http://www.example.com/schemas/person#position</code></li>
+</ul>
+<p>是资源HM的属性;</p>
+<ul>
+<li><code>http://www.example.com/schemas/person#Person</code></li>
+<li><code>Hakuna Matata</code></li>
+<li><code>mailto:hm@example.com</code></li>
+<li><code>Sales Manager</code></li>
+</ul>
+<p>分别为各个属性的属性值。它们都使用URI进行标识。</p>
+<p>除了有向图外，RDF还提供了一个基于XML的语法――称为RDF/XML――来保存和交换RDF数据。如果上述有向图采用RDF/XML来描述的话可能是这样：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot; 
+            xmlns:experson=&quot;http://www.example.com/schemas/person#&quot;&gt;  
+  &lt;experson:Person rdf:about=&quot;http://www.example.com/staffid#0311&quot;&gt; 
+    &lt;experson:fullName&gt;Hakuna Matata&lt;/experson:fullName&gt;  
+    &lt;experson:mailbox rdf:resource=&quot;mailto:hm@w3.org&quot;/&gt;  
+    &lt;experson:position&gt;Sales Manager&lt;/experson:position&gt; 
+  &lt;/experson:Person&gt; 
+&lt;/rdf:RDF&gt;
+</code></pre><p>注意：上述代码定义了两个命名空间，并用简写的形式（标签）表示资源的属性。<br>实际上，属性和属性值都可以包含URI，也同样是资源。通过URI可以引用任何可以被标识的事物，不管它是抽象的、具体的、存在的还是不存在的，因此RDF可以链接到Web上的任何地方，描述Web上的一切资源。<br>目前，RDF已经成为W3C的推荐标准，其规范文档及其相应的存取地址为：</p>
+<ul>
+<li>RDF/XML语法规范<br><a href="http://www.w3.org/TR/rdf-syntax-grammar/" target="_blank" rel="external">http://www.w3.org/TR/rdf-syntax-grammar/</a></li>
+<li>RDF词汇描述语言1.0：RDF Schema<br><a href="http://www.w3.org/TR/rdf-schema/" target="_blank" rel="external">http://www.w3.org/TR/rdf-schema/</a></li>
+<li>RDF入门<br><a href="http://www.w3.org/TR/rdf-primer/" target="_blank" rel="external">http://www.w3.org/TR/rdf-primer/</a></li>
+<li>RDF概念和抽象语法<br><a href="http://www.w3.org/TR/rdf-concepts/" target="_blank" rel="external">http://www.w3.org/TR/rdf-concepts/</a></li>
+<li>RDF语义<br><a href="http://www.w3.org/TR/rdf-mt/" target="_blank" rel="external">http://www.w3.org/TR/rdf-mt/</a></li>
+<li>RDF测试用例<br><a href="http://www.w3.org/TR/rdf-testcases/" target="_blank" rel="external">http://www.w3.org/TR/rdf-testcases/</a></li>
+</ul>
+<p>RDF主要由RDF模型、RDF/XML语法、RDF Schema（RDFS）和RDF语义构成。本章将对RDF模型、RDF/XML语法、RDF Schema以及RDF查询做一个尽可能全面而简单的介绍，RDF语义将在本书第7章的“概念语义”一节进行详细讨论。关于RDF更为权威和详尽的描述，请参阅相关的规范文档。</p>
+<h1 id="RDF与XML的区别"><a href="#RDF与XML的区别" class="headerlink" title="RDF与XML的区别"></a>RDF与XML的区别</h1><p>RDF和XML最本质的区别在于它们的语义表达方式。XML是一种可扩展的标记语言，即标记语言的元语言，其语义全部隐含在文档的标记与结构之中，不能表达机器可理解的语义。RDF则可以看成是一种Web上的知识表示语言，是谓词逻辑的一个特殊形式，它具有形式化的语义即模型论语义，机器可以据此理解它所表达的语义信息。总之，RDF是一个完备的形式化系统。</p>
+<p>其次，RDF与XML的模型不同。XML是一种树形结构，应用逻辑中的数据都被转换为树形逻辑，这种固定、树状的逻辑形式不仅缺乏灵活性，而且也会带来一定的语义丢失。RDF实际上是一种二元关系模型，我们知道，任何一种结构都可以被分解为一个或多个二元关系的组合，虽然RDF采用类似于XML的语法，但这并不影响它具有足够的灵活性来描述分布式的、呈网状的Web资源（RDF的二元关系模型可以很容易地扩展为网状结构）。</p>
+<p>第三，它们所呈现的资源不同。XML文档中的标签构成了XML树形结构的节点，而各标签之间的层层嵌套则形成了该树形结构的隐藏的边。它们可以是某一应用逻辑中的任意数据，即使不在Web上也可以。而对于RDF而言，节点和边则是使用URI标识的资源。</p>
+<p>第四，XML Schema和RDF Schema的含义不同。XML的Schema规定了XML文档的结构，并为XML文档提供一定的语义解释，它是隐含的。而RDF Schema并不会约束一个RDF文档（实际上就是一个XML文档）的结构，它本身就带有语义信息，用于解释RDF中词汇的含义。</p>
+<p>最后，RDF数据容易聚合，这是XML数据所无法比拟的。RDF使用URI引用标识资源，其二元关系模型很容易扩展为图模型，因此很容易通过URI引用将RDF数据进行合并。而XML数据由于没有URI引用而很难聚合。</p>
+<p>Reference:</p>
+<blockquote>
+<p><a href="http://blogger.org.cn/blog/more.asp?name=Lee&amp;id=23069" target="_blank" rel="external">http://blogger.org.cn/blog/more.asp?name=Lee&amp;id=23069</a></p>
+</blockquote>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    <script>
+    	jQuery(document).ready(function () {
+    		jQuery("pre").addClass("prettyprint linenums");
+    		prettyPrint();
+			});
+    </script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: true,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

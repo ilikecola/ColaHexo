@@ -106,9 +106,10 @@ $(document).ready(function() {
     $('.btn-mobile-menu__icon').toggleClass('icon-list icon-x-circle animated fadeIn');
   });
   
-  $(window).load(function(){
- 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
-   	prettyPrint();
- })
+// Manual prettify
+//  $(window).load(function(){
+// 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+//   	prettyPrint();
+// })
 
 });

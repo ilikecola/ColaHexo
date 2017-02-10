@@ -1125,8 +1125,10 @@ code {
   height: 100%;
   z-index: -1;
   opacity: 0.2;
-  background: url(../images/list-cover.jpg) top right no-repeat #666666;
-  background-size: cover; }
+  background: url(../images/list-cover.png) top right no-repeat #666666;
+  background-size: contain;
+  background-position:100% 0;
+  background-attachment:fixed; }
   
 .content-wrapper-post {
   z-index: 800;

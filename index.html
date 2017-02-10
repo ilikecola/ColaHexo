@@ -225,6 +225,66 @@ classes that you can use:
     <li>
 
       <h2 class="post-list__post-title post-title">
+        <a href="/2017/02/10/232/" target="_blank" title="link to Centos7下关于Crontab定时任务">Centos7下关于Crontab定时任务</a>
+      </h2>
+
+      <div class="post-list__meta">
+
+        <time datetime="2017-02-10" class="post-list__meta--date date">2017-02-10</time> 
+      </div>
+
+      <div class="excerpt">
+        
+          <p>crontab命令常见于Unix和Linux的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行。通常，crontab储存的指令被守护进程激活。crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。<br>
+        
+      </div>
+
+      <hr class="post-list__divider" />
+    </li>
+    
+    <li>
+
+      <h2 class="post-list__post-title post-title">
+        <a href="/2017/02/10/231/" target="_blank" title="link to nginx 怎么自动跳转到 https 而不允许 http 访问">nginx 怎么自动跳转到 https 而不允许 http 访问</a>
+      </h2>
+
+      <div class="post-list__meta">
+
+        <time datetime="2017-02-10" class="post-list__meta--date date">2017-02-10</time> 
+      </div>
+
+      <div class="excerpt">
+        
+          <p>nginx 怎么自动跳转到 https 而不允许 http 访问?<br>
+        
+      </div>
+
+      <hr class="post-list__divider" />
+    </li>
+    
+    <li>
+
+      <h2 class="post-list__post-title post-title">
+        <a href="/2017/02/10/230/" target="_blank" title="link to hexo _config.yml中文乱码问题">hexo _config.yml中文乱码问题</a>
+      </h2>
+
+      <div class="post-list__meta">
+
+        <time datetime="2017-02-10" class="post-list__meta--date date">2017-02-10</time> 
+      </div>
+
+      <div class="excerpt">
+        
+          <p>部分_config.yml配置(我只改了这一部分，用记事本修改好像会出问题，就用了webstorm修改)在localhost:4000上运行,标题和副标题都出现乱码<br>
+        
+      </div>
+
+      <hr class="post-list__divider" />
+    </li>
+    
+    <li>
+
+      <h2 class="post-list__post-title post-title">
         <a href="/2017/02/06/229/" target="_blank" title="link to UML中几种类间关系：继承、实现、依赖、关联、聚合、组合的联系与区别">UML中几种类间关系：继承、实现、依赖、关联、聚合、组合的联系与区别</a>
       </h2>
 
@@ -354,79 +414,6 @@ classes that you can use:
       <div class="excerpt">
         
           <p>先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?<br>从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.<br>Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.<br>再问读者一个问题,如果控制一个线程池中的线程的挂起,继续,结束你会优先选择如何处理?<br>也许有人会说,既然没法用API了,那我定义一些标志量,来做状态控制不就可以了吗?<br>确实,说起来很简单.那么变量的值需不需要考虑由于多线程问题导致的读写问题呢,你会怎么处理?<br>如果不用标志量,可以用同步事件来做,会不会更优雅一些呢?<br>让我把传统的方式以及使用同步方式做的控制都写一遍,让读者来做取舍吧.<br>代码如下,注释也比较全,就不再累述细节.<br>
-        
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-    <li>
-
-      <h2 class="post-list__post-title post-title">
-        <a href="/2016/11/21/222/" target="_blank" title="link to WPF中Timer与DispatcherTimer类的区别">WPF中Timer与DispatcherTimer类的区别</a>
-      </h2>
-
-      <div class="post-list__meta">
-
-        <time datetime="2016-11-21" class="post-list__meta--date date">2016-11-21</time> 
-      </div>
-
-      <div class="excerpt">
-        
-          <p>利用一个计时器Timer类，实时更新界面上的控件内容，但是一直遇到抛出异常：System.InvalidOperationException {“调用线程无法访问此对象，因为另一个线程拥有该对象。”} 。<br>
-        
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-    <li>
-
-      <h2 class="post-list__post-title post-title">
-        <a href="/2016/11/21/221/" target="_blank" title="link to C#中的4种定时器">C#中的4种定时器</a>
-      </h2>
-
-      <div class="post-list__meta">
-
-        <time datetime="2016-11-21" class="post-list__meta--date date">2016-11-21</time> 
-      </div>
-
-      <div class="excerpt">
-        
-          <p>在Framework中存在着4种定时器：其中分为两类，<br>多线程计时器</p>
-<ol>
-<li>System.Threading.Timer</li>
-<li>System.Timers.Timer<br>特殊目的的单线程计时器：</li>
-<li>System.Windows.Forms.Timer（Windows Forms Timer）</li>
-<li>System.Windows.Threading.DispatcherTimer(WPF timer);<br>多线程计时器比较强大，精确，而且可扩展性强；<br>单线程计时器比较安全,对于更新 Windows Forms controls或者WPF这种简单任务来说更方便。
-        
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-    <li>
-
-      <h2 class="post-list__post-title post-title">
-        <a href="/2016/11/21/220/" target="_blank" title="link to CentOS 7 Shadowsocks优化">CentOS 7 Shadowsocks优化</a>
-      </h2>
-
-      <div class="post-list__meta">
-
-        <time datetime="2016-11-21" class="post-list__meta--date date">2016-11-21</time> 
-      </div>
-
-      <div class="excerpt">
-        
-          <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
-<li>增加TCP连接数（针对大量TCP连接）</li>
-<li>优化TCP参数（针对大量TCP连接）</li>
-<li>启用hybla模块<ul>
-<li>启用自带hybla模块</li>
-<li>编译hybla模块并启用</li>
-</ul>
-</li>
-<li>开启TCP FAST OPEN支持
         
       </div>
 

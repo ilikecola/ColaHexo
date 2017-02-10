@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      如何优雅的控制线程状态 | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.再问读者">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何优雅的控制线程状态 | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/Programming/223/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.再问读者">
+<meta property="og:updated_time" content="2016-11-21T17:13:54.082Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何优雅的控制线程状态 | Cola's Memory">
+<meta name="twitter:description" content="先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.再问读者">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">如何优雅的控制线程状态</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-11-21" class="post-meta__date date">2016-11-21</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Programming/">Programming</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/C/">C#</a>, <a class="tags-link" href="/tags/Thread/">Thread</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>先问读者一个问题,如果想控制一个线程(Thread)挂起,继续,结束你会优先选择如何处理?<br>从面试的经验来看,多数的面试者都会说Thread不是提供了Suspend,Resume,Abort等方法吗,直接调用就好了,简单快捷.但很多情况下简单就是美只是一个谎言而已.<br>Suspend和Resume方法已经被MS标注过时(Obsolete),不建议用户使用,MS同时推荐通过同步控制来管理线程状态.<br>再问读者一个问题,如果控制一个线程池中的线程的挂起,继续,结束你会优先选择如何处理?<br>也许有人会说,既然没法用API了,那我定义一些标志量,来做状态控制不就可以了吗?<br>确实,说起来很简单.那么变量的值需不需要考虑由于多线程问题导致的读写问题呢,你会怎么处理?<br>如果不用标志量,可以用同步事件来做,会不会更优雅一些呢?<br>让我把传统的方式以及使用同步方式做的控制都写一遍,让读者来做取舍吧.<br>代码如下,注释也比较全,就不再累述细节.<br><a id="more"></a></p>
+<pre><code class="C#">class Program
+    {
+        static void Main(string[] args)
+        {
+            UseThreadAPI();
+            UseSyncEvent();
+            UseThreadPool();
+            UseSyncEventThreadPool();
+            Console.WriteLine(&quot;All tests  finished&quot;);
+            Console.ReadKey();
+        }
+        /// &lt;summary&gt;
+        /// 使用标准Thread API来控制线程状态,
+        /// Suspend和Resume是过时的方法,MS不推荐使用
+        /// MS推荐的方式就是后面要提到的使用Monitor,Event等做同步控制.
+        /// &lt;/summary&gt;
+        static void UseThreadAPI()
+        {
+            Console.WriteLine(&quot;----------Use thread API----------&quot;);
+            Thread t = new Thread(
+                new ThreadStart(() =&gt;
+                {
+                    while (true)
+                    {
+                        Console.WriteLine(&quot;Now Date:{0}&quot;, DateTime.Now);
+                        Thread.Sleep(1000);
+                    }
+                }
+                ));
+            t.Start();
+            //暂停线程执行
+            Console.ReadKey();
+            t.Suspend();
+            Console.WriteLine(&quot;Thread suspended&quot;);
+            //继续线程执行
+            Console.ReadKey();
+            t.Resume();
+            Console.WriteLine(&quot;Thread resumed&quot;);
+            //结束线程
+            Console.ReadKey();
+            t.Abort();
+            Console.WriteLine(&quot;Thread aborted&quot;);
+            Console.ReadKey();
+        }
+        /// &lt;summary&gt;
+        /// 使用Event做同步控制
+        /// 三个Event组合使用就可以产生同Suspend,Resuem,Abort相同的效果
+        /// 而且你可以控制Abort的时机以及并作出适当的处理
+        /// 而不是像Thread.Abort一样通过异常的方式结束线程
+        /// &lt;/summary&gt;
+        static void UseSyncEvent()
+        {
+            Console.WriteLine(&quot;----------Use  sync event----------&quot;);
+            AutoResetEvent evtPause = new AutoResetEvent(false);
+            AutoResetEvent evtResume = new AutoResetEvent(false);
+            AutoResetEvent evtStop = new AutoResetEvent(false);
+            Thread t = new Thread(
+                new ThreadStart(() =&gt;
+                {
+                    //WaitOne(1000),可产生Sleep(1000)相同的效果
+                    //如果eveStop被置位,则立即返回True,跳出循环
+                    //如果等待1000ms超时,则返回False,继续循环
+                    while (!evtStop.WaitOne(1000))
+                    {
+                        //WaitOne(0)可立即判断evtPase有没有被置位
+                        //如果置位,进入暂停状态,等待Resume被置位才会恢复线程执行
+                        if (evtPause.WaitOne(0))
+                        {
+                            //WaitOne()不带参数表示一直等待,直到被置位
+                            evtResume.WaitOne();
+                        }
+                        Console.WriteLine(&quot;Now Date:{0}&quot;, DateTime.Now);
+                    }
+                }
+                ));
+            t.Start();
+            //暂停线程执行
+            Console.ReadKey();
+            evtPause.Set();
+            Console.WriteLine(&quot;Thread suspended&quot;);
+            //继续线程执行
+            Console.ReadKey();
+            evtResume.Set();
+            Console.WriteLine(&quot;Thread resumed&quot;);
+            //结束线程
+            Console.ReadKey();
+            evtStop.Set();
+            Console.WriteLine(&quot;Thread stopped&quot;);
+            Console.ReadKey();
+        }
+        class ThreadStatusController
+        {
+            /// &lt;summary&gt;
+            /// 声明为volatile可以避免用lock进行加锁同步
+            /// 编译器自己会做优化
+            /// 另外不能声明属性为volatile,因此只能作为成员变量放出.
+            /// &lt;/summary&gt;
+            public volatile bool IsPauseRequired;
+            public volatile bool IsStopRequired;
+        }
+        /// &lt;summary&gt;
+        /// 对于放入线程池的进程,是无法通过Thread的API进行控制的
+        /// 通常的做法是通过一些bool量做控制,这不是优雅的解决方案.
+        /// &lt;/summary&gt;
+        static void UseThreadPool()
+        {
+            Console.WriteLine(&quot;----------Use thread pool----------&quot;);
+            var tsc = new ThreadStatusController();
+            ThreadPool.QueueUserWorkItem(status =&gt;
+            {
+                var ctrl = status as ThreadStatusController;
+                //等待IsStopRequired标志量的值为True
+                while (!ctrl.IsStopRequired)
+                {
+                    //如果不是Pause请求,则执行
+                    if (!ctrl.IsPauseRequired)
+                        Console.WriteLine(&quot;Now Date:{0}&quot;, DateTime.Now);
+                    Thread.Sleep(1000);
+                }
+
+            }, tsc);
+            //暂停线程执行
+            Console.ReadKey();
+            tsc.IsPauseRequired = true;
+            Console.WriteLine(&quot;Thread suspended&quot;);
+            //继续线程执行
+            Console.ReadKey();
+            tsc.IsPauseRequired = false;
+            Console.WriteLine(&quot;Thread resumed&quot;);
+            //结束线程
+            Console.ReadKey();
+            tsc.IsStopRequired = true;
+            Console.WriteLine(&quot;Thread aborted&quot;);
+            Console.ReadKey();
+        }
+        /// &lt;summary&gt;
+        /// 声明三个同步事件分别对应三种同步状态
+        /// &lt;/summary&gt;
+        class ThreadStatusEventController
+        {
+            public ThreadStatusEventController()
+            {
+                PauseEvent = new AutoResetEvent(false);
+                ResumeEvent = new AutoResetEvent(false);
+                StopEvent = new AutoResetEvent(false);
+            }
+            public AutoResetEvent PauseEvent { get; set; }
+            public AutoResetEvent ResumeEvent { get; set; }
+            public AutoResetEvent StopEvent { get; set; }
+        }
+        static void UseSyncEventThreadPool()
+        {
+            Console.WriteLine(&quot;----------Use sync event with thread pool----------&quot;);
+            var tsc = new ThreadStatusEventController();
+            ThreadPool.QueueUserWorkItem(status =&gt;
+            {
+                var ctrl = status as ThreadStatusEventController;
+                //控制代码跟采用Thread的方式类似,不累述
+                while (!ctrl.StopEvent.WaitOne(1000))
+                {
+                    if (ctrl.PauseEvent.WaitOne(0))
+                    {
+                        ctrl.ResumeEvent.WaitOne();
+                    }
+                    Console.WriteLine(&quot;Now Date:{0}&quot;, DateTime.Now);
+                }
+            }, tsc);
+            //暂停线程执行
+            Console.ReadKey();
+            tsc.PauseEvent.Set();
+            Console.WriteLine(&quot;Thread suspended&quot;);
+            //继续线程执行
+            Console.ReadKey();
+            tsc.ResumeEvent.Set();
+            Console.WriteLine(&quot;Thread resumed&quot;);
+            //结束线程
+            Console.ReadKey();
+            tsc.StopEvent.Set();
+            Console.WriteLine(&quot;Thread aborted&quot;);
+            Console.ReadKey();
+        }
+
+    }
+</code></pre>
+<p>Reference:</p>
+<blockquote>
+<p><a href="http://www.cnblogs.com/bloodish/archive/2011/03/21/1990025.html" target="_blank" rel="external">http://www.cnblogs.com/bloodish/archive/2011/03/21/1990025.html</a></p>
+</blockquote>
+<p>本文地址: <a href="http://colascarlet.moe/2016/11/21/223/">http://colascarlet.moe/2016/11/21/223/</a> 转载请注明</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: true,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91753519-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

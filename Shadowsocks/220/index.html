@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      CentOS 7 Shadowsocks优化 | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="目录
+增加TCP连接数（针对大量TCP连接）
+优化TCP参数（针对大量TCP连接）
+启用hybla模块
+启用自带hybla模块
+编译hybla模块并启用
+
+
+开启TCP FAST OPEN支持">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7 Shadowsocks优化 | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/Shadowsocks/220/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="目录
+增加TCP连接数（针对大量TCP连接）
+优化TCP参数（针对大量TCP连接）
+启用hybla模块
+启用自带hybla模块
+编译hybla模块并启用
+
+
+开启TCP FAST OPEN支持">
+<meta property="og:updated_time" content="2016-11-21T17:17:41.083Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7 Shadowsocks优化 | Cola's Memory">
+<meta name="twitter:description" content="目录
+增加TCP连接数（针对大量TCP连接）
+优化TCP参数（针对大量TCP连接）
+启用hybla模块
+启用自带hybla模块
+编译hybla模块并启用
+
+
+开启TCP FAST OPEN支持">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">CentOS 7 Shadowsocks优化</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-11-21" class="post-meta__date date">2016-11-21</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Shadowsocks/">Shadowsocks</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Shadowsocks/">Shadowsocks</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>增加TCP连接数（针对大量TCP连接）</li>
+<li>优化TCP参数（针对大量TCP连接）</li>
+<li>启用hybla模块<ul>
+<li>启用自带hybla模块</li>
+<li>编译hybla模块并启用</li>
+</ul>
+</li>
+<li>开启TCP FAST OPEN支持<a id="more"></a>
+</li>
+</ul>
+<h1 id="增加TCP连接数（针对大量TCP连接）"><a href="#增加TCP连接数（针对大量TCP连接）" class="headerlink" title="增加TCP连接数（针对大量TCP连接）"></a>增加TCP连接数（针对大量TCP连接）</h1><p>编辑<code>/etc/security/limits.conf</code></p>
+<pre><code>sudo vi /etc/security/limits.conf
+</code></pre><p>增加以下两行（设定最大文件打开数为51200）</p>
+<pre><code>* soft nofile 51200
+* hard nofile 51200
+</code></pre><p>如果是ubuntu/centos均可修改/etc/sysctl.conf<br>找到fs.file-max这一行，修改其值为1024000，并保存退出。然后执行sysctl -p使其生效。</p>
+<pre><code>sudo vi /etc/sysctl.conf
+</code></pre><h1 id="优化TCP参数（针对大量TCP连接）"><a href="#优化TCP参数（针对大量TCP连接）" class="headerlink" title="优化TCP参数（针对大量TCP连接）"></a>优化TCP参数（针对大量TCP连接）</h1><p>修改sysctl.conf配置文件</p>
+<pre><code>sudo vi /etc/sysctl.conf
+</code></pre><p>在最后添加以下内容</p>
+<pre><code># max open files
+fs.file-max = 51200
+# max read buffer
+net.core.rmem_max = 67108864
+# max write buffer
+net.core.wmem_max = 67108864
+# default read buffer
+net.core.rmem_default = 65536
+# default write buffer
+net.core.wmem_default = 65536
+# max processor input queue
+net.core.netdev_max_backlog = 4096
+# max backlog
+net.core.somaxconn = 4096
+# resist SYN flood attacks
+net.ipv4.tcp_syncookies = 1
+# reuse timewait sockets when safe
+net.ipv4.tcp_tw_reuse = 1
+# turn off fast timewait sockets recycling
+net.ipv4.tcp_tw_recycle = 0
+# short FIN timeout
+net.ipv4.tcp_fin_timeout = 30
+# short keepalive time
+net.ipv4.tcp_keepalive_time = 1200
+# outbound port range
+net.ipv4.ip_local_port_range = 10000 65000
+# max SYN backlog
+net.ipv4.tcp_max_syn_backlog = 4096
+# max timewait sockets held by system simultaneously
+net.ipv4.tcp_max_tw_buckets = 5000
+# turn on TCP Fast Open on both client and server side
+net.ipv4.tcp_fastopen = 3
+# TCP receive buffer
+net.ipv4.tcp_rmem = 4096 87380 67108864
+# TCP write buffer
+net.ipv4.tcp_wmem = 4096 65536 67108864
+# turn on path MTU discovery
+net.ipv4.tcp_mtu_probing = 1
+</code></pre><p>执行</p>
+<pre><code>sudo sysctl -p
+</code></pre><h1 id="启用hybla模块"><a href="#启用hybla模块" class="headerlink" title="启用hybla模块"></a>启用hybla模块</h1><p>查看系统可用算法，如果有显示hybla就表示系统自带</p>
+<pre><code>sysctl net.ipv4.tcp_available_congestion_control
+</code></pre><h2 id="启用自带hybla模块"><a href="#启用自带hybla模块" class="headerlink" title="启用自带hybla模块"></a>启用自带hybla模块</h2><p>直接在上一步<code>sysctl.conf</code>中加入</p>
+<pre><code># for high-latency network
+net.ipv4.tcp_congestion_control = hybla
+# for low-latency network, use cubic instead
+# net.ipv4.tcp_congestion_control = cubic
+</code></pre><p>执行</p>
+<pre><code>sudo sysctl -p
+</code></pre><h2 id="编译hybla模块并启用"><a href="#编译hybla模块并启用" class="headerlink" title="编译hybla模块并启用"></a>编译hybla模块并启用</h2><ol>
+<li>查看vps内核版本<pre><code>uname -r
+3.11.6-x86_64-linode35
+</code></pre></li>
+<li>下载相同版本的内核源码<br>可以去<a href="https://www.kernel.org/pub/linux/kernel/v3.0/查找内核源码，找到后下载后缀为tar.gz的文件。" target="_blank" rel="external">https://www.kernel.org/pub/linux/kernel/v3.0/查找内核源码，找到后下载后缀为tar.gz的文件。</a><pre><code>rm -rf linux-3.11.6.tar.gz 
+mkdir kernel
+cd kernel
+wget https://www.kernel.org/pub/linux/kernel/v3.0/linux-3.11.6.tar.gz 
+tar xzvf linux-3.11.6.tar.gz
+</code></pre></li>
+<li><p>安装内核编译工具<br>编译内核需要下面这些编译工具，不然会编译失败。</p>
+<pre><code>CentOS and Fedora
+yum update &amp;&amp; yum install -y ncurses-devel make gcc bc openssl-devel
+
+Ubuntu and Debian
+apt-get update &amp;&amp; apt-get install -y build-essential libncurses5-dev module-init-tools
+</code></pre></li>
+<li>配置内核编译文件<br>由于我们只是要为内核增加hybla htcp模块，不需要更改其他功能，直接导出官方的配置文件再修改即可。<pre><code>cd linux-3.11.6
+zcat /proc/config.gz &gt; .config
+</code></pre>编辑.config文件，查找CONFIG_TCP_CONG_CUBIC=y，要编译hybla模块在下面一行增加 CONFIG_TCP_CONG_HYBLA=y，要编译htcp模块在下面一行增加CONFIG_TCP_CONG_HTCP=y，两个都要的话，都添加在下面。<br>编译模块<pre><code>make
+</code></pre>耐心等待编译内核完成，单核编译大约需15分钟</li>
+<li>准备编译模块<pre><code>cd net/ipv4/
+mv Makefile Makefile.old
+vi Makefile
+</code></pre><ul>
+<li>5-1. 以下是hybla模块的Makefle内容，注意要把KDIR修改为你自己的源码路径，其他则照抄就可以了。<pre><code># Makefile for tcp_hybla.ko
+obj-m := tcp_hybla.o
+KDIR := /root/kernel/linux-3.11.6
+PWD := $(shell pwd)
+default:
+$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
+</code></pre></li>
+<li>5-2. 以下是htcp模块的Makefle内容，注意要把KDIR修改为你自己的源码路径，其他则照抄就可以了。<pre><code># Makefile for tcp_htcp.ko
+obj-m := tcp_htcp.o
+KDIR := /root/kernel/linux-3.11.6
+PWD := $(shell pwd)
+default:
+$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
+</code></pre></li>
+</ul>
+</li>
+<li>开始编译模块<br>进入源码根目录，编译模块<pre><code>cd /root/kernel/linux-3.11.6/
+make modules
+</code></pre></li>
+<li>测试模块<br>这里以hybla模块为例，htcp模块的话自己替换一下名称即可。<pre><code>cd /root/kernel/linux-3.11.6/net/ipv4
+insmod ./tcp_hybla.ko
+sysctl net.ipv4.tcp_available_congestion_control
+</code></pre>如果成功加载的话会显示下面<pre><code>net.ipv4.tcp_available_congestion_control = cubic reno hybla
+</code></pre>自此为止可以说已经成功了。</li>
+<li>设置hybal为优先加载<br>这里以hybla模块为例，htcp模块的话自己替换一下名称即可。<br>编辑/etc/sysctl.conf在最后添加下面这行即可<pre><code>net.ipv4.tcp_congestion_control = hybla
+</code></pre></li>
+</ol>
+<p>Reference:</p>
+<blockquote>
+<p><a href="https://github.com/breakwa11/shadowsocks-rss/wiki/ulimit" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-rss/wiki/ulimit</a><br><a href="https://github.com/shadowsocks/shadowsocks/wiki/Optimizing-Shadowsocks" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks/wiki/Optimizing-Shadowsocks</a><br><a href="https://www.ifshow.com/centos-7-shadowsocks-optimization/" target="_blank" rel="external">https://www.ifshow.com/centos-7-shadowsocks-optimization/</a><br><a href="http://www.777s.me/linode-hybla-htcp.html" target="_blank" rel="external">http://www.777s.me/linode-hybla-htcp.html</a><br><a href="https://www.91yun.org/archives/545" target="_blank" rel="external">https://www.91yun.org/archives/545</a></p>
+</blockquote>
+<p>本文地址: <a href="http://colascarlet.moe/2016/11/21/220/">http://colascarlet.moe/2016/11/21/220/</a> 转载请注明</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: true,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91753519-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

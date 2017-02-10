@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Centos7下关于Crontab定时任务 | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="crontab命令常见于Unix和Linux的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行。通常，crontab储存的指令被守护进程激活。crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos7下关于Crontab定时任务 | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/Linux/Centos/Server/232/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="crontab命令常见于Unix和Linux的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行。通常，crontab储存的指令被守护进程激活。crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。">
+<meta property="og:updated_time" content="2017-02-10T14:23:20.488Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos7下关于Crontab定时任务 | Cola's Memory">
+<meta name="twitter:description" content="crontab命令常见于Unix和Linux的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行。通常，crontab储存的指令被守护进程激活。crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">Centos7下关于Crontab定时任务</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-02-10" class="post-meta__date date">2017-02-10</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Linux/">Linux</a>, <a class="categories-link" href="/categories/Linux/Centos/">Centos</a>, <a class="categories-link" href="/categories/Linux/Centos/Server/">Server</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Centos/">Centos</a>, <a class="tags-link" href="/tags/Linux/">Linux</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>crontab命令常见于Unix和Linux的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行。通常，crontab储存的指令被守护进程激活。crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。<br><a id="more"></a></p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>安装</li>
+<li>配置</li>
+<li>crontab 命令</li>
+<li>为不同用户创建Cron任务</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code>$ yum -y install vixie-cron
+$ yum -y install crontabs
+</code></pre><p>说明：<br><code>vixie-cron</code>软件包是<code>cron</code>的主程序；<br><code>crontabs</code>软件包是用来安装、卸装、或列举用来驱动<code>cron</code>守护进程的表格的程序。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>cron 是 linux 的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：</p>
+<pre><code>service crond start     //启动服务
+service crond stop      //关闭服务
+service crond restart   //重启服务
+service crond reload    //重新载入配置
+service crond status    //查看crontab服务状态
+</code></pre><p>在CentOS系统中加入开机自动启动: <code>chkconfig --level 345 crond on</code><br>cron 的主配置文件是 <code>/etc/crontab</code>，它包括下面几行：</p>
+<pre><code>SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+
+# run-parts
+01 * * * * root run-parts /etc/cron.hourly
+02 4 * * * root run-parts /etc/cron.daily
+22 4 * * 0 root run-parts /etc/cron.weekly
+42 4 1 * * root run-parts /etc/cron.monthly
+</code></pre><p>前四行是用来配置<code>cro</code>任务运行环境的变量。<br><code>SHELL</code>变量的值告诉系统要使用哪个<code>shell</code>环境（在这个例子里是<code>bash shell</code>）；<br><code>PATH</code>变量定义用来执行命令的路径。<br><code>cron</code>任务的输出被邮寄给<code>MAILTO</code>变量定义的用户名。<br>如果<code>MAILTO</code>变量被定义为空白字符串（<code>MAILTO=&quot;&quot;</code>），电子邮件就不会被寄出。<br><code>HOME</code>变量可以用来设置在执行命令或脚本时使用的主目录。</p>
+<h1 id="crontab-命令"><a href="#crontab-命令" class="headerlink" title="crontab 命令"></a>crontab 命令</h1><p>功能：设置计时器。<br>语法：<code>crontab[-u &lt;用户名称&gt;][配置文件]</code> 或 <code>crontab [-u &lt;用户名称&gt;][-elr]</code><br>解释：<code>cron</code>是一个常驻服务，它提供计时器的功能，让用户在特定的时间得以执行预设的指令或程序。只要用户会编辑计时器的配置文件，就可以使 用计时器的功能。其配置文件格式如下：<code>Minute Hour Day Month DayOFWeek Command</code><br>参数：<br><code>-e</code>　编辑该用户的计时器设置。<br><code>-l</code>　列出该用户的计时器设置。<br><code>-r</code>　删除该用户的计时器设置。<br><code>-u &lt;用户名称&gt;</code> 　指定要设定计时器的用户名称<br>格式:</p>
+<pre><code>*   *　 *　 *　 *　　command
+分　时　日　月　周　 命令
+</code></pre><p>第1列表示分钟1～59 每分钟用<em>或者 </em>/1表示<br>第2列表示小时1～23（0表示0点）<br>第3列表示日期1～31<br>第4列表示月份1～12<br>第5列标识号星期0～6（0表示星期天）<br>第6列要运行的命令<br>例子:</p>
+<pre><code>30 21 * * * /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>上面的例子表示每晚的21:30重启apache。</p>
+<pre><code>45 4 1,10,22 * * /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>上面的例子表示每月1、10、22日的4 : 45重启apache。</p>
+<pre><code>10 1 * * 6,0 /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>上面的例子表示每周六、周日的1 : 10重启apache。</p>
+<pre><code>0,30 18-23 * * * /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>上面的例子表示在每天18 : 00至23 : 00之间每隔30分钟重启apache。</p>
+<pre><code>0 23 * * 6 /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>上面的例子表示每星期六的11 : 00 pm重启apache。</p>
+<pre><code>* */1 * * * /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>每一小时重启apache</p>
+<pre><code>* 23-7/1 * * * /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>晚上11点到早上7点之间，每隔一小时重启apache</p>
+<pre><code>0 11 4 * mon-wed /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>每月的4号与每周一到周三的11点重启apache</p>
+<pre><code>0 4 1 jan * /usr/local/etc/rc.d/lighttpd restart
+</code></pre><p>一月一号的4点重启apache</p>
+<pre><code>*/30 * * * * /usr/sbin/ntpdate 210.72.145.44
+</code></pre><p>每半小时同步一下时间</p>
+<h1 id="为不同用户创建Cron任务"><a href="#为不同用户创建Cron任务" class="headerlink" title="为不同用户创建Cron任务"></a>为不同用户创建Cron任务</h1><h2 id="为当前用户创建cron服务"><a href="#为当前用户创建cron服务" class="headerlink" title="为当前用户创建cron服务"></a>为当前用户创建cron服务</h2><ol>
+<li>键入 crontab  -e 编辑crontab服务文件<br>例如：<br>文件内容如下：<pre><code>*/2 * * * * /bin/sh /home/admin/jiaoben/buy/deleteFile.sh
+</code></pre>保存文件并并退出<pre><code>*/2 * * * * /bin/sh /home/admin/jiaoben/buy/deleteFile.sh
+</code></pre><code>*/2 * * * *</code>通过这段字段可以设定什么时候执行脚本<br><code>/bin/sh /home/admin/jiaoben/buy/deleteFile.sh</code>这一字段可以设定你要执行的脚本，这里要注意一下<code>bin/sh</code>是指运行<code>脚本的命令</code>后面一段时指脚本存放的路径</li>
+<li>查看该用户下的<code>crontab</code>服务是否创建成功， 用<code>crontab -l</code>命令  </li>
+<li>启动<code>crontab</code>服务<br>一般启动服务用<code>/sbin/service crond start</code>若是根用户的<code>cron</code>服务可以用<code>sudo service crond start</code>，这里还是要注意下不同版本Linux系统启动的服务的命令也不同，像我的虚拟机里只需用<code>sudo service cron restart</code>即可，若是在根用下直接键入<code>service cron start</code>就能启动服务</li>
+<li>查看服务是否已经运行用<code>ps -ax | grep cron</code></li>
+</ol>
+<p>Reference:</p>
+<blockquote>
+<p><a href="http://blog.csdn.net/xiyuan1999/article/details/8160998" target="_blank" rel="external">http://blog.csdn.net/xiyuan1999/article/details/8160998</a><br><a href="http://www.centoscn.com/CentOS/help/2014/1220/4346.html" target="_blank" rel="external">http://www.centoscn.com/CentOS/help/2014/1220/4346.html</a></p>
+</blockquote>
+<p>本文地址: <a href="http://colascarlet.moe/2017/02/10/232/">http://colascarlet.moe/2017/02/10/232/</a> 转载请注明</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: true,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91753519-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

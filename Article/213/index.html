@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Shadowsocks-libev 进阶使用（基于Jffs） | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="主要顺序
+上传文件
+配置json文件
+使用socks5协议
+直接转发TCP
+启用UDP模式
+编译加载TPROXY.ko模块
+更新iptables
+转发UDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shadowsocks-libev 进阶使用（基于Jffs） | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/Article/213/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="主要顺序
+上传文件
+配置json文件
+使用socks5协议
+直接转发TCP
+启用UDP模式
+编译加载TPROXY.ko模块
+更新iptables
+转发UDP">
+<meta property="og:updated_time" content="2016-11-21T17:23:17.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shadowsocks-libev 进阶使用（基于Jffs） | Cola's Memory">
+<meta name="twitter:description" content="主要顺序
+上传文件
+配置json文件
+使用socks5协议
+直接转发TCP
+启用UDP模式
+编译加载TPROXY.ko模块
+更新iptables
+转发UDP">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/prettify.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">Shadowsocks-libev 进阶使用（基于Jffs）</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-08-21" class="post-meta__date date">2016-08-21</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Article/">Article</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h1 id="主要顺序"><a href="#主要顺序" class="headerlink" title="主要顺序"></a>主要顺序</h1><ul>
+<li>上传文件</li>
+<li>配置json文件</li>
+<li>使用socks5协议</li>
+<li>直接转发TCP</li>
+<li>启用UDP模式<ul>
+<li>编译加载TPROXY.ko模块</li>
+<li>更新iptables</li>
+<li>转发UDP<a id="more"></a>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h1><p>在路由器web管理页面打开jffs加载模式<br>使用WinSCP或Xshell将SS-local，ss-redir，ss-tunnel上传至jffs目录,并赋予可执行权限</p>
+<pre><code>chmod a+x ss-*
+</code></pre><h1 id="配置json文件"><a href="#配置json文件" class="headerlink" title="配置json文件"></a>配置json文件</h1><p>使用shadowsocks-libev有2种方式<br>1.直接指令参数</p>
+<pre><code>-o [obfs混淆协议] -O [protocol协议] -g [obfsparam混淆参数] -s [服务器地址] -p [服务器端口] -l [本地监听端口] -b [本地监听地址] -k [SS密码] -m [加密方式]
+</code></pre><p>2.采用json文件参数<br>输入</p>
+<pre><code>nano ./ss-config.json
+</code></pre><p>写入以下参数</p>
+<pre><code>{
+&quot;server&quot;:&quot;xxx.xxx.xxx.xxx&quot;,
+&quot;server_port&quot;:xxxx,
+&quot;local_address&quot;:&quot;xxx.xxx.xxx.xxx&quot;,
+&quot;local_port&quot;:xxxx,
+&quot;password&quot;:&quot;xxx&quot;,
+&quot;timeout&quot;:60,
+&quot;method&quot;:&quot;xxxx&quot;,
+&quot;encrypt_method&quot;:&quot;xxxx&quot;,
+&quot;protocol&quot;:&quot;xxxx&quot;,
+&quot;obfs&quot;:&quot;xxxx&quot;
+}
+</code></pre><h1 id="使用socks5协议"><a href="#使用socks5协议" class="headerlink" title="使用socks5协议"></a>使用socks5协议</h1><p>直接在路由上搭建socks5协议接口<br>在SHELL上输入:</p>
+<pre><code>./ss-local -o [obfs混淆协议] -O [protocol协议] -g [obfsparam混淆参数] -s [服务器地址] -p [服务器端口] -l [本地监听端口] -b [本地监听地址] -k [SS密码] -m [加密方式]
+</code></pre><h1 id="直接转发TCP"><a href="#直接转发TCP" class="headerlink" title="直接转发TCP"></a>直接转发TCP</h1><p>在SHELL上输入:</p>
+<pre><code>./ss-redir -c ./ss-config.json -f /var/run/ss-redir.pid
+</code></pre><p>并在iptables上增加如下规则</p>
+<pre><code>iptables -t nat -N shadowsocks
+iptables -t nat -A shadowsocks -p tcp -d xx.xx.xx.xx/xx -j REDIRECT --to-ports xxxx
+iptables -t nat -A shadowsocks -p tcp -j RETURN
+iptables -t nat -A PREROUTING -p tcp -j shadowsocks
+</code></pre><p>其中–to-ports后写入本地监听端口</p>
+<h1 id="启用UDP模式"><a href="#启用UDP模式" class="headerlink" title="启用UDP模式"></a>启用UDP模式</h1><p>启用UDP转发模式需要在内核中开启TPROXY模块（依赖模块:nf_defrag_ipv6,ipv6,nf_tproxy_core,因此需要开启路由器中IPv6支持）<br>其中TPROXY.ko和nf_tproxy_core.ko需要从源码编译</p>
+<h2 id="编译加载TPROXY-ko模块"><a href="#编译加载TPROXY-ko模块" class="headerlink" title="编译加载TPROXY.ko模块"></a>编译加载TPROXY.ko模块</h2><p>配置编译环境</p>
+<pre><code>sudo apt-get install gcc g++ binutils patch bzip2 flex bison make gettext unzip zlib1g-dev libc6 subversion
+</code></pre><p>下载交叉编译所需工具链</p>
+<pre><code>cd /wor/place/
+wget https://downloads.openwrt.org/snapshots/trunk/brcm47xx/mips74k/OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64.tar.bz2
+tar jxvf OpenWrt-Toolchain-brcm47xx-mips74k_gcc-5.3.0_musl-1.1.14.Linux-x86_64.tar.bz2
+</code></pre><p>下载对应内核源码</p>
+<pre><code>svn checkout svn://svn.dd-wrt.com/DD-WRT/src/linux/universal/linux-3.xx
+cd linux-3.xx
+</code></pre><p>改名初始配置文件</p>
+<pre><code>cp .config_bcmmips .config
+</code></pre><p>进入图形配置界面</p>
+<pre><code>make menuconfig
+</code></pre><p>将不需要的模块，驱动等取消选择，将IPv6,TPROXY模块选择m<br>修改Kconfig</p>
+<pre><code>nano drivers/net/wireless/Kconfig
+</code></pre><p>注释以下代码</p>
+<pre><code>#if RALINK_DEVICE
+#source &quot;drivers/net/wireless/rt3352/rt2860v2_ap/Kconfig&quot;
+#source &quot;drivers/net/wireless/rt3352/rt2860v2_sta/Kconfig&quot;
+#endif
+#if SOC_MT7620_OPENWRT || SOC_MT7621_OPENWRT
+#source &quot;drivers/net/wireless/rt7620/rt2860v2_ap/Kconfig&quot;
+#source &quot;drivers/net/wireless/rt7620/rt2860v2_sta/Kconfig&quot;
+#source &quot;drivers/net/wireless/rt5592/Kconfig&quot;
+#source &quot;drivers/net/wireless/rt7612/rlt_wifi/Kconfig&quot;
+#source &quot;drivers/net/wireless/rt7610/Kconfig&quot;
+#endif
+</code></pre><p>修改xt_TPROXY.c文件<br>在</p>
+<pre><code>static int __init tproxy_tg_init(void)
+{
+nf_defrag_ipv4_enable();
+...
+</code></pre><p>之前加入如下代码</p>
+<pre><code>void nf_defrag_ipv4_enable(void)
+{
+}
+EXPORT_SYMBOL_GPL(nf_defrag_ipv4_enable);
+</code></pre><p>设置环境变量</p>
+<pre><code>export STAGING_DIR=/root/temp/DD-WRT/toolchain-link
+export PATH=$PATH:/root/temp/DD-WRT/bin
+export CROSS_COMPILE=mipsel-openwrt-linux-musl-
+export ARCH=mips
+</code></pre><p>执行编译</p>
+<pre><code>make modules ARCH=mips CROSS_COMPILE=mipsel-openwrt-linux-musl-
+</code></pre><p>编译完成后通过find找到ko文件所在</p>
+<h2 id="更新iptables"><a href="#更新iptables" class="headerlink" title="更新iptables"></a>更新iptables</h2><p>下载iptables源码</p>
+<pre><code>wget http://www.netfilter.org/projects/iptables/files/iptables-1.4.14.tar.bz2
+tar xjf iptables-1.4.14.tar.bz2
+cd iptables-1.4.14
+</code></pre><p>下载执行musl补丁</p>
+<pre><code>wget https://raw.githubusercontent.com/sabotage-linux/sabotage/master/KEEP/iptables-1.4.14-musl-fixes.patch
+patch -p1 &amp;lt; iptables-1.4.14-musl-fixes.patch
+</code></pre><p>设置环境变量</p>
+<pre><code>export STAGING_DIR=/home/ilikecola/ss-ssr/Rss-Libev/toolchain
+export PATH=$PATH:/home/ilikecola/ss-ssr/Rss-Libev/bin
+export CC=mipsel-openwrt-linux-musl-gcc
+export CXX=mipsel-openwrt-linux-musl-g++
+export AR=mipsel-openwrt-linux-musl-ar
+export RANLIB=mipsel-openwrt-linux-musl-ranlib
+export CHOST=mipsel-openwrt-linux-musl-gcc
+</code></pre><p>执行配置文件</p>
+<pre><code>./configure --prefix=/opt --host=mips
+</code></pre><p>此处安装目录最好是/opt方便转移到DDWRT<br>编译</p>
+<pre><code>make
+</code></pre><p>安装</p>
+<pre><code>sudo mkdir /opt
+sudo chown usr2install /opt
+make install
+</code></pre><p>打包文件</p>
+<pre><code>&gt; sudo chown -R 0:0 /opt
+&gt; sudo tar cpvzf opt-iptables.tar.gz /opt
+</code></pre><p>上传至路由器jffs目录下，挂载opt到jffs使得opt可以写入</p>
+<pre><code>mkdir /jffs/jffs_opt
+mount --bind /jffs/jffs_opt /opt
+</code></pre><p>解压文件</p>
+<pre><code>tar -xzvf /mnt/sda1/opt-iptables.tar.gz -C /
+</code></pre><p>查看iptables版本</p>
+<pre><code>/opt/sbin/iptables -v
+iptables v1.4.14: no command specified
+Try &#39;iptables -h&#39; or &#39;iptables --help&#39; for more information.
+</code></pre><h2 id="转发UDP"><a href="#转发UDP" class="headerlink" title="转发UDP"></a>转发UDP</h2><p>在ss-local/ss-redir后增加 -u 参数<br>修改路由参数</p>
+<pre><code>ip rule add fwmark 0x01/0x01 table 100
+ip route add local 0.0.0.0/0 dev lo table 100
+</code></pre><p>并在iptables上增加如下规则</p>
+<pre><code>/opt/sbin/iptables -t mangle -N shadowsocks
+/opt/sbin/iptables -t mangle -A shadowsocks -p udp -d xx.xx.xx.xx/xx -j TPROXY --on-port xxxx --tproxy-mark 0x01/0x01
+/opt/sbin/iptables -t mangle -A shadowsocks -p udp -j RETURN
+/opt/sbin/iptables -t mangle -A PREROUTING -p udp -j shadowsocks
+</code></pre><p>其中<code>--to-ports</code>后写入本地监听端口</p>
+<p>IP获取方法：<br>使用APNIC 的 IP WHOIS 工具</p>
+<blockquote>
+<p><a href="http://wq.apnic.net/apnic-bin/whois.pl" target="_blank" rel="external">http://wq.apnic.net/apnic-bin/whois.pl</a></p>
+</blockquote>
+<p>用部分IP查询全部所属IP段</p>
+<p>引用参考：</p>
+<blockquote>
+<p><a href="http://elatov.github.io/2015/07/compile-iptables-tee-module-for-dd-wrt/" target="_blank" rel="external">http://elatov.github.io/2015/07/compile-iptables-tee-module-for-dd-wrt/</a><br><a href="https://www.dd-wrt.com/wiki/index.php/Development" target="_blank" rel="external">https://www.dd-wrt.com/wiki/index.php/Development</a><br><a href="https://github.com/breakwa11/shadowsocks-libev" target="_blank" rel="external">https://github.com/breakwa11/shadowsocks-libev</a><br><a href="http://www.right.com.cn/forum/thread-158405-1-1.html" target="_blank" rel="external">http://www.right.com.cn/forum/thread-158405-1-1.html</a><br><a href="https://www.gitbook.com/book/neroxps/compile-shadowsocks-rss-libev/details" target="_blank" rel="external">https://www.gitbook.com/book/neroxps/compile-shadowsocks-rss-libev/details</a><br><a href="http://lxr.free-electrons.com/ident?v=2.6.31;i=nf_defrag_ipv4_enable" target="_blank" rel="external">http://lxr.free-electrons.com/ident?v=2.6.31;i=nf_defrag_ipv4_enable</a></p>
+</blockquote>
+<p>本文地址: <a href="http://colascarlet.moe/2016/08/21/213/">http://colascarlet.moe/2016/08/21/213/</a> 转载请注明</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    <script src="/js/animsition.min.js"></script>
+    <script src="/js/prettify/prettify.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: true,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91753519-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

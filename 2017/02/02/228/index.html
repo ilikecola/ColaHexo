@@ -259,6 +259,7 @@ classes that you can use:
 <h2 id="禁用光猫中的TR069，而不用删除TR069，杜绝运营商后台更新配置等检查信息。"><a href="#禁用光猫中的TR069，而不用删除TR069，杜绝运营商后台更新配置等检查信息。" class="headerlink" title="禁用光猫中的TR069，而不用删除TR069，杜绝运营商后台更新配置等检查信息。"></a>禁用光猫中的TR069，而不用删除TR069，杜绝运营商后台更新配置等检查信息。</h2><p><code>sendcmd 1 DB p MgtServer</code><br>解释：查看一下当前的电信远程控制<br><code>sendcmd 1 DB set MgtServer 0 Tr069Enable 0</code><br>解释：禁用TR069远程控制<br><code>sendcmd 1 DB save</code><br>解释：修改保存</p>
 <h2 id="去除运营商加入的连接终端限制。如果家里上网的设备超过4台（例如：台式机一台，iPad一台，笔记本一台，手机n台）"><a href="#去除运营商加入的连接终端限制。如果家里上网的设备超过4台（例如：台式机一台，iPad一台，笔记本一台，手机n台）" class="headerlink" title="去除运营商加入的连接终端限制。如果家里上网的设备超过4台（例如：台式机一台，iPad一台，笔记本一台，手机n台）"></a>去除运营商加入的连接终端限制。如果家里上网的设备超过4台（例如：台式机一台，iPad一台，笔记本一台，手机n台）</h2><p><code>sendcmd 1 DB set CltLmt 8 Max 9</code><br>解释：修改最大连接设备数量，红字表示我这里修改的是9台，当然，您也可以修改成其他的数字，但是不能超过255。按照家庭用户，建议修改成20即可。<br><code>sendcmd 1 DB save</code><br>解释：修改保存</p>
 <h2 id="修改登录用户名和密码"><a href="#修改登录用户名和密码" class="headerlink" title="修改登录用户名和密码"></a>修改登录用户名和密码</h2><p><code>sendcmd 1 DB set UserInfo 0 Username admin</code><br>解释：以上将超级用户名修改为admin，当然您也可以将admin修改成任意名称<br><code>sendcmd 1 DB set UserInfo 0 Password admin</code><br>解释：以上命令将超级用户口令修改为admin，当然您也可以将admin修改成任意字符<br><code>sendcmd 1 DB save</code><br>解释：以上命令是将您修改的超级用户名及超级用户口令进行了保存。<br>注意：如果telecomadmin这个用户名不储存在UserInfo这个表，而是DevAuthInfo时，您需将上则命令行中的UserInfo替换为DevAuthInfo。</p>
+<p>���ĵ�ַ: <a href="http://colascarlet.moe/2017/02/02/228/">http://colascarlet.moe/2017/02/02/228/</a> ת����ע��</p>
 
   </section>
 

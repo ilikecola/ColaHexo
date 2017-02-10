@@ -105,5 +105,10 @@ $(document).ready(function() {
     // $('.navigation-wrapper').toggleClass('visible');
     $('.btn-mobile-menu__icon').toggleClass('icon-list icon-x-circle animated fadeIn');
   });
+  
+  $(window).load(function(){
+ 		$('pre').addClass('prettyprint linenums').attr('style', 'overflow:auto;');
+   	prettyPrint();
+ })
 
 });

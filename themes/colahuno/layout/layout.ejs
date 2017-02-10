@@ -58,7 +58,7 @@
 <!---    <%- css('css/highlight') %> --->
     <%- css('css/archive.css') %>
     <%- css('css/china-social-icon.css') %>
-    <%- css('css/prettify.css') %>
+    <%- css('css/sons-of-obsidian.css') %>
 
 </head>
 <body>
@@ -81,17 +81,11 @@
     </div>
 
     <!-- js files -->
-    <script src="<%- config.root %>js/jquery.min.js"></script>
-    <script src="<%- config.root %>js/main.js"></script>
-    <script src="<%- config.root %>js/scale.fix.js"></script>
-    <script src="<%- config.root %>js/animsition.min.js"></script>
-    <script src="<%- config.root %>js/prettify/prettify.js"></script>
-    <script>
-    	jQuery(document).ready(function () {
-    		jQuery("pre").addClass("prettyprint linenums");
-    		prettyPrint();
-			});
-    </script>
+    <script type="text/javascript" src="<%- config.root %>js/jquery.min.js"></script>
+    <script type="text/javascript" src="<%- config.root %>js/main.js"></script>
+    <script type="text/javascript" src="<%- config.root %>js/scale.fix.js"></script>
+    <script type="text/javascript" src="<%- config.root %>js/animsition.min.js"></script>
+    <script type="text/javascript" src="<%- config.root %>js/prettify/prettify.js"></script>
     
 
     <%- partial('_scripts/mathjax') %>

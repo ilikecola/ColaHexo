@@ -1125,7 +1125,7 @@ code {
   height: 100%;
   z-index: -1;
   opacity: 0.2;
-  background: url(../images/list-cover.png) top right no-repeat #666666;
+  background: url(../images/list-cover.png) top right no-repeat;
   background-size: contain;
   background-position:100% 0;
   background-attachment:fixed; }
@@ -1147,7 +1147,7 @@ code {
   height: 100%;
   z-index: -1;
   opacity: 0.2;
-  background: url(../images/post-cover.png) no-repeat #666666;
+  background: url(../images/post-cover.png) no-repeat;
   background-size: contain;
   background-position:80% 0;
   background-attachment:fixed; }
@@ -1281,7 +1281,7 @@ hr {
   width: 100%;
   max-width: none;
   height: 100%;
-  background: url(../images/background-cover.jpg) top left no-repeat #666666;
+  background: url(../images/background-cover.jpg) top left no-repeat;
   background-size: cover; }
 
 .panel-cover--collapsed {

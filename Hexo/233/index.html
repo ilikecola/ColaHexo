@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/Hexo/233/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="虽然Hexo自带了代码高亮的功能，但是渲染生成后的代码是使用table，然后一大堆的tr、td标签。而且试了好几种方法都没能让代码自动换行。想起了之前在Wordpress上使用的Google Prettify插件，于是尝试使用prettify对代码进行高亮显示。">
-<meta property="og:updated_time" content="2017-02-10T16:54:45.145Z">
+<meta property="og:updated_time" content="2017-02-13T20:05:40.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo使用Google Prettify高亮代码 | Cola's Memory">
 <meta name="twitter:description" content="虽然Hexo自带了代码高亮的功能，但是渲染生成后的代码是使用table，然后一大堆的tr、td标签。而且试了好几种方法都没能让代码自动换行。想起了之前在Wordpress上使用的Google Prettify插件，于是尝试使用prettify对代码进行高亮显示。">
@@ -36,7 +36,7 @@
 <!---    <link rel="stylesheet" href="/css/highlight.css"> --->
     <link rel="stylesheet" href="/css/archive.css">
     <link rel="stylesheet" href="/css/china-social-icon.css">
-    <link rel="stylesheet" href="/css/sons-of-obsidian.css">
+    <link rel="stylesheet" href="/css/github.css">
 
 </head>
 <body>
@@ -302,8 +302,10 @@ classes that you can use:
  })
 </code></pre><h1 id="关于换行和代码缩进"><a href="#关于换行和代码缩进" class="headerlink" title="关于换行和代码缩进"></a>关于换行和代码缩进</h1><h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><p>关于代码的自动换行，在你的css文件中添加如下的样式即可：</p>
 <pre><code>pre{
-    word-break: break-all;
-    word-wrap: break-word;
+    white-space:pre;
+    white-space:pre-wrap;
+    word-break:break-all;
+    word-wrap:break-word;
   }
 </code></pre><h2 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h2><p>关于代码的缩进，在你的css文件中添加如下的样式即可：</p>
 <pre><code>pre{
@@ -312,7 +314,7 @@ classes that you can use:
 </code></pre><h1 id="其他样式下载"><a href="#其他样式下载" class="headerlink" title="其他样式下载"></a>其他样式下载</h1><p>关于代码高亮的主题，可以在这个网站 <a href="http://jmblog.github.io/color-themes-for-google-code-prettify/" target="_blank" rel="external">http://jmblog.github.io/color-themes-for-google-code-prettify/</a> 选择一套你喜欢的主题替换上面的prettify.css即可。</p>
 <p>Reference:</p>
 <blockquote>
-<p><a href="https://liuzhichao.com/2016/hexo-use-prettify-to-highlight-code.html" target="_blank" rel="external">https://liuzhichao.com/2016/hexo-use-prettify-to-highlight-code.html</a><br><a href="http://blog.hellofe.com/tips/2013/03/03/develop-this-blog/" target="_blank" rel="external">http://blog.hellofe.com/tips/2013/03/03/develop-this-blog/</a></p>
+<p><a href="https://liuzhichao.com/2016/hexo-use-prettify-to-highlight-code.html" target="_blank" rel="external">https://liuzhichao.com/2016/hexo-use-prettify-to-highlight-code.html</a><br><a href="http://blog.hellofe.com/tips/2013/03/03/develop-this-blog/" target="_blank" rel="external">http://blog.hellofe.com/tips/2013/03/03/develop-this-blog/</a><br><a href="https://blog.evercoding.net/2013/02/27/highlight-code-with-google-code-prettify" target="_blank" rel="external">https://blog.evercoding.net/2013/02/27/highlight-code-with-google-code-prettify</a></p>
 </blockquote>
 <p>本文地址: <a href="http://colascarlet.moe/Hexo/233/">http://colascarlet.moe/Hexo/233/</a> 转载请注明</p>
 

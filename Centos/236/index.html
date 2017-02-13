@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/Centos/236/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
-<meta property="og:updated_time" content="2017-02-13T19:27:18.753Z">
+<meta property="og:updated_time" content="2017-02-13T19:28:34.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS下查看、更新、删除yum安装包 | Cola's Memory">
 <meta name="twitter:description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
@@ -265,64 +265,40 @@ classes that you can use:
 <li>更新系统</li>
 <li>卸载软件包</li>
 </ul>
-<h1 id="查看搜索软件包"><a href="#查看搜索软件包" class="headerlink" title="查看搜索软件包"></a>查看搜索软件包</h1><ol>
-<li>查找指定软件包</li>
-</ol>
-<pre><code># shell sentence
+<h1 id="查看搜索软件包"><a href="#查看搜索软件包" class="headerlink" title="查看搜索软件包"></a>查看搜索软件包</h1><h2 id="查找指定软件包"><a href="#查找指定软件包" class="headerlink" title="查找指定软件包"></a>查找指定软件包</h2><pre><code># shell sentence
 $ yum search softwate_package_name
 
 # for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
 $ yum search lrzsz
 </code></pre><p></p><p></p>
-<ol>
-<li>列出所有可安装的软件包</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="1-列出所有可安装的软件包"><a href="#1-列出所有可安装的软件包" class="headerlink" title="1.列出所有可安装的软件包"></a>1.列出所有可安装的软件包</h2><pre><code># shell sentence
 $ yum list
 </code></pre><p></p><p></p>
-<ol>
-<li>列出所有可更新的软件包</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="2-列出所有可更新的软件包"><a href="#2-列出所有可更新的软件包" class="headerlink" title="2.列出所有可更新的软件包"></a>2.列出所有可更新的软件包</h2><pre><code># shell sentence
 $ yum list updates
 </code></pre><p></p><p></p>
-<ol>
-<li>列出所有已安装的软件包</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="3-列出所有已安装的软件包"><a href="#3-列出所有已安装的软件包" class="headerlink" title="3.列出所有已安装的软件包"></a>3.列出所有已安装的软件包</h2><pre><code># shell sentence
 $ yum list installed
 </code></pre><p></p><p></p>
-<ol>
-<li>列出所有已安装但不在Yum Repository软件包资源库内的软件包</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="4-列出所有已安装但不在Yum-Repository软件包资源库内的软件包"><a href="#4-列出所有已安装但不在Yum-Repository软件包资源库内的软件包" class="headerlink" title="4.列出所有已安装但不在Yum Repository软件包资源库内的软件包"></a>4.列出所有已安装但不在Yum Repository软件包资源库内的软件包</h2><pre><code># shell sentence
 $ yum list extras
 </code></pre><p></p><p></p>
-<ol>
-<li>列出指定的软件包安装信息</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="5-列出指定的软件包安装信息"><a href="#5-列出指定的软件包安装信息" class="headerlink" title="5.列出指定的软件包安装信息"></a>5.列出指定的软件包安装信息</h2><pre><code># shell sentence
 $ yum list software_package_name
 
 # for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
 $ yum list lrzsz
 </code></pre><p></p><p></p>
-<ol>
-<li>查看软件包说明信息</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="6-查看软件包说明信息"><a href="#6-查看软件包说明信息" class="headerlink" title="6.查看软件包说明信息"></a>6.查看软件包说明信息</h2><pre><code># shell sentence
 $ yum info software_package_name
 
 # for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
 $ yum info lrzsz
 </code></pre><p></p><p></p>
-<ol>
-<li>查看所有软件包说明信息</li>
-</ol>
-<pre><code># shell sentence
+<h2 id="7-查看所有软件包说明信息"><a href="#7-查看所有软件包说明信息" class="headerlink" title="7.查看所有软件包说明信息"></a>7.查看所有软件包说明信息</h2><pre><code># shell sentence
 $ yum info
 </code></pre><p></p><p></p>
-<h1 id="更新软件包"><a href="#更新软件包" class="headerlink" title="更新软件包"></a>更新软件包</h1><pre><code># shell sentence
+<h1 id="8-更新软件包"><a href="#8-更新软件包" class="headerlink" title="8.更新软件包"></a>8.更新软件包</h1><pre><code># shell sentence
 $ yum update software_package_name
 
 # for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)

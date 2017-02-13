@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      CentOS7开启Google TCP-BBR优化算法 | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="BBR是Google的几位工程师研发的，开源免费，项目地址：https://github.com/google/bbrBBR的唯一麻烦就是依赖的内核必须为4.9以上，以下的都不能得到支持。目前最省事的就是Ubuntu、Debian系统，CentOS目前支持6.x、7.x版本，如果你的VPS内核是旧版本需要手动更换内核。OVZ的VPS因为不能更换内核无法使用。目前BBR的效果比较令人满意，即使是一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7开启Google TCP-BBR优化算法 | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/Centos/235/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="BBR是Google的几位工程师研发的，开源免费，项目地址：https://github.com/google/bbrBBR的唯一麻烦就是依赖的内核必须为4.9以上，以下的都不能得到支持。目前最省事的就是Ubuntu、Debian系统，CentOS目前支持6.x、7.x版本，如果你的VPS内核是旧版本需要手动更换内核。OVZ的VPS因为不能更换内核无法使用。目前BBR的效果比较令人满意，即使是一个">
+<meta property="og:updated_time" content="2017-02-13T19:10:08.647Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS7开启Google TCP-BBR优化算法 | Cola's Memory">
+<meta name="twitter:description" content="BBR是Google的几位工程师研发的，开源免费，项目地址：https://github.com/google/bbrBBR的唯一麻烦就是依赖的内核必须为4.9以上，以下的都不能得到支持。目前最省事的就是Ubuntu、Debian系统，CentOS目前支持6.x、7.x版本，如果你的VPS内核是旧版本需要手动更换内核。OVZ的VPS因为不能更换内核无法使用。目前BBR的效果比较令人满意，即使是一个">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/sons-of-obsidian.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">CentOS7开启Google TCP-BBR优化算法</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-02-14" class="post-meta__date date">2017-02-14</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Centos/">Centos</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/BBR/">BBR</a>, <a class="tags-link" href="/tags/Centos/">Centos</a>, <a class="tags-link" href="/tags/Google/">Google</a>, <a class="tags-link" href="/tags/TCP-Congestion/">TCP Congestion</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>BBR是Google的几位工程师研发的，开源免费，项目地址：<a href="https://github.com/google/bbr" target="_blank" rel="external">https://github.com/google/bbr</a><br>BBR的唯一麻烦就是依赖的内核必须为4.9以上，以下的都不能得到支持。目前最省事的就是Ubuntu、Debian系统，CentOS目前支持6.x、7.x版本，如果你的VPS内核是旧版本需要手动更换内核。OVZ的VPS因为不能更换内核无法使用。<br>目前BBR的效果比较令人满意，即使是一个线路不好的KVM VPS也能得到改善，但是据部分人测试教育网会有减速效果，如果你的网络是教育网还是不要使用为好。<br><a id="more"></a></p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>安装Centos7内核<ul>
+<li>安装源</li>
+<li>替换内核</li>
+<li>删除多余内核</li>
+</ul>
+</li>
+<li>开启TCP-BBR</li>
+</ul>
+<h1 id="安装Centos7内核"><a href="#安装Centos7内核" class="headerlink" title="安装Centos7内核"></a>安装Centos7内核</h1><p>以下命令均默认在ROOT权限下。</p>
+<h2 id="安装源"><a href="#安装源" class="headerlink" title="安装源"></a>安装源</h2><p>增加elrepo源</p>
+<pre><code>cat &gt; /etc/yum.repos.d/elrepo.repo &lt;&lt; EOF
+[elrepo-kernel]
+name=ELRepo.org Community Enterprise Linux Kernel Repository - el7
+baseurl=http://elrepo.org/linux/kernel/el7/\$basearch/
+        http://mirrors.coreix.net/elrepo/kernel/el7/\$basearch/
+        http://jur-linux.org/download/elrepo/kernel/el7/\$basearch/
+        http://repos.lax-noc.com/elrepo/kernel/el7/\$basearch/
+        http://mirror.ventraip.net.au/elrepo/kernel/el7/\$basearch/
+enabled=1
+gpgcheck=0
+EOF
+</code></pre><p>可能存在yum更新内核时候找不到升级包，请检查/etc/yum.conf是否过滤了kernel<br>找到改文件将exclude=kernel<em> centos-release</em>注销，再尝试安装<br>安装elrepo替换4.9内核及grub2</p>
+<pre><code>yum -y install kernel-ml grub2
+</code></pre><p>查看4.9内核是否安装成功</p>
+<pre><code>[root@linode1495332 ~]# ls -l /boot/vmlinuz*
+-rwxr-xr-x 1 root root 6037696 Dec 22 10:16 /boot/vmlinuz-0-rescue-72863e389b584a4dab36fae7f3bffda2
+-rwxr-xr-x 1 root root 6037696 Dec 12 05:37 /boot/vmlinuz-4.9.0-1.el7.elrepo.x86_64
+</code></pre><h2 id="替换内核"><a href="#替换内核" class="headerlink" title="替换内核"></a>替换内核</h2><h3 id="Linode内核切换方法-适用于KVM架构-："><a href="#Linode内核切换方法-适用于KVM架构-：" class="headerlink" title="Linode内核切换方法(适用于KVM架构)："></a>Linode内核切换方法(适用于KVM架构)：</h3><p>执行</p>
+<pre><code>[root@linode1495332 etc]# mkdir /boot/grub
+[root@linode1495332 etc]# grub2-mkconfig -o /boot/grub/grub.cfg
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-4.9.0-1.el7.elrepo.x86_64
+Found initrd image: /boot/initramfs-4.9.0-1.el7.elrepo.x86_64.img
+Found linux image: /boot/vmlinuz-0-rescue-72863e389b584a4dab36fae7f3bffda2
+Found initrd image: /boot/initramfs-0-rescue-72863e389b584a4dab36fae7f3bffda2.img
+done
+</code></pre><p>点击Linode后台面板Dashboard，点击Edit按钮并在内核选项中选择<code>GRUB2</code>(仅KVM架构)<br></p><br>重启Linode即可<br><p></p><br>查看内核版本<p></p>
+<pre><code>[root@linode1495332 ~]# uname -a
+Linux linode1495332.members.linode.com 4.9.0-1.el7.elrepo.x86_64 #1 SMP Sun Dec 11 15:43:54 EST 2016 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre><h3 id="Linode内核切换方法-适用于Xen架构-："><a href="#Linode内核切换方法-适用于Xen架构-：" class="headerlink" title="Linode内核切换方法(适用于Xen架构)："></a>Linode内核切换方法(适用于Xen架构)：</h3><p>安装<code>ncurses</code>库</p>
+<pre><code>yum update
+yum install -y ncurses-devel
+</code></pre><p>创建<code>initrd</code>文件</p>
+<pre><code>mkinitrd -o initrd-3.19.3-custom.img
+</code></pre><p>其中<code>initrd-3.19.3....</code>替换为之前安装的4.9内核名称(可能之前已安装img镜像，这步可选)<br><code>PV-GRUB</code>会在<code>/boot/grub</code>中寻找<code>menu.lst</code>因此创建此目录和文件</p>
+<pre><code>mkdir /boot/grub
+touch /boot/grub/menu.lst
+</code></pre><p>文件中写入</p>
+<pre><code>default=0
+timeout=5
+title linux-image
+  root (hd0)
+  kernel /boot/vmlinuz-3.16.0-4-amd64 root=/dev/xvda console=hvc0 ro
+  initrd /boot/initrd.img-3.16.0-4-amd64
+</code></pre><p>其中:<code>kernel</code>后改为之前安装的4.9内核，<code>initrd</code>后改为之前创建的<code>initrd</code>文件，root (hd0)与root=/dev/xvda要对应。其他xen的可能是/dev/xvda1，那么对应应为root(hd0,0)。对于xen而言，console为hvc0。<br>点击Linode后台面板Dashboard，点击Edit按钮并在内核选项中选择<code>pv-grub-x86_64</code>(仅Xen架构)<br></p><br>重启Linode即可<br><p></p><br>查看内核版本<p></p>
+<pre><code>[root@linode1495332 ~]# uname -a
+Linux linode1495332.members.linode.com 4.9.0-1.el7.elrepo.x86_64 #1 SMP Sun Dec 11 15:43:54 EST 2016 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre><h3 id="其他VPS商替换内核-例如CONOHA-ALIYUN"><a href="#其他VPS商替换内核-例如CONOHA-ALIYUN" class="headerlink" title="其他VPS商替换内核(例如CONOHA ALIYUN)"></a>其他VPS商替换内核(例如CONOHA ALIYUN)</h3><p>查看已有内核</p>
+<pre><code>[root@oneinstack ~]#  awk -F\&#39; &#39;$1==&quot;menuentry &quot; {print $2}&#39; /etc/grub2.cfg
+CentOS Linux (4.9.0-1.el7.elrepo.x86_64) 7 (Core)
+CentOS Linux (3.10.0-514.2.2.el7.x86_64) 7 (Core)
+CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)
+CentOS Linux (0-rescue-7d26c16f128042a684ea474c9e2c240f) 7 (Core)
+</code></pre><p>选择默认启动内核</p>
+<pre><code>[root@oneinstack ~]# grub2-set-default 0
+</code></pre><p>重启服务器</p>
+<pre><code>reboot
+</code></pre><p>查看内核版本</p>
+<pre><code>[root@linode1495332 ~]# uname -a
+Linux linode1495332.members.linode.com 4.9.0-1.el7.elrepo.x86_64 #1 SMP Sun Dec 11 15:43:54 EST 2016 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre><h2 id="删除多余内核"><a href="#删除多余内核" class="headerlink" title="删除多余内核"></a>删除多余内核</h2><pre><code>rpm -qa | grep kernel
+</code></pre><p>可以查看当前安装的kernel内核</p>
+<pre><code>cat /proc/version
+</code></pre><p>可以查看当前使用的内核</p>
+<pre><code>yum remove kernel-3.10.0XXXXX
+</code></pre><p>可以删除多余不必要的内核节省硬盘空间</p>
+<h1 id="开启TCP-BBR"><a href="#开启TCP-BBR" class="headerlink" title="开启TCP-BBR"></a>开启TCP-BBR</h1><p>编辑Sysctl.conf</p>
+<pre><code>net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+</code></pre><p>生效</p>
+<pre><code>sysctl -p
+</code></pre><p>查看是否生效</p>
+<pre><code>[root@linode1495332 ~]# sysctl net.ipv4.tcp_available_congestion_control
+net.ipv4.tcp_available_congestion_control = bbr cubic reno
+[root@linode1495332 ~]# lsmod | grep bbr
+tcp_bbr                16384  70
+</code></pre><p>More:</p>
+<blockquote>
+<p><a href="https://www.zrj96.com/post-272.html" target="_blank" rel="external">https://www.zrj96.com/post-272.html</a><br><a href="https://zhujiwiki.com/10156.html" target="_blank" rel="external">https://zhujiwiki.com/10156.html</a><br>Reference:<br><a href="http://bbs.itzmx.com/forum.php?mod=viewthread&amp;tid=12088" target="_blank" rel="external">http://bbs.itzmx.com/forum.php?mod=viewthread&amp;tid=12088</a><br><a href="https://blog.linuxeye.com/452.html" target="_blank" rel="external">https://blog.linuxeye.com/452.html</a><br><a href="https://www.linode.com/docs/tools-reference/custom-kernels-distros/custom-compiled-kernel-with-pvgrub-centos-7" target="_blank" rel="external">https://www.linode.com/docs/tools-reference/custom-kernels-distros/custom-compiled-kernel-with-pvgrub-centos-7</a></p>
+</blockquote>
+<p>本文地址: <a href="http://colascarlet.moe/Centos/235/">http://colascarlet.moe/Centos/235/</a> 转载请注明</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/scale.fix.js"></script>
+    <script type="text/javascript" src="/js/animsition.min.js"></script>
+    <script type="text/javascript" src="/js/prettify/prettify.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: false,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91753519-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

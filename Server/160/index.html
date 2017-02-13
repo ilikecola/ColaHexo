@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://colascarlet.moe/uploads/img/160/linux01.png">
 <meta property="og:image" content="http://colascarlet.moe/uploads/img/160/linux02.png">
 <meta property="og:image" content="http://colascarlet.moe/uploads/img/160/win01.gif">
-<meta property="og:updated_time" content="2016-11-22T10:20:46.993Z">
+<meta property="og:updated_time" content="2017-02-13T18:48:14.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Setup Windows10/Office 2016 Vol KMS Server | Cola's Memory">
 <meta name="twitter:description" content="VLMCSD - KMS Emulator in C (currently runs on Linux including Android, FreeBSD, Solaris, Minix, Mac OS, iOS, Windows with or without Cygwin)">
@@ -262,15 +262,15 @@ sudo chmod 755 /Library/LaunchDaemons/com.kms.server.plist
 <pre><code>sudo vlmcsd-svn796-2015-07-18-Hotbird64/binaries/Linux/intel/static/vlmcsd-x64-musl-static /usr/bin/kms-server
 </code></pre><p>修改<code>/usr/bin/kms-server</code>权限为755</p>
 <pre><code>sudo chmod 755 /usr/bin/kms-server
-</code></pre><p>a.手动启动 KMS 服务器<br>直接执行’/usr/bin/kms-server’<br><img src="/uploads/img/160/linux01.png" alt="Linux01.png"><br>b.开机自动启动 KMS 服务器<br>将<code>/usr/bin/kms-server</code>加入<code>/etc/rc.local</code>的最后一段</p>
+</code></pre><p>a.手动启动 KMS 服务器<br>直接执行<code>/usr/bin/kms-server</code><br><img src="/uploads/img/160/linux01.png" alt="Linux01.png"><br>b.开机自动启动 KMS 服务器<br>将<code>/usr/bin/kms-server</code>加入<code>/etc/rc.local</code>的最后一段</p>
 <pre><code>sudo cp rc.local /etc/rc.local
 sudo chmod 755 /etc/rc.local
-</code></pre><p>即可 设置 开机自动启动 KMS server<br><img src="/uploads/img/160/linux02.png" alt="Linux01.png"><br>确认 IP 位址<code>ifconfig</code>，如 192.168.0.3</p>
+</code></pre><p>即可 设置 开机自动启动 KMS server<br><img src="/uploads/img/160/linux02.png" alt="Linux01.png"><br>确认 IP 位址<code>ifconfig</code>，如<code>192.168.0.3</code></p>
 <h2 id="搭建Windows的服务器"><a href="#搭建Windows的服务器" class="headerlink" title="搭建Windows的服务器"></a>搭建Windows的服务器</h2><p>Windows版本 支持 XP, Win7, Win8, Win8.1, 但是不支持Win10。<br>x64=64位版本，x86=32位版本。<br>为简化命令(假设为 x64 版本)<br>先将<code>vlmcsd-svn796-2015-07-18-Hotbird64/binaries/Windows/intel/vlmcsd-Windows-x64.exe</code>文件改名为<code>kms-server.exe</code><br>将<code>kms-server.exe</code>复制放到<code>C:\Windows\System32\kms-server.exe</code><br>用管理员权限开启CMD(CMD-X;A)</p>
 <pre><code>copy Windows/intel/vlmcsd-Windows-x64.exe C:\ Windows\System32\kms-server.exe
 </code></pre><p>开机自动启动 KMS 服务器<br>(小写 -s 为安装服务器，大写 -S 为移除服务器)</p>
 <pre><code>C:\Windows\System32\kms-server.exe -s
-</code></pre><p>重新启动电脑，开机 即可 自动启动 KMS server<br><img src="/uploads/img/160/win01.gif" alt="win01.png"><br>确认 IP 位址<code>ipconfig</code>，如 192.168.0.3<br>Windows必须关闭防火墙，或是自行爬文学习加入<code>C:\ Windows\System32\kms-server.exe</code>的TCP的1688端口到防火墙，才能提供其他计算机连接到KMS服务器。</p>
+</code></pre><p>重新启动电脑，开机 即可 自动启动 KMS server<br><img src="/uploads/img/160/win01.gif" alt="win01.png"><br>确认 IP 位址<code>ipconfig</code>，如<code>192.168.0.3</code><br>Windows必须关闭防火墙，或是自行爬文学习加入<code>C:\ Windows\System32\kms-server.exe</code>的TCP的1688端口到防火墙，才能提供其他计算机连接到KMS服务器。</p>
 <h1 id="激活Windows或Office"><a href="#激活Windows或Office" class="headerlink" title="激活Windows或Office"></a>激活Windows或Office</h1><h2 id="激活Windows"><a href="#激活Windows" class="headerlink" title="激活Windows"></a>激活Windows</h2><pre><code>slmgr.vbs -upk
 slmgr.vbs -ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
 slmgr.vbs -skms 192.168.0.3

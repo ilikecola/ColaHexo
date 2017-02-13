@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      CentOS下查看、更新、删除yum安装包 | Cola&#39;s Memory 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="ilikecola">
+    
+    
+
+    <meta name="description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS下查看、更新、删除yum安装包 | Cola's Memory">
+<meta property="og:url" content="http://colascarlet.moe/Centos/236/index.html">
+<meta property="og:site_name" content="Cola's Memory">
+<meta property="og:description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
+<meta property="og:updated_time" content="2017-02-13T19:18:57.579Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS下查看、更新、删除yum安装包 | Cola's Memory">
+<meta name="twitter:description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/animsition.min.css">
+    <link rel="stylesheet" href="/css/uno.css">
+<!---    <link rel="stylesheet" href="/css/highlight.css"> --->
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+    <link rel="stylesheet" href="/css/sons-of-obsidian.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed animsition">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Cola&#39;s Memory"><img src="/avatar.png" width="80" alt="Cola&#39;s Memory logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Cola&#39;s Memory</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Just A Memorization
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                  
+                    <li id="page-button-home" class="home_navigation__item navigation__item"><a style="cursor:pointer" title="" class="home-button">Home</a></li>
+                                 
+              
+                  
+                    <li id="page-button-blog" class="blog_navigation__item navigation__item"><a href="/#blog" title="" class="blog-button">Blog</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-about" class="other_navigation__item navigation__item"><a href="/about" title="" class="other-button">About</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-records" class="other_navigation__item navigation__item"><a href="/records" title="" class="other-button">Records</a></li>
+                                 
+              
+                  
+                  	<li id="page-button-ss" class="other_navigation__item navigation__item"><a href="https://ss.remiliascarlet.tk/auth/login" title="" class="other-button">Shadowsocks</a></li>
+                                 
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li id="social-button-github" class="navigation__item" style="display:inline-block" >
+        <a href="https://github.com/ilikecola" target="_blank" title="ilikecola on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+    
+    <li id="social-button-twitter" class="navigation__item" style="display:inline-block" >
+        <a href="https://twitter.com/tkscarlet"  target="_blank" title="ilikecola on Twitter">
+          <i class='icon icon-social-twitter'></i>
+          <span class="label">Twitter</span>
+        </a>
+      </li>
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+    -->
+    
+      <li id="social_button-weibo" class="navigation__item" style="display:inline-block" >
+        <a href="http://weibo.com/2057404752"  target="_blank" title="ilikecola on Weibo">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+		
+    <div class="animsition content-wrapper-post">
+    
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h0 class="post-title">CentOS下查看、更新、删除yum安装包</h0>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-02-14" class="post-meta__date date">2017-02-14</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Centos/">Centos</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Centos/">Centos</a>, <a class="tags-link" href="/tags/Linux/">Linux</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。<br><a id="more"></a></p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>查看搜索软件包<ul>
+<li>查找指定软件包</li>
+<li>列出所有可安装的软件包</li>
+<li>列出所有可更新的软件包</li>
+<li>列出所有已安装的软件包</li>
+<li>列出所有已安装但不在Yum Repository软件包资源库内的软件包</li>
+<li>列出指定的软件包安装信息</li>
+<li>查看软件包说明信息</li>
+<li>查看所有软件包说明信息</li>
+</ul>
+</li>
+<li>更新软件包</li>
+<li>更新系统</li>
+<li>卸载软件包<h1 id="查看搜索软件包"><a href="#查看搜索软件包" class="headerlink" title="查看搜索软件包"></a>查看搜索软件包</h1><h2 id="查找指定软件包"><a href="#查找指定软件包" class="headerlink" title="查找指定软件包"></a>查找指定软件包</h2>```<h1 id="shell-sentence"><a href="#shell-sentence" class="headerlink" title="shell sentence"></a>shell sentence</h1>$ yum search softwate_package_name</li>
+</ul>
+<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum search lrzsz</p>
+<pre><code>## 列出所有可安装的软件包
+</code></pre><h1 id="shell-sentence-1"><a href="#shell-sentence-1" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list</p>
+<pre><code>## 列出所有可更新的软件包
+</code></pre><h1 id="shell-sentence-2"><a href="#shell-sentence-2" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list updates</p>
+<pre><code>## 列出所有已安装的软件包
+</code></pre><h1 id="shell-sentence-3"><a href="#shell-sentence-3" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list installed</p>
+<pre><code>## 列出所有已安装但不在Yum Repository软件包资源库内的软件包
+</code></pre><h1 id="shell-sentence-4"><a href="#shell-sentence-4" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list extras</p>
+<pre><code>## 列出指定的软件包安装信息
+</code></pre><h1 id="shell-sentence-5"><a href="#shell-sentence-5" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list software_package_name</p>
+<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-1"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-1" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum list lrzsz</p>
+<pre><code>## 查看软件包说明信息
+</code></pre><h1 id="shell-sentence-6"><a href="#shell-sentence-6" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum info software_package_name</p>
+<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-2"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-2" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum info lrzsz</p>
+<pre><code>## 查看所有软件包说明信息
+</code></pre><h1 id="shell-sentence-7"><a href="#shell-sentence-7" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum info</p>
+<pre><code># 更新软件包
+</code></pre><h1 id="shell-sentence-8"><a href="#shell-sentence-8" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum update software_package_name</p>
+<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-3"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-3" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum update lrzsz</p>
+<pre><code># 更新系统
+</code></pre><h1 id="shell-sentance"><a href="#shell-sentance" class="headerlink" title="shell sentance"></a>shell sentance</h1><p>$ yum update</p>
+<pre><code># 卸载软件包
+</code></pre><h1 id="shell-sentence-9"><a href="#shell-sentence-9" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum remove software_package_name</p>
+<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-4"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-4" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum remove lrzsz<br>```</p>
+<p>Reference:</p>
+<blockquote>
+<p><a href="https://segmentfault.com/a/1190000008336200" target="_blank" rel="external">https://segmentfault.com/a/1190000008336200</a></p>
+</blockquote>
+<p>本文地址: <a href="http://colascarlet.moe/Centos/236/">http://colascarlet.moe/Centos/236/</a> 转载请注明</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/scale.fix.js"></script>
+    <script type="text/javascript" src="/js/animsition.min.js"></script>
+    <script type="text/javascript" src="/js/prettify/prettify.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                displayNow: false,
+                autoDetectHeadings: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-91753519-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

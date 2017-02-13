@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/Centos/235/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="BBR是Google的几位工程师研发的，开源免费，项目地址：https://github.com/google/bbrBBR的唯一麻烦就是依赖的内核必须为4.9以上，以下的都不能得到支持。目前最省事的就是Ubuntu、Debian系统，CentOS目前支持6.x、7.x版本，如果你的VPS内核是旧版本需要手动更换内核。OVZ的VPS因为不能更换内核无法使用。目前BBR的效果比较令人满意，即使是一个">
-<meta property="og:updated_time" content="2017-02-13T19:10:08.647Z">
+<meta property="og:updated_time" content="2017-02-13T19:21:14.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS7开启Google TCP-BBR优化算法 | Cola's Memory">
 <meta name="twitter:description" content="BBR是Google的几位工程师研发的，开源免费，项目地址：https://github.com/google/bbrBBR的唯一麻烦就是依赖的内核必须为4.9以上，以下的都不能得到支持。目前最省事的就是Ubuntu、Debian系统，CentOS目前支持6.x、7.x版本，如果你的VPS内核是旧版本需要手动更换内核。OVZ的VPS因为不能更换内核无法使用。目前BBR的效果比较令人满意，即使是一个">
@@ -338,7 +338,11 @@ net.ipv4.tcp_available_congestion_control = bbr cubic reno
 tcp_bbr                16384  70
 </code></pre><p>More:</p>
 <blockquote>
-<p><a href="https://www.zrj96.com/post-272.html" target="_blank" rel="external">https://www.zrj96.com/post-272.html</a><br><a href="https://zhujiwiki.com/10156.html" target="_blank" rel="external">https://zhujiwiki.com/10156.html</a><br>Reference:<br><a href="http://bbs.itzmx.com/forum.php?mod=viewthread&amp;tid=12088" target="_blank" rel="external">http://bbs.itzmx.com/forum.php?mod=viewthread&amp;tid=12088</a><br><a href="https://blog.linuxeye.com/452.html" target="_blank" rel="external">https://blog.linuxeye.com/452.html</a><br><a href="https://www.linode.com/docs/tools-reference/custom-kernels-distros/custom-compiled-kernel-with-pvgrub-centos-7" target="_blank" rel="external">https://www.linode.com/docs/tools-reference/custom-kernels-distros/custom-compiled-kernel-with-pvgrub-centos-7</a></p>
+<p><a href="https://www.zrj96.com/post-272.html" target="_blank" rel="external">https://www.zrj96.com/post-272.html</a><br><a href="https://zhujiwiki.com/10156.html" target="_blank" rel="external">https://zhujiwiki.com/10156.html</a></p>
+</blockquote>
+<p>Reference:</p>
+<blockquote>
+<p><a href="http://bbs.itzmx.com/forum.php?mod=viewthread&amp;tid=12088" target="_blank" rel="external">http://bbs.itzmx.com/forum.php?mod=viewthread&amp;tid=12088</a><br><a href="https://blog.linuxeye.com/452.html" target="_blank" rel="external">https://blog.linuxeye.com/452.html</a><br><a href="https://www.linode.com/docs/tools-reference/custom-kernels-distros/custom-compiled-kernel-with-pvgrub-centos-7" target="_blank" rel="external">https://www.linode.com/docs/tools-reference/custom-kernels-distros/custom-compiled-kernel-with-pvgrub-centos-7</a></p>
 </blockquote>
 <p>本文地址: <a href="http://colascarlet.moe/Centos/235/">http://colascarlet.moe/Centos/235/</a> 转载请注明</p>
 

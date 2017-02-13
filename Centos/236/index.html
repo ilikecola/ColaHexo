@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://colascarlet.moe/Centos/236/index.html">
 <meta property="og:site_name" content="Cola's Memory">
 <meta property="og:description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
-<meta property="og:updated_time" content="2017-02-13T19:26:30.671Z">
+<meta property="og:updated_time" content="2017-02-13T19:27:18.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS下查看、更新、删除yum安装包 | Cola's Memory">
 <meta name="twitter:description" content="查看CentOS下安装了哪些yum软件包，查看指定包是否有安装，查看已安装包详细说明信息、更新软件包、删除软件包等常用操作。">
@@ -266,43 +266,77 @@ classes that you can use:
 <li>卸载软件包</li>
 </ul>
 <h1 id="查看搜索软件包"><a href="#查看搜索软件包" class="headerlink" title="查看搜索软件包"></a>查看搜索软件包</h1><ol>
-<li>查找指定软件包<br>```<h1 id="shell-sentence"><a href="#shell-sentence" class="headerlink" title="shell sentence"></a>shell sentence</h1>$ yum search softwate_package_name</li>
+<li>查找指定软件包</li>
 </ol>
-<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum search lrzsz</p>
-<pre><code>&lt;/p&gt;
-2. 列出所有可安装的软件包
-</code></pre><h1 id="shell-sentence-1"><a href="#shell-sentence-1" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list</p>
-<pre><code>&lt;/p&gt;
-3. 列出所有可更新的软件包
-</code></pre><h1 id="shell-sentence-2"><a href="#shell-sentence-2" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list updates</p>
-<pre><code>&lt;/p&gt;
-4. 列出所有已安装的软件包
-</code></pre><h1 id="shell-sentence-3"><a href="#shell-sentence-3" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list installed</p>
-<pre><code>&lt;/p&gt;
-5. 列出所有已安装但不在Yum Repository软件包资源库内的软件包
-</code></pre><h1 id="shell-sentence-4"><a href="#shell-sentence-4" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list extras</p>
-<pre><code>&lt;/p&gt;
-6. 列出指定的软件包安装信息
-</code></pre><h1 id="shell-sentence-5"><a href="#shell-sentence-5" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum list software_package_name</p>
-<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-1"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-1" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum list lrzsz</p>
-<pre><code>&lt;/p&gt;
-7. 查看软件包说明信息
-</code></pre><h1 id="shell-sentence-6"><a href="#shell-sentence-6" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum info software_package_name</p>
-<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-2"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-2" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum info lrzsz</p>
-<pre><code>&lt;/p&gt;
-8. 查看所有软件包说明信息
-</code></pre><h1 id="shell-sentence-7"><a href="#shell-sentence-7" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum info</p>
-<pre><code>&lt;/p&gt;
-# 更新软件包
-</code></pre><h1 id="shell-sentence-8"><a href="#shell-sentence-8" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum update software_package_name</p>
-<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-3"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-3" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum update lrzsz</p>
-<pre><code>&lt;/p&gt;
-# 更新系统
-</code></pre><h1 id="shell-sentance"><a href="#shell-sentance" class="headerlink" title="shell sentance"></a>shell sentance</h1><p>$ yum update</p>
-<pre><code>&lt;/p&gt;
-# 卸载软件包
-</code></pre><h1 id="shell-sentence-9"><a href="#shell-sentence-9" class="headerlink" title="shell sentence"></a>shell sentence</h1><p>$ yum remove software_package_name</p>
-<h1 id="for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-4"><a href="#for-instance-调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载-4" class="headerlink" title="for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)"></a>for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)</h1><p>$ yum remove lrzsz<br>```<br></p><br>Reference:<p></p>
+<pre><code># shell sentence
+$ yum search softwate_package_name
+
+# for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
+$ yum search lrzsz
+</code></pre><p></p><p></p>
+<ol>
+<li>列出所有可安装的软件包</li>
+</ol>
+<pre><code># shell sentence
+$ yum list
+</code></pre><p></p><p></p>
+<ol>
+<li>列出所有可更新的软件包</li>
+</ol>
+<pre><code># shell sentence
+$ yum list updates
+</code></pre><p></p><p></p>
+<ol>
+<li>列出所有已安装的软件包</li>
+</ol>
+<pre><code># shell sentence
+$ yum list installed
+</code></pre><p></p><p></p>
+<ol>
+<li>列出所有已安装但不在Yum Repository软件包资源库内的软件包</li>
+</ol>
+<pre><code># shell sentence
+$ yum list extras
+</code></pre><p></p><p></p>
+<ol>
+<li>列出指定的软件包安装信息</li>
+</ol>
+<pre><code># shell sentence
+$ yum list software_package_name
+
+# for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
+$ yum list lrzsz
+</code></pre><p></p><p></p>
+<ol>
+<li>查看软件包说明信息</li>
+</ol>
+<pre><code># shell sentence
+$ yum info software_package_name
+
+# for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
+$ yum info lrzsz
+</code></pre><p></p><p></p>
+<ol>
+<li>查看所有软件包说明信息</li>
+</ol>
+<pre><code># shell sentence
+$ yum info
+</code></pre><p></p><p></p>
+<h1 id="更新软件包"><a href="#更新软件包" class="headerlink" title="更新软件包"></a>更新软件包</h1><pre><code># shell sentence
+$ yum update software_package_name
+
+# for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
+$ yum update lrzsz
+</code></pre><p></p><p></p>
+<h1 id="更新系统"><a href="#更新系统" class="headerlink" title="更新系统"></a>更新系统</h1><pre><code># shell sentance
+$ yum update
+</code></pre><p></p><p></p>
+<h1 id="卸载软件包"><a href="#卸载软件包" class="headerlink" title="卸载软件包"></a>卸载软件包</h1><pre><code># shell sentence
+$ yum remove software_package_name
+
+# for instance(调制解调器通讯程序：使用rz和sz实现终端模拟软件的上传和下载)
+$ yum remove lrzsz
+</code></pre><p></p><br>Reference:<p></p>
 <blockquote>
 <p><a href="https://segmentfault.com/a/1190000008336200" target="_blank" rel="external">https://segmentfault.com/a/1190000008336200</a></p>
 </blockquote>
